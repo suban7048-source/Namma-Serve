@@ -22,6 +22,25 @@
   --shadow-elevated: 0 20px 40px -6px rgba(0, 0, 0, 0.1), 0 8px 16px -4px rgba(0, 0, 0, 0.06);
 }
 
+/* Page Zoom Scaling & Container Expansion */
+html {
+  font-size: 16.5px;
+  zoom: 1.15;
+}
+
+@media (min-width: 768px) {
+  html {
+    font-size: 17px;
+    zoom: 1.20;
+  }
+}
+
+/* Eliminate excessive empty side margins and widen content layout */
+.max-w-7xl {
+  max-width: 1560px !important;
+}
+
+
 /* Custom scrollbars */
 ::-webkit-scrollbar {
   width: 6px;

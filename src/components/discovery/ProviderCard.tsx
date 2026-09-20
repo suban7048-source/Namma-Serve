@@ -2,6 +2,7 @@ import React from 'react';
 import { Provider } from '../../types';
 import { useApp } from '../../context/AppContext';
 import { RatingStars } from '../common/RatingStars';
+import { InitialsAvatar } from '../common/InitialsAvatar';
 import { ShieldCheck, MapPin, Clock, Heart, ArrowRight, Briefcase } from 'lucide-react';
 
 interface ProviderCardProps {
@@ -10,19 +11,29 @@ interface ProviderCardProps {
 }
 
 export const ProviderCard: React.FC<ProviderCardProps> = ({ provider: p, viewMode = 'grid' }) => {
-  const { setActiveProviderProfile, setBookingProvider, favorites, toggleFavorite } = useApp();
+  const { 
+    setActiveProviderProfile, setBookingProvider, favorites, toggleFavorite, 
+    isLoggedIn, setIsAuthModalOpen, setAuthMode,
+    cart, addToCart, updateCartQuantity 
+  } = useApp();
   const isFav = favorites.includes(p.id);
+
+  const handleBookNow = () => {
+    if (!isLoggedIn) {
+      setAuthMode('signup');
+      setIsAuthModalOpen(true);
+    } else {
+      setBookingProvider(p);
+    }
+  };
 
   if (viewMode === 'list') {
     return (
       <div className="bg-white rounded-2xl border border-slate-200/80 p-5 shadow-soft hover:shadow-card transition-all duration-300 flex flex-col md:flex-row items-start md:items-center justify-between gap-5 group">
         <div className="flex items-start gap-4 flex-1">
+          {/* List avatar — initials only */}
           <div className="relative shrink-0">
-            <img
-              src={p.avatar}
-              alt={p.name}
-              className="w-16 h-16 sm:w-20 sm:h-20 rounded-2xl object-cover border border-slate-100 shadow-sm"
-            />
+            <InitialsAvatar name={p.name} size="md" rounded="2xl" />
             {p.isVerified && (
               <div className="absolute -bottom-1 -right-1 bg-emerald-500 text-white p-1 rounded-full border-2 border-white" title="Verified Professional">
                 <ShieldCheck className="w-3.5 h-3.5" />
@@ -65,7 +76,7 @@ export const ProviderCard: React.FC<ProviderCardProps> = ({ provider: p, viewMod
           <div className="text-left md:text-right">
             <span className="text-[10px] text-slate-400 uppercase font-semibold">Starting price</span>
             <p className="text-xl font-black text-slate-900">
-              ${p.startingPrice} <span className="text-xs font-normal text-slate-500">/{p.priceUnit}</span>
+              ₹{p.startingPrice} <span className="text-xs font-normal text-slate-500">/{p.priceUnit}</span>
             </p>
             <span className="inline-flex items-center gap-1 text-[11px] text-emerald-600 font-semibold mt-0.5">
               <Clock className="w-3 h-3" /> {p.nextAvailable}
@@ -86,7 +97,7 @@ export const ProviderCard: React.FC<ProviderCardProps> = ({ provider: p, viewMod
               Profile
             </button>
             <button
-              onClick={() => setBookingProvider(p)}
+              onClick={handleBookNow}
               className="px-4 py-2 rounded-xl bg-brand-600 hover:bg-brand-700 text-white text-xs font-bold transition-colors shadow-sm whitespace-nowrap"
             >
               Book Now
@@ -100,15 +111,9 @@ export const ProviderCard: React.FC<ProviderCardProps> = ({ provider: p, viewMod
   return (
     <div className="bg-white rounded-3xl border border-slate-200/80 shadow-soft hover:shadow-card transition-all duration-300 overflow-hidden flex flex-col justify-between group">
       <div>
-        {/* Card Cover & Category Tag */}
-        <div className="relative h-28 bg-slate-900 overflow-hidden">
-          {p.coverImage && (
-            <img
-              src={p.coverImage}
-              alt={p.name}
-              className="w-full h-full object-cover opacity-60 group-hover:scale-105 transition-transform duration-500"
-            />
-          )}
+        {/* Category-colored banner header — no photo */}
+        <div className="relative h-24 overflow-hidden" style={{ background: 'linear-gradient(135deg, #0f172a 0%, #1e293b 100%)' }}>
+          <div className="absolute inset-0 opacity-10" style={{ backgroundImage: 'radial-gradient(circle at 20% 50%, #60a5fa 0%, transparent 60%), radial-gradient(circle at 80% 50%, #34d399 0%, transparent 60%)' }} />
           <button
             onClick={() => toggleFavorite(p.id)}
             className="absolute top-3 right-3 p-2 rounded-full bg-white/80 backdrop-blur-md text-slate-600 hover:text-rose-500 transition-colors shadow-sm"
@@ -121,13 +126,10 @@ export const ProviderCard: React.FC<ProviderCardProps> = ({ provider: p, viewMod
         </div>
 
         <div className="p-5 pt-0 relative">
-          <div className="relative -mt-9 mb-3 flex items-end justify-between">
+          {/* Avatar — initials only */}
+          <div className="relative -mt-8 mb-3 flex items-end justify-between">
             <div className="relative">
-              <img
-                src={p.avatar}
-                alt={p.name}
-                className="w-18 h-18 w-16 h-16 rounded-2xl object-cover border-4 border-white shadow-sm"
-              />
+              <InitialsAvatar name={p.name} size="lg" rounded="2xl" className="border-4 border-white" />
               {p.isVerified && (
                 <div className="absolute -bottom-1 -right-1 bg-emerald-500 text-white p-1 rounded-full border-2 border-white" title="Verified Professional">
                   <ShieldCheck className="w-3 h-3" />
@@ -138,7 +140,7 @@ export const ProviderCard: React.FC<ProviderCardProps> = ({ provider: p, viewMod
             <div className="text-right">
               <span className="text-[10px] text-slate-400 uppercase font-semibold">Starting price</span>
               <p className="text-lg font-black text-slate-900">
-                ${p.startingPrice} <span className="text-xs font-normal text-slate-500">/{p.priceUnit}</span>
+                ₹{p.startingPrice} <span className="text-xs font-normal text-slate-500">/{p.priceUnit}</span>
               </p>
             </div>
           </div>
@@ -154,9 +156,56 @@ export const ProviderCard: React.FC<ProviderCardProps> = ({ provider: p, viewMod
             <span className="text-slate-500 font-medium">{p.completedJobs} jobs</span>
           </div>
 
-          <p className="text-xs text-slate-600 line-clamp-2 leading-relaxed mb-4">
+          <p className="text-xs text-slate-600 line-clamp-2 leading-relaxed mb-3">
             {p.bio}
           </p>
+
+          {/* Quick Urban Company Services Add-to-cart Preview */}
+          {p.offeredServices && p.offeredServices.length > 0 && (
+            <div className="space-y-1.5 mb-3 bg-slate-50/80 p-2.5 rounded-2xl border border-slate-100">
+              <span className="text-[10px] font-extrabold uppercase tracking-wider text-slate-400 block">
+                Popular Services
+              </span>
+              {p.offeredServices.slice(0, 2).map((service) => {
+                const cartItem = cart.find(c => c.serviceId === service.id);
+                return (
+                  <div key={service.id} className="flex items-center justify-between gap-2 text-xs">
+                    <div className="min-w-0 pr-1">
+                      <p className="font-bold text-slate-900 truncate text-[11px]">{service.name}</p>
+                      <span className="text-[10px] text-brand-700 font-black">₹{service.price}</span>
+                    </div>
+
+                    {cartItem ? (
+                      <div className="flex items-center gap-1 bg-white border border-brand-200 rounded-lg px-1.5 py-0.5 shadow-2xs shrink-0">
+                        <button
+                          onClick={() => updateCartQuantity(service.id, -1)}
+                          className="text-brand-600 hover:text-brand-800 font-black px-1"
+                          title="Decrease"
+                        >
+                          -
+                        </button>
+                        <span className="text-xs font-black text-brand-700 px-1">{cartItem.quantity}</span>
+                        <button
+                          onClick={() => updateCartQuantity(service.id, 1)}
+                          className="text-brand-600 hover:text-brand-800 font-black px-1"
+                          title="Increase"
+                        >
+                          +
+                        </button>
+                      </div>
+                    ) : (
+                      <button
+                        onClick={() => addToCart(p, service)}
+                        className="px-2.5 py-1 rounded-lg bg-white hover:bg-brand-50 border border-slate-200 hover:border-brand-300 text-brand-600 font-extrabold text-[11px] shadow-2xs transition-all shrink-0"
+                      >
+                        + Add
+                      </button>
+                    )}
+                  </div>
+                );
+              })}
+            </div>
+          )}
 
           <div className="flex items-center justify-between text-[11px] text-slate-500 pt-3 border-t border-slate-100">
             <span className="flex items-center gap-1">
@@ -177,7 +226,7 @@ export const ProviderCard: React.FC<ProviderCardProps> = ({ provider: p, viewMod
           View Profile
         </button>
         <button
-          onClick={() => setBookingProvider(p)}
+          onClick={handleBookNow}
           className="w-full py-2.5 px-3 rounded-xl bg-brand-600 hover:bg-brand-700 text-white font-bold text-xs transition-colors text-center shadow-sm"
         >
           Book Now

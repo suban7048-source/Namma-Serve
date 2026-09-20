@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { useApp } from '../../context/AppContext';
 import { NotificationCenter } from '../common/NotificationCenter';
 import { 
   Wrench, Search, User, ShieldCheck, 
-  ChevronDown, LayoutDashboard, UserCheck, Menu, X, ArrowRight, Sparkles 
+  LayoutDashboard, UserCheck, Menu, X, ArrowRight, LogOut, ChevronDown,
+  MapPin, ShoppingBag
 } from 'lucide-react';
 
 export const Navbar: React.FC = () => {
@@ -12,8 +13,23 @@ export const Navbar: React.FC = () => {
     page, setPage, 
     setIsAuthModalOpen, 
     setAuthMode,
-    filters, setFilters, openDiscoveryWithCategory
+    isLoggedIn, loggedInUser, logout,
+    filters, setFilters, openDiscoveryWithCategory,
+    cartCount, setIsCartOpen, selectedArea, setIsLocationModalOpen
   } = useApp();
+  const [userMenuOpen, setUserMenuOpen] = useState(false);
+  const userMenuRef = useRef<HTMLDivElement>(null);
+
+  // Close user menu on outside click
+  useEffect(() => {
+    const handleClickOutside = (e: MouseEvent) => {
+      if (userMenuRef.current && !userMenuRef.current.contains(e.target as Node)) {
+        setUserMenuOpen(false);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
 
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [navSearch, setNavSearch] = useState('');
@@ -50,6 +66,24 @@ export const Navbar: React.FC = () => {
                   Service Platform
                 </span>
               </div>
+            </button>
+
+            {/* Urban Company Style Chennai Location Selector */}
+            <button
+              onClick={() => setIsLocationModalOpen(true)}
+              className="flex items-center gap-2 px-3 py-2 rounded-2xl bg-slate-100/90 hover:bg-slate-200/90 border border-slate-200 text-xs font-bold text-slate-800 transition-all cursor-pointer group shadow-2xs"
+              title="Change your Chennai locality"
+            >
+              <div className="w-6 h-6 rounded-lg bg-brand-100 text-brand-700 flex items-center justify-center shrink-0">
+                <MapPin className="w-3.5 h-3.5 group-hover:scale-110 transition-transform" />
+              </div>
+              <div className="text-left leading-none hidden sm:block">
+                <span className="block text-[9px] uppercase tracking-wider text-slate-500 font-extrabold">Chennai</span>
+                <span className="max-w-[110px] md:max-w-[140px] truncate block text-slate-900 font-black mt-0.5">
+                  {selectedArea.split(',')[0]}
+                </span>
+              </div>
+              <ChevronDown className="w-3.5 h-3.5 text-slate-400 group-hover:text-slate-600 transition-colors" />
             </button>
 
             {/* Desktop Navigation Links - Dark High Contrast Text */}
@@ -108,76 +142,119 @@ export const Navbar: React.FC = () => {
           {/* Right Actions & Controls */}
           <div className="flex items-center gap-2 sm:gap-3 shrink-0">
             
-            {/* Role Switcher Pill */}
-            <div className="hidden sm:flex items-center bg-slate-200/70 p-1 rounded-xl border border-slate-300 text-xs font-bold">
-              <button
-                onClick={() => {
-                  setRole('customer');
-                  setPage('customer-dashboard');
-                }}
-                className={`px-3 py-1.5 rounded-lg transition-all flex items-center gap-1.5 whitespace-nowrap ${
-                  role === 'customer' 
-                    ? 'bg-white text-brand-700 shadow-xs font-black' 
-                    : 'text-slate-800 hover:text-black'
-                }`}
-              >
-                <User className="w-3.5 h-3.5 text-brand-600" /> Customer
-              </button>
-              <button
-                onClick={() => {
-                  setRole('provider');
-                  setPage('provider-dashboard');
-                }}
-                className={`px-3 py-1.5 rounded-lg transition-all flex items-center gap-1.5 whitespace-nowrap ${
-                  role === 'provider' 
-                    ? 'bg-slate-900 text-white shadow-xs font-black' 
-                    : 'text-slate-800 hover:text-black'
-                }`}
-              >
-                <UserCheck className="w-3.5 h-3.5" /> Provider View
-              </button>
-            </div>
+            {/* Urban Company Style Cart Button */}
+            <button
+              onClick={() => setIsCartOpen(true)}
+              className="relative p-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 border border-slate-200 text-slate-800 transition-colors flex items-center justify-center group"
+              title="View Cart & Bookings"
+            >
+              <ShoppingBag className="w-5 h-5 text-slate-700 group-hover:text-brand-600 transition-colors" />
+              {cartCount > 0 && (
+                <span className="absolute -top-1.5 -right-1.5 bg-brand-600 text-white text-[10px] font-black w-5 h-5 rounded-full flex items-center justify-center border-2 border-white shadow-xs">
+                  {cartCount}
+                </span>
+              )}
+            </button>
+            
+            {/* Role Switcher Pill — only visible when logged in */}
+            {isLoggedIn && (
+              <div className="hidden sm:flex items-center bg-slate-200/70 p-1 rounded-xl border border-slate-300 text-xs font-bold">
+                <button
+                  onClick={() => {
+                    setRole('customer');
+                    setPage('customer-dashboard');
+                  }}
+                  className={`px-3 py-1.5 rounded-lg transition-all flex items-center gap-1.5 whitespace-nowrap ${
+                    role === 'customer' 
+                      ? 'bg-white text-brand-700 shadow-xs font-black' 
+                      : 'text-slate-800 hover:text-black'
+                  }`}
+                >
+                  <User className="w-3.5 h-3.5 text-brand-600" /> Customer
+                </button>
+                <button
+                  onClick={() => {
+                    setRole('provider');
+                    setPage('provider-dashboard');
+                  }}
+                  className={`px-3 py-1.5 rounded-lg transition-all flex items-center gap-1.5 whitespace-nowrap ${
+                    role === 'provider' 
+                      ? 'bg-slate-900 text-white shadow-xs font-black' 
+                      : 'text-slate-800 hover:text-black'
+                  }`}
+                >
+                  <UserCheck className="w-3.5 h-3.5" /> Provider View
+                </button>
+              </div>
+            )}
 
             {/* Notification Bell */}
             <NotificationCenter />
 
-            {/* User Dashboard & Distinct High-Contrast Auth Buttons */}
-            <div className="flex items-center gap-2">
-              <button
-                onClick={() => setPage(role === 'customer' ? 'customer-dashboard' : 'provider-dashboard')}
-                className={`hidden md:flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-extrabold transition-all border whitespace-nowrap ${
-                  page === 'customer-dashboard' || page === 'provider-dashboard'
-                    ? 'border-brand-600 bg-brand-50 text-brand-700'
-                    : 'border-slate-300 bg-white text-slate-900 hover:bg-slate-100 shadow-2xs'
-                }`}
-              >
-                <LayoutDashboard className="w-3.5 h-3.5 text-brand-600" />
-                Dashboard
-              </button>
+            {/* Auth Section — conditional on login state */}
+            {isLoggedIn ? (
+              /* Logged-in user menu */
+              <div className="relative" ref={userMenuRef}>
+                <button
+                  onClick={() => setUserMenuOpen(!userMenuOpen)}
+                  className="flex items-center gap-2 px-3 py-2 rounded-xl border border-slate-200 bg-white hover:bg-slate-50 transition-all shadow-2xs text-xs font-bold text-slate-900"
+                >
+                  {/* User avatar initials */}
+                  <div className="w-7 h-7 rounded-lg bg-brand-600 text-white flex items-center justify-center font-black text-[11px] shrink-0">
+                    {(loggedInUser?.name ?? 'U').charAt(0).toUpperCase()}
+                  </div>
+                  <span className="hidden md:block max-w-[100px] truncate">{loggedInUser?.name}</span>
+                  <ChevronDown className={`w-3.5 h-3.5 text-slate-400 transition-transform ${userMenuOpen ? 'rotate-180' : ''}`} />
+                </button>
 
-              {/* Distinct High-Visibility Log In Button */}
-              <button
-                onClick={() => {
-                  setAuthMode('login');
-                  setIsAuthModalOpen(true);
-                }}
-                className="bg-slate-900 hover:bg-slate-800 text-white px-4 py-2 rounded-xl text-xs font-black transition-all shadow-sm hover:shadow flex items-center gap-1.5 whitespace-nowrap"
-              >
-                <User className="w-3.5 h-3.5 text-white" />
-                Log In
-              </button>
+                {userMenuOpen && (
+                  <div className="absolute right-0 top-full mt-2 w-52 bg-white rounded-2xl border border-slate-200 shadow-elevated z-50 overflow-hidden animate-fade-in">
+                    <div className="px-4 py-3 border-b border-slate-100">
+                      <p className="text-xs font-extrabold text-slate-900 truncate">{loggedInUser?.name}</p>
+                      <p className="text-[10px] text-slate-400 truncate mt-0.5">{loggedInUser?.email}</p>
+                    </div>
+                    <div className="p-1.5 space-y-0.5">
+                      <button
+                        onClick={() => { setPage(role === 'customer' ? 'customer-dashboard' : 'provider-dashboard'); setUserMenuOpen(false); }}
+                        className="w-full flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs font-semibold text-slate-700 hover:bg-slate-50 transition-colors text-left"
+                      >
+                        <LayoutDashboard className="w-3.5 h-3.5 text-brand-600" /> My Dashboard
+                      </button>
+                      <button
+                        onClick={() => { logout(); setUserMenuOpen(false); }}
+                        className="w-full flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs font-semibold text-rose-600 hover:bg-rose-50 transition-colors text-left"
+                      >
+                        <LogOut className="w-3.5 h-3.5" /> Sign Out
+                      </button>
+                    </div>
+                  </div>
+                )}
+              </div>
+            ) : (
+              /* Logged-out auth buttons */
+              <div className="flex items-center gap-2">
+                <button
+                  onClick={() => {
+                    setAuthMode('login');
+                    setIsAuthModalOpen(true);
+                  }}
+                  className="bg-slate-900 hover:bg-slate-800 text-white px-4 py-2 rounded-xl text-xs font-black transition-all shadow-sm hover:shadow flex items-center gap-1.5 whitespace-nowrap"
+                >
+                  <User className="w-3.5 h-3.5 text-white" />
+                  Log In
+                </button>
 
-              {/* Get Started Button */}
-              <button
-                onClick={() => {
-                  setAuthMode('signup');
-                  setIsAuthModalOpen(true);
-                }}
-                className="bg-brand-600 hover:bg-brand-700 text-white px-4 py-2 rounded-xl text-xs font-black transition-all shadow-sm hover:shadow flex items-center gap-1.5 whitespace-nowrap"
-              >
-                Get Started <ArrowRight className="w-3.5 h-3.5 text-white" />
-              </button>
-            </div>
+                <button
+                  onClick={() => {
+                    setAuthMode('signup');
+                    setIsAuthModalOpen(true);
+                  }}
+                  className="bg-brand-600 hover:bg-brand-700 text-white px-4 py-2 rounded-xl text-xs font-black transition-all shadow-sm hover:shadow flex items-center gap-1.5 whitespace-nowrap"
+                >
+                  Get Started <ArrowRight className="w-3.5 h-3.5 text-white" />
+                </button>
+              </div>
+            )}
 
             {/* Mobile Menu Button */}
             <button
@@ -189,6 +266,7 @@ export const Navbar: React.FC = () => {
           </div>
         </div>
       </div>
+
 
       {/* Mobile Drawer Menu */}
       {mobileMenuOpen && (
@@ -204,29 +282,55 @@ export const Navbar: React.FC = () => {
             />
           </form>
 
-          {/* Role selector in mobile drawer */}
-          <div className="bg-slate-100 p-1.5 rounded-xl flex items-center justify-between text-xs font-bold">
-            <button
-              onClick={() => {
-                setRole('customer');
-                setPage('customer-dashboard');
-                setMobileMenuOpen(false);
-              }}
-              className={`flex-1 py-2 rounded-lg text-center ${role === 'customer' ? 'bg-white text-brand-700 shadow-sm' : 'text-slate-500'}`}
-            >
-              Customer Mode
-            </button>
-            <button
-              onClick={() => {
-                setRole('provider');
-                setPage('provider-dashboard');
-                setMobileMenuOpen(false);
-              }}
-              className={`flex-1 py-2 rounded-lg text-center ${role === 'provider' ? 'bg-slate-900 text-white shadow-sm' : 'text-slate-500'}`}
-            >
-              Provider Mode
-            </button>
-          </div>
+          {/* Mobile Location Selector Button */}
+          <button
+            onClick={() => { setIsLocationModalOpen(true); setMobileMenuOpen(false); }}
+            className="w-full flex items-center justify-between p-3 rounded-xl bg-slate-50 hover:bg-slate-100 border border-slate-200 text-xs font-bold text-slate-800 transition-colors"
+          >
+            <div className="flex items-center gap-2">
+              <MapPin className="w-4 h-4 text-brand-600" />
+              <span>Location: <strong className="text-slate-900">{selectedArea}</strong></span>
+            </div>
+            <span className="text-[11px] text-brand-600 font-extrabold">Change</span>
+          </button>
+
+          {/* Role selector in mobile drawer — only when logged in */}
+          {isLoggedIn && (
+            <div className="bg-slate-100 p-1.5 rounded-xl flex items-center justify-between text-xs font-bold">
+              <button
+                onClick={() => {
+                  setRole('customer');
+                  setPage('customer-dashboard');
+                  setMobileMenuOpen(false);
+                }}
+                className={`flex-1 py-2 rounded-lg text-center ${role === 'customer' ? 'bg-white text-brand-700 shadow-sm' : 'text-slate-500'}`}
+              >
+                Customer Mode
+              </button>
+              <button
+                onClick={() => {
+                  setRole('provider');
+                  setPage('provider-dashboard');
+                  setMobileMenuOpen(false);
+                }}
+                className={`flex-1 py-2 rounded-lg text-center ${role === 'provider' ? 'bg-slate-900 text-white shadow-sm' : 'text-slate-500'}`}
+              >
+                Provider Mode
+              </button>
+            </div>
+          )}
+
+          {isLoggedIn && (
+            <div className="flex items-center gap-3 bg-slate-50 rounded-xl p-3 border border-slate-200">
+              <div className="w-9 h-9 rounded-xl bg-brand-600 text-white flex items-center justify-center font-black text-sm shrink-0">
+                {(loggedInUser?.name ?? 'U').charAt(0).toUpperCase()}
+              </div>
+              <div className="flex-1 min-w-0">
+                <p className="text-xs font-bold text-slate-900 truncate">{loggedInUser?.name}</p>
+                <p className="text-[10px] text-slate-400 truncate">{loggedInUser?.email}</p>
+              </div>
+            </div>
+          )}
 
           <nav className="flex flex-col space-y-2 font-medium text-sm text-slate-700">
             <button
@@ -235,12 +339,14 @@ export const Navbar: React.FC = () => {
             >
               Find Services & Professionals
             </button>
-            <button
-              onClick={() => { setPage(role === 'customer' ? 'customer-dashboard' : 'provider-dashboard'); setMobileMenuOpen(false); }}
-              className="text-left px-3 py-2 rounded-lg hover:bg-slate-50 font-bold text-brand-600"
-            >
-              Go to Dashboard
-            </button>
+            {isLoggedIn && (
+              <button
+                onClick={() => { setPage(role === 'customer' ? 'customer-dashboard' : 'provider-dashboard'); setMobileMenuOpen(false); }}
+                className="text-left px-3 py-2 rounded-lg hover:bg-slate-50 font-bold text-brand-600"
+              >
+                Go to Dashboard
+              </button>
+            )}
             <button
               onClick={() => {
                 setPage('landing');
@@ -253,25 +359,36 @@ export const Navbar: React.FC = () => {
             >
               How It Works
             </button>
-            <button
-              onClick={() => {
-                setAuthMode('signup');
-                setIsAuthModalOpen(true);
-                setMobileMenuOpen(false);
-              }}
-              className="text-left px-3 py-2 rounded-lg hover:bg-slate-50 text-slate-500"
-            >
-              Become a Service Provider
-            </button>
+            {!isLoggedIn && (
+              <button
+                onClick={() => {
+                  setAuthMode('signup');
+                  setIsAuthModalOpen(true);
+                  setMobileMenuOpen(false);
+                }}
+                className="text-left px-3 py-2 rounded-lg hover:bg-slate-50 text-slate-500"
+              >
+                Become a Service Provider
+              </button>
+            )}
           </nav>
 
           <div className="pt-2 border-t border-slate-100">
-            <button
-              onClick={() => { setAuthMode('login'); setIsAuthModalOpen(true); setMobileMenuOpen(false); }}
-              className="w-full py-3 bg-brand-600 hover:bg-brand-700 text-white rounded-xl font-extrabold text-sm text-center shadow-sm flex items-center justify-center gap-2"
-            >
-              <User className="w-4 h-4" /> Log In / Sign Up
-            </button>
+            {isLoggedIn ? (
+              <button
+                onClick={() => { logout(); setMobileMenuOpen(false); }}
+                className="w-full py-3 bg-rose-50 border border-rose-200 hover:bg-rose-100 text-rose-700 rounded-xl font-extrabold text-sm text-center flex items-center justify-center gap-2 transition-colors"
+              >
+                <LogOut className="w-4 h-4" /> Sign Out
+              </button>
+            ) : (
+              <button
+                onClick={() => { setAuthMode('login'); setIsAuthModalOpen(true); setMobileMenuOpen(false); }}
+                className="w-full py-3 bg-brand-600 hover:bg-brand-700 text-white rounded-xl font-extrabold text-sm text-center shadow-sm flex items-center justify-center gap-2"
+              >
+                <User className="w-4 h-4" /> Log In / Sign Up
+              </button>
+            )}
           </div>
         </div>
       )}

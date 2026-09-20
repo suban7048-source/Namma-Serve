@@ -3,9 +3,22 @@ import { useApp } from '../../context/AppContext';
 import { Search, MapPin, ShieldCheck, Star, Users, Clock, ArrowRight, CheckCircle2 } from 'lucide-react';
 
 export const HeroSection: React.FC = () => {
-  const { setFilters, setPage, setIsAuthModalOpen, setAuthMode } = useApp();
+  const { setFilters, setPage, setIsAuthModalOpen, setAuthMode, isLoggedIn, role, setRole } = useApp();
   const [searchQuery, setSearchQuery] = useState('');
-  const [selectedLocation, setSelectedLocation] = useState('Downtown / Central');
+  const [selectedLocation, setSelectedLocation] = useState('Anna Nagar');
+
+  const handleBecomeProvider = () => {
+    if (!isLoggedIn) {
+      setAuthMode('signup');
+      setIsAuthModalOpen(true);
+    } else if (role === 'provider') {
+      setPage('provider-dashboard');
+    } else {
+      // Logged in as customer — switch to provider view
+      setRole('provider');
+      setPage('provider-dashboard');
+    }
+  };
 
   const handleHeroSearch = (e: React.FormEvent) => {
     e.preventDefault();
@@ -66,10 +79,12 @@ export const HeroSection: React.FC = () => {
                     onChange={(e) => setSelectedLocation(e.target.value)}
                     className="bg-transparent text-xs font-semibold text-slate-800 w-full focus:outline-none cursor-pointer"
                   >
-                    <option value="Downtown / Central">Downtown / Central</option>
-                    <option value="West End Heights">West End Heights</option>
-                    <option value="Eastside Park">Eastside Park</option>
-                    <option value="Suburban Hills">Suburban Hills</option>
+                    <option value="Anna Nagar">Anna Nagar, Chennai</option>
+                    <option value="T. Nagar">T. Nagar, Chennai</option>
+                    <option value="Adyar">Adyar, Chennai</option>
+                    <option value="Velachery">Velachery, Chennai</option>
+                    <option value="Ambattur">Ambattur, Chennai</option>
+                    <option value="OMR">OMR / Sholinganallur</option>
                     <option value="All Locations">All Locations</option>
                   </select>
                 </div>
@@ -107,10 +122,7 @@ export const HeroSection: React.FC = () => {
             {/* CTAs */}
             <div className="pt-2 flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4">
               <button
-                onClick={() => {
-                  setAuthMode('signup');
-                  setIsAuthModalOpen(true);
-                }}
+                onClick={handleBecomeProvider}
                 className="text-xs sm:text-sm font-semibold text-slate-300 hover:text-white flex items-center gap-1.5 transition-colors group"
               >
                 Are you a skilled professional? 
@@ -146,21 +158,69 @@ export const HeroSection: React.FC = () => {
           <div className="lg:col-span-5 relative hidden lg:block">
             <div className="relative mx-auto max-w-md">
               
-              {/* Main Visual Image Card */}
-              <div className="relative rounded-3xl overflow-hidden shadow-2xl border-4 border-slate-800/80 group">
-                <img
-                  src="https://images.unsplash.com/photo-1621905251189-08b45d6a269e?auto=format&fit=crop&q=80&w=800"
-                  alt="Verified Professional"
-                  className="w-full h-[460px] object-cover group-hover:scale-105 transition-transform duration-700"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-slate-950/90 via-slate-950/20 to-transparent" />
-                
-                <div className="absolute bottom-6 left-6 right-6 text-white space-y-2">
-                  <span className="px-3 py-1 bg-emerald-500/90 text-white rounded-full text-[11px] font-bold tracking-wide uppercase inline-flex items-center gap-1">
+              {/* Main Visual Showcase Card — Urban Company Service Style */}
+              <div className="relative rounded-3xl overflow-hidden shadow-2xl border border-slate-700/60 bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 p-6 space-y-5 text-white">
+                <div className="flex items-center justify-between border-b border-slate-700/60 pb-4">
+                  <div className="flex items-center gap-2">
+                    <span className="w-3 h-3 rounded-full bg-emerald-400 animate-pulse" />
+                    <span className="text-xs font-bold text-slate-300">Live in Chennai</span>
+                  </div>
+                  <span className="px-2.5 py-0.5 bg-brand-500/20 text-brand-300 border border-brand-500/30 rounded-full text-[10px] font-black uppercase tracking-wider">
+                    Urban Company Standard
+                  </span>
+                </div>
+
+                <div className="space-y-1">
+                  <h3 className="text-xl font-extrabold text-white">Top Booked Services Today</h3>
+                  <p className="text-xs text-slate-400">Fixed upfront pricing • 30-day warranty</p>
+                </div>
+
+                {/* Service Items Mini-List */}
+                <div className="space-y-2.5">
+                  {[
+                    { name: 'AC Master Jet Servicing', cat: 'AC & HVAC', price: '₹499', duration: '45 mins', rating: '4.88' },
+                    { name: 'Bathroom Deep Cleaning', cat: 'Cleaning', price: '₹799', duration: '60 mins', rating: '4.92' },
+                    { name: 'Switchboard & MCB Repair', cat: 'Electrical', price: '₹199', duration: '30 mins', rating: '4.85' },
+                    { name: 'Pipe Leakage & Tap Fix', cat: 'Plumbing', price: '₹249', duration: '30 mins', rating: '4.90' }
+                  ].map((srv, idx) => (
+                    <div
+                      key={idx}
+                      className="p-3 rounded-2xl bg-white/5 border border-white/10 hover:border-brand-500/40 hover:bg-white/10 transition-all flex items-center justify-between gap-3"
+                    >
+                      <div className="space-y-0.5">
+                        <div className="flex items-center gap-2">
+                          <p className="text-xs font-extrabold text-white">{srv.name}</p>
+                          <span className="text-[9px] bg-slate-700/80 text-slate-300 px-1.5 py-0.2 rounded font-semibold">
+                            {srv.cat}
+                          </span>
+                        </div>
+                        <p className="text-[10px] text-slate-400 font-medium">
+                          ★ {srv.rating} • ~{srv.duration}
+                        </p>
+                      </div>
+                      <div className="flex items-center gap-2 shrink-0">
+                        <span className="text-xs font-black text-emerald-400">{srv.price}</span>
+                        <button
+                          type="button"
+                          onClick={() => {
+                            setFilters(prev => ({ ...prev, searchQuery: srv.cat }));
+                            setPage('discovery');
+                          }}
+                          className="px-2.5 py-1 bg-brand-600 hover:bg-brand-500 text-white rounded-lg text-[10px] font-black transition-colors shadow-2xs"
+                        >
+                          Book
+                        </button>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+
+                {/* Safety & Trust Footer */}
+                <div className="pt-2 border-t border-slate-700/60 flex items-center justify-between text-[11px] text-slate-300">
+                  <span className="flex items-center gap-1 text-emerald-400 font-bold">
                     <CheckCircle2 className="w-3.5 h-3.5" /> ID Verified & Insured
                   </span>
-                  <h3 className="text-xl font-bold">Marcus Vance</h3>
-                  <p className="text-xs text-slate-300">Master Plumber • 12+ Yrs Experience • 4.9★ (128 reviews)</p>
+                  <span className="text-slate-400">4.9★ from 10k+ users</span>
                 </div>
               </div>
 

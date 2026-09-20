@@ -146,3 +146,16 @@ export interface FilterState {
   verifiedOnly: boolean;
   sortBy: 'relevance' | 'rating' | 'price' | 'distance';
 }
+
+export interface CartItem {
+  id: string; // unique item id (e.g. providerId_serviceId)
+  serviceId: string;
+  serviceName: string;
+  providerId: string;
+  providerName: string;
+  providerCategory: string;
+  price: number;
+  durationMinutes: number;
+  quantity: number;
+}
+

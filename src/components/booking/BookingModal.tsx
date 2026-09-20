@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Provider, ServiceItem } from '../../types';
 import { useApp } from '../../context/AppContext';
 import { useToast } from '../../context/ToastContext';
+import { InitialsAvatar } from '../common/InitialsAvatar';
 import { 
   Wrench, Calendar, Clock, MapPin, CheckCircle2, 
   ChevronRight, ArrowLeft, ShieldCheck, CreditCard, X, AlertTriangle 
@@ -13,7 +14,7 @@ interface BookingModalProps {
 }
 
 export const BookingModal: React.FC<BookingModalProps> = ({ provider, onClose }) => {
-  const { createBooking, setPage, setActiveBookingForChat } = useApp();
+  const { createBooking, setPage, setActiveBookingForChat, loggedInUser } = useApp();
   const { showToast } = useToast();
 
   const [step, setStep] = useState<number>(1);
@@ -26,13 +27,15 @@ export const BookingModal: React.FC<BookingModalProps> = ({ provider, onClose })
   );
   const [problemDescription, setProblemDescription] = useState<string>('');
   const [isEmergency, setIsEmergency] = useState<boolean>(false);
-  const [serviceLocation, setServiceLocation] = useState<string>('742 Evergreen Terrace, Apt 4B, Downtown');
+  const [serviceLocation, setServiceLocation] = useState<string>('12, 4th Cross Street, Anna Nagar, Chennai - 600040');
   const [accessNotes, setAccessNotes] = useState<string>('Gate code #4492. Ring bell on Arrival.');
-  const [scheduledDate, setScheduledDate] = useState<string>('2026-08-10');
-  const [scheduledTime, setScheduledTime] = useState<string>('2:30 PM');
+  const [scheduledDate, setScheduledDate] = useState<string>(new Date().toISOString().split('T')[0]);
+  const [scheduledTime, setScheduledTime] = useState<string>('');
   const [paymentMethod, setPaymentMethod] = useState<'card' | 'pay_later'>('card');
   const [promoCode, setPromoCode] = useState<string>('');
   const [promoApplied, setPromoApplied] = useState<boolean>(false);
+
+  const todayStr = new Date().toISOString().split('T')[0];
 
   React.useEffect(() => {
     if (provider) {
@@ -43,6 +46,8 @@ export const BookingModal: React.FC<BookingModalProps> = ({ provider, onClose })
       setIsEmergency(false);
       setPromoCode('');
       setPromoApplied(false);
+      setScheduledTime('');
+      setScheduledDate(new Date().toISOString().split('T')[0]);
     }
   }, [provider]);
 
@@ -55,10 +60,18 @@ export const BookingModal: React.FC<BookingModalProps> = ({ provider, onClose })
 
   const availableTimes = ['9:00 AM', '11:30 AM', '2:30 PM', '4:30 PM', '6:00 PM'];
 
+  // Per-step validation
+  const isStepValid = () => {
+    if (step === 1) return selectedService !== null;
+    if (step === 3) return serviceLocation.trim().length > 0;
+    if (step === 4) return scheduledDate !== '' && scheduledTime !== '';
+    return true;
+  };
+
   const handleApplyPromo = () => {
     if (promoCode.trim().toUpperCase() === 'LOCALFIX15') {
       setPromoApplied(true);
-      showToast('Promo code applied!', '$15 discount applied to total', 'success');
+      showToast('Promo code applied!', '₹15 discount applied to total', 'success');
     } else {
       showToast('Invalid promo code', 'Try using code LOCALFIX15', 'warning');
     }
@@ -80,8 +93,8 @@ export const BookingModal: React.FC<BookingModalProps> = ({ provider, onClose })
         providerCategory: provider.category,
         providerPhone: provider.phone,
         customerId: 'usr_cust_1',
-        customerName: 'Alex Morgan',
-        customerPhone: '+1 (555) 999-1122',
+        customerName: loggedInUser?.name || 'Aakash Malhotra',
+        customerPhone: '+91 99999 11122',
         serviceId: selectedService.id,
         serviceName: selectedService.name,
         servicePrice: rawPrice,
@@ -108,11 +121,7 @@ export const BookingModal: React.FC<BookingModalProps> = ({ provider, onClose })
         {/* Top Header / Progress indicator */}
         <div className="flex items-center justify-between pb-6 mb-6 border-b border-slate-100">
           <div className="flex items-center gap-3">
-            <img
-              src={provider.avatar}
-              alt={provider.name}
-              className="w-12 h-12 rounded-2xl object-cover border border-slate-200"
-            />
+            <InitialsAvatar name={provider.name} size="sm" rounded="2xl" />
             <div>
               <h3 className="font-extrabold text-slate-900 text-base">Book {provider.name}</h3>
               <p className="text-xs text-slate-500 font-medium">{provider.category} • Step {step} of 5</p>
@@ -185,7 +194,7 @@ export const BookingModal: React.FC<BookingModalProps> = ({ provider, onClose })
               </div>
               <div className="flex justify-between pt-1 font-bold text-slate-900 text-sm">
                 <span>Total Amount:</span>
-                <span className="text-brand-600">${createdBookingResult.totalPrice}</span>
+                <span className="text-brand-600">₹{createdBookingResult.totalPrice}</span>
               </div>
             </div>
 
@@ -235,7 +244,7 @@ export const BookingModal: React.FC<BookingModalProps> = ({ provider, onClose })
                       </div>
 
                       <div className="text-right shrink-0">
-                        <p className="text-base font-extrabold text-slate-900">${service.price}</p>
+                        <p className="text-base font-extrabold text-slate-900">₹{service.price}</p>
                         <span className="text-[10px] text-slate-400 font-medium">{service.durationMinutes} mins</span>
                       </div>
                     </div>
@@ -317,8 +326,9 @@ export const BookingModal: React.FC<BookingModalProps> = ({ provider, onClose })
                   <input
                     type="date"
                     value={scheduledDate}
+                    min={todayStr}
                     onChange={(e) => setScheduledDate(e.target.value)}
-                    className="w-full bg-slate-50 border border-slate-200 rounded-2xl p-3 text-xs font-bold text-slate-900 focus:outline-none"
+                    className="w-full bg-slate-50 border border-slate-200 rounded-2xl p-3 text-xs font-bold text-slate-900 focus:outline-none focus:border-brand-500"
                   />
                 </div>
 
@@ -387,21 +397,21 @@ export const BookingModal: React.FC<BookingModalProps> = ({ provider, onClose })
                   <div className="pt-3 border-t border-slate-200 space-y-1.5">
                     <div className="flex justify-between text-slate-600">
                       <span>Service Price:</span>
-                      <span>${rawPrice}</span>
+                      <span>₹{rawPrice}</span>
                     </div>
                     <div className="flex justify-between text-slate-600">
                       <span>Platform Service Fee:</span>
-                      <span>${serviceFee}</span>
+                      <span>₹{serviceFee}</span>
                     </div>
                     {promoApplied && (
                       <div className="flex justify-between text-emerald-600 font-bold">
                         <span>Promo Discount:</span>
-                        <span>-${discount}</span>
+                        <span>-₹{discount}</span>
                       </div>
                     )}
                     <div className="flex justify-between text-sm font-extrabold text-slate-900 pt-2 border-t border-slate-200">
                       <span>Estimated Total:</span>
-                      <span className="text-brand-600 text-base">${totalPrice}</span>
+                      <span className="text-brand-600 text-base">₹{totalPrice}</span>
                     </div>
                   </div>
                 </div>
@@ -451,7 +461,8 @@ export const BookingModal: React.FC<BookingModalProps> = ({ provider, onClose })
               {step < 5 ? (
                 <button
                   onClick={() => setStep(step + 1)}
-                  className="px-6 py-2.5 bg-brand-600 hover:bg-brand-700 text-white font-bold text-xs rounded-xl shadow-sm transition-all flex items-center gap-1 ml-auto"
+                  disabled={!isStepValid()}
+                  className="px-6 py-2.5 bg-brand-600 hover:bg-brand-700 disabled:bg-slate-300 disabled:cursor-not-allowed text-white font-bold text-xs rounded-xl shadow-sm transition-all flex items-center gap-1 ml-auto"
                 >
                   Next Step <ChevronRight className="w-3.5 h-3.5" />
                 </button>

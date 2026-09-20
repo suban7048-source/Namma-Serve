@@ -86,8 +86,8 @@ export const mockCategories: ServiceCategory[] = [
 export const mockProviders: Provider[] = [
   {
     id: 'p1',
-    name: 'Marcus Vance',
-    businessName: 'Vance Plumbing & Drainage',
+    name: 'Aarav Sharma',
+    businessName: 'Sharma Plumbing & Drainage',
     avatar: 'https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&q=80&w=300',
     coverImage: 'https://images.unsplash.com/photo-1581094794329-c8112a89af12?auto=format&fit=crop&q=80&w=1000',
     category: 'Plumbing',
@@ -99,7 +99,7 @@ export const mockProviders: Provider[] = [
     priceUnit: 'hourly',
     distanceMiles: 1.8,
     nextAvailable: 'Today, 2:30 PM',
-    location: 'Downtown, Sector 4',
+    location: 'Anna Nagar, Chennai',
     serviceRadiusMiles: 15,
     isVerified: true,
     yearsExperience: 12,
@@ -123,19 +123,19 @@ export const mockProviders: Provider[] = [
     reviews: [
       {
         id: 'r1',
-        authorName: 'Sarah Jenkins',
-        authorAvatar: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&q=80&w=150',
+        authorName: 'Sunita Rao',
+        authorAvatar: '',
         rating: 5,
         subRatings: { quality: 5, professionalism: 5, punctuality: 5 },
         date: '3 days ago',
-        comment: 'Marcus arrived within 30 minutes for an emergency kitchen pipe leak! Super professional, clean, and reasonably priced. Highly recommend!',
+        comment: 'Aarav arrived within 30 minutes for an emergency kitchen pipe leak! Super professional, clean, and reasonably priced. Highly recommend!',
         tags: ['Punctual', 'Fast Response', 'Fair Price'],
         serviceUsed: 'Emergency Drain Clog Clearing'
       },
       {
         id: 'r2',
-        authorName: 'David Miller',
-        authorAvatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&q=80&w=150',
+        authorName: 'Amitabh Joshi',
+        authorAvatar: '',
         rating: 5,
         subRatings: { quality: 5, professionalism: 5, punctuality: 4.8 },
         date: '2 weeks ago',
@@ -144,12 +144,12 @@ export const mockProviders: Provider[] = [
         serviceUsed: 'Water Heater Replacement'
       }
     ],
-    phone: '+1 (555) 234-8901',
-    email: 'marcus@vanceplumbing.com'
+    phone: '+91 98765 43210',
+    email: 'aarav@sharmaplumbing.in'
   },
   {
     id: 'p2',
-    name: 'Elena Rostova',
+    name: 'Priya Ananya',
     businessName: 'SparklePro Deep Clean',
     avatar: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&q=80&w=300',
     coverImage: 'https://images.unsplash.com/photo-1581578731548-c64695cc6952?auto=format&fit=crop&q=80&w=1000',
@@ -162,7 +162,7 @@ export const mockProviders: Provider[] = [
     priceUnit: 'fixed',
     distanceMiles: 2.4,
     nextAvailable: 'Tomorrow, 9:00 AM',
-    location: 'West End Heights',
+    location: 'T. Nagar, Chennai',
     serviceRadiusMiles: 20,
     isVerified: true,
     yearsExperience: 8,
@@ -185,23 +185,23 @@ export const mockProviders: Provider[] = [
     reviews: [
       {
         id: 'r3',
-        authorName: 'Amanda Chen',
-        authorAvatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=150',
+        authorName: 'Neha Agarwal',
+        authorAvatar: '',
         rating: 5,
         subRatings: { quality: 5, professionalism: 5, punctuality: 5 },
         date: 'Yesterday',
-        comment: 'Elena and her team transformed our apartment before our landlord walk-through. We got our full deposit back!',
+        comment: 'Priya and her team transformed our apartment before our landlord walk-through. We got our full deposit back!',
         tags: ['Hotel Quality', 'Eco Friendly', 'Spotless'],
         serviceUsed: 'Move-in / Move-out Turnaround Clean'
       }
     ],
-    phone: '+1 (555) 456-7890',
-    email: 'elena@sparklepro.com'
+    phone: '+91 98765 12345',
+    email: 'priya@sparklepro.in'
   },
   {
     id: 'p3',
-    name: 'Carlos Mendez',
-    businessName: 'Mendez Electrical Solutions',
+    name: 'Rajesh Kumar',
+    businessName: 'Rajesh Electrical Solutions',
     avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=300',
     coverImage: 'https://images.unsplash.com/photo-1621905251189-08b45d6a269e?auto=format&fit=crop&q=80&w=1000',
     category: 'Electrical',
@@ -213,7 +213,7 @@ export const mockProviders: Provider[] = [
     priceUnit: 'hourly',
     distanceMiles: 3.1,
     nextAvailable: 'Today, 4:30 PM',
-    location: 'Eastside Park',
+    location: 'Adyar, Chennai',
     serviceRadiusMiles: 25,
     isVerified: true,
     yearsExperience: 10,
@@ -235,23 +235,23 @@ export const mockProviders: Provider[] = [
     reviews: [
       {
         id: 'r4',
-        authorName: 'Robert Taylor',
-        authorAvatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&q=80&w=150',
+        authorName: 'Ravi Shankar',
+        authorAvatar: '',
         rating: 5,
         subRatings: { quality: 5, professionalism: 5, punctuality: 5 },
         date: '1 week ago',
-        comment: 'Carlos installed my EV charger quickly and cleanly. Kept everything tidy and explained how to use the safety switches.',
+        comment: 'Rajesh installed my EV charger quickly and cleanly. Kept everything tidy and explained how to use the safety switches.',
         tags: ['Master Electrician', 'Safe Work'],
         serviceUsed: 'Level 2 EV Charger Installation'
       }
     ],
-    phone: '+1 (555) 789-0123',
-    email: 'carlos@mendezelectric.com'
+    phone: '+91 98765 67890',
+    email: 'rajesh@rajeshelectric.in'
   },
   {
     id: 'p4',
-    name: 'Rachel Adams',
-    businessName: 'Adams Interior Painting & Decor',
+    name: 'Ananya Iyer',
+    businessName: 'Iyer Interior Painting & Decor',
     avatar: 'https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&q=80&w=300',
     coverImage: 'https://images.unsplash.com/photo-1562259949-e8e7689d7828?auto=format&fit=crop&q=80&w=1000',
     category: 'Painting',
@@ -263,7 +263,7 @@ export const mockProviders: Provider[] = [
     priceUnit: 'fixed',
     distanceMiles: 4.5,
     nextAvailable: 'Thursday, 9:00 AM',
-    location: 'Suburban Hills',
+    location: 'Velachery, Chennai',
     serviceRadiusMiles: 18,
     isVerified: true,
     yearsExperience: 7,
@@ -283,23 +283,23 @@ export const mockProviders: Provider[] = [
     reviews: [
       {
         id: 'r5',
-        authorName: 'Emily Watson',
-        authorAvatar: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&q=80&w=150',
+        authorName: 'Pooja Hegde',
+        authorAvatar: '',
         rating: 5,
         subRatings: { quality: 5, professionalism: 5, punctuality: 5 },
         date: '5 days ago',
-        comment: 'Rachel painted our master bedroom accent wall. The precision on the crown molding edge is incredible!',
+        comment: 'Ananya painted our master bedroom accent wall. The precision on the crown molding edge is incredible!',
         tags: ['Precision', 'Clean Prep'],
         serviceUsed: 'Single Room Accent Wall & Trim'
       }
     ],
-    phone: '+1 (555) 321-6549',
-    email: 'rachel@adamspainting.com'
+    phone: '+91 98765 23456',
+    email: 'ananya@iyerpainting.in'
   },
   {
     id: 'p5',
-    name: 'David Thorne',
-    businessName: 'Thorne HVAC & Climate Care',
+    name: 'Rohan Verma',
+    businessName: 'Verma HVAC & Climate Care',
     avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=300',
     coverImage: 'https://images.unsplash.com/photo-1621905252507-b35492cc74b4?auto=format&fit=crop&q=80&w=1000',
     category: 'AC & HVAC',
@@ -311,7 +311,7 @@ export const mockProviders: Provider[] = [
     priceUnit: 'fixed',
     distanceMiles: 5.2,
     nextAvailable: 'Tomorrow, 11:00 AM',
-    location: 'Northside Industrial Park',
+    location: 'Ambattur, Chennai',
     serviceRadiusMiles: 30,
     isVerified: true,
     yearsExperience: 14,
@@ -327,13 +327,13 @@ export const mockProviders: Provider[] = [
     ],
     portfolio: [],
     reviews: [],
-    phone: '+1 (555) 987-6543',
-    email: 'david@thornehvac.com'
+    phone: '+91 98765 89012',
+    email: 'rohan@vermahvac.in'
   },
   {
     id: 'p6',
-    name: 'Samir Patel',
-    businessName: 'Patel IT & Smart Home Tech',
+    name: 'Karthik Sundaram',
+    businessName: 'Sundaram IT & Smart Home Tech',
     avatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&q=80&w=300',
     coverImage: 'https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?auto=format&fit=crop&q=80&w=1000',
     category: 'Computer & IT',
@@ -345,7 +345,7 @@ export const mockProviders: Provider[] = [
     priceUnit: 'hourly',
     distanceMiles: 2.1,
     nextAvailable: 'Today, 6:00 PM',
-    location: 'Tech Corridor, Bay District',
+    location: 'OMR / Sholinganallur, Chennai',
     serviceRadiusMiles: 15,
     isVerified: true,
     yearsExperience: 9,
@@ -362,13 +362,13 @@ export const mockProviders: Provider[] = [
     ],
     portfolio: [],
     reviews: [],
-    phone: '+1 (555) 654-3210',
-    email: 'samir@patelitech.com'
+    phone: '+91 98765 34567',
+    email: 'karthik@sundaramtech.in'
   },
   {
     id: 'p7',
-    name: 'Vikram Sharma',
-    businessName: 'Apex Appliance Masters',
+    name: 'Devendra Sharma',
+    businessName: 'Devendra Appliance Repair',
     avatar: 'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&q=80&w=300',
     coverImage: 'https://images.unsplash.com/photo-1556911220-e15b29be8c8f?auto=format&fit=crop&q=80&w=1000',
     category: 'Appliance Repair',
@@ -402,23 +402,23 @@ export const mockProviders: Provider[] = [
     reviews: [
       {
         id: 'r7',
-        authorName: 'Kevin Durant',
-        authorAvatar: 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&q=80&w=150',
+        authorName: 'Karan Malhotra',
+        authorAvatar: '',
         rating: 5,
         subRatings: { quality: 5, professionalism: 5, punctuality: 5 },
         date: '4 days ago',
-        comment: 'Vikram fixed our fridge on the same day! Had the exact LG sensor part in his truck.',
+        comment: 'Devendra fixed our fridge on the same day! Had the exact LG sensor part in his truck.',
         tags: ['Fast Fix', 'OEM Parts', 'Fair Price'],
         serviceUsed: 'Refrigerator Cooling Diagnostic'
       }
     ],
-    phone: '+1 (555) 432-8765',
-    email: 'vikram@apexappliance.com'
+    phone: '+91 98765 78901',
+    email: 'devendra@sharmaappliance.in'
   },
   {
     id: 'p8',
-    name: 'Lucas Vance',
-    businessName: 'Vance Custom Woodworking & Shelving',
+    name: 'Tushar Deshmukh',
+    businessName: 'Deshmukh Custom Woodworking & Shelving',
     avatar: 'https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?auto=format&fit=crop&q=80&w=300',
     coverImage: 'https://images.unsplash.com/photo-1513694203232-719a280e022f?auto=format&fit=crop&q=80&w=1000',
     category: 'Carpentry',
@@ -430,7 +430,7 @@ export const mockProviders: Provider[] = [
     priceUnit: 'fixed',
     distanceMiles: 3.8,
     nextAvailable: 'Tomorrow, 10:00 AM',
-    location: 'Suburban Hills',
+    location: 'Velachery, Chennai',
     serviceRadiusMiles: 22,
     isVerified: true,
     yearsExperience: 13,
@@ -452,23 +452,23 @@ export const mockProviders: Provider[] = [
     reviews: [
       {
         id: 'r8',
-        authorName: 'Jessica Alba',
-        authorAvatar: 'https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&q=80&w=150',
+        authorName: 'Jyoti Saxena',
+        authorAvatar: '',
         rating: 5,
         subRatings: { quality: 5, professionalism: 5, punctuality: 4.9 },
         date: '1 week ago',
-        comment: 'Lucas built custom floating oak shelves in our living room. Absolutely stunning craftsmanship!',
+        comment: 'Tushar built custom floating oak shelves in our living room. Absolutely stunning craftsmanship!',
         tags: ['Master Craftsmanship', 'Precision', 'Clean Work'],
         serviceUsed: 'Custom Floating Shelves Installation'
       }
     ],
-    phone: '+1 (555) 765-4321',
-    email: 'lucas@vancewoodworking.com'
+    phone: '+91 98765 43219',
+    email: 'tushar@deshmukhwood.in'
   },
   {
     id: 'p9',
-    name: 'Nora Al-Mansoor',
-    businessName: 'HandyPro Home Repairs & Assembly',
+    name: 'Meera Banerjee',
+    businessName: 'Meera HandyPro Home Repairs',
     avatar: 'https://images.unsplash.com/photo-1567532939604-b6b5b0db2604?auto=format&fit=crop&q=80&w=300',
     coverImage: 'https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&q=80&w=1000',
     category: 'Home Maintenance',
@@ -480,7 +480,7 @@ export const mockProviders: Provider[] = [
     priceUnit: 'fixed',
     distanceMiles: 1.2,
     nextAvailable: 'Today, 5:00 PM',
-    location: 'Downtown, Sector 4',
+    location: 'Anna Nagar, Chennai',
     serviceRadiusMiles: 15,
     isVerified: true,
     yearsExperience: 7,
@@ -502,23 +502,23 @@ export const mockProviders: Provider[] = [
     reviews: [
       {
         id: 'r9',
-        authorName: 'Chris Evans',
-        authorAvatar: 'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&q=80&w=150',
+        authorName: 'Chetan Kapoor',
+        authorAvatar: '',
         rating: 5,
         subRatings: { quality: 5, professionalism: 5, punctuality: 5 },
         date: '2 days ago',
-        comment: 'Nora mounted our 65" TV in under 45 minutes with zero mess. Wires are completely hidden inside the wall!',
+        comment: 'Meera mounted our 65" TV in under 45 minutes with zero mess. Wires are completely hidden inside the wall!',
         tags: ['Fast & Clean', 'Super Friendly', 'Expert Mount'],
         serviceUsed: 'TV Wall Mounting'
       }
     ],
-    phone: '+1 (555) 890-1234',
-    email: 'nora@handypro.com'
+    phone: '+91 98765 98765',
+    email: 'meera@handypro.in'
   },
   {
     id: 'p10',
-    name: 'Jason Miller',
-    businessName: 'HydroClear Plumbing & Sewer',
+    name: 'Arjun Nair',
+    businessName: 'Nair HydroClear Plumbing',
     avatar: 'https://images.unsplash.com/photo-1522075469751-3a6694fb2f61?auto=format&fit=crop&q=80&w=300',
     coverImage: 'https://images.unsplash.com/photo-1585704032915-c3400ca199e7?auto=format&fit=crop&q=80&w=1000',
     category: 'Plumbing',
@@ -530,7 +530,7 @@ export const mockProviders: Provider[] = [
     priceUnit: 'fixed',
     distanceMiles: 4.1,
     nextAvailable: 'Tomorrow, 8:00 AM',
-    location: 'Eastside Park',
+    location: 'Adyar, Chennai',
     serviceRadiusMiles: 25,
     isVerified: true,
     yearsExperience: 15,
@@ -546,13 +546,13 @@ export const mockProviders: Provider[] = [
     ],
     portfolio: [],
     reviews: [],
-    phone: '+1 (555) 901-2345',
-    email: 'jason@hydroclearplumbing.com'
+    phone: '+91 98765 87654',
+    email: 'arjun@nairplumbing.in'
   },
   {
     id: 'p11',
-    name: 'Sophie Laurent',
-    businessName: 'Guardian Locksmith & Security Tech',
+    name: 'Kavya Reddy',
+    businessName: 'Reddy Locksmith & Security Tech',
     avatar: 'https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?auto=format&fit=crop&q=80&w=300',
     coverImage: 'https://images.unsplash.com/photo-1558002038-1055907df827?auto=format&fit=crop&q=80&w=1000',
     category: 'Other Services',
@@ -564,7 +564,7 @@ export const mockProviders: Provider[] = [
     priceUnit: 'fixed',
     distanceMiles: 1.9,
     nextAvailable: 'Today, 2:00 PM',
-    location: 'West End Heights',
+    location: 'T. Nagar, Chennai',
     serviceRadiusMiles: 20,
     isVerified: true,
     yearsExperience: 8,
@@ -584,23 +584,23 @@ export const mockProviders: Provider[] = [
     reviews: [
       {
         id: 'r11',
-        authorName: 'Marcus Wright',
-        authorAvatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&q=80&w=150',
+        authorName: 'Manish Patel',
+        authorAvatar: '',
         rating: 5,
         subRatings: { quality: 5, professionalism: 5, punctuality: 5 },
         date: 'Yesterday',
-        comment: 'Sophie arrived in 15 minutes when I locked myself out of my apartment! Super fast and professional.',
+        comment: 'Kavya arrived in 15 minutes when I locked myself out of my apartment! Super fast and professional.',
         tags: ['Lifesaver', 'Super Fast', 'Fair Price'],
         serviceUsed: 'Emergency Lockout Unlock'
       }
     ],
-    phone: '+1 (555) 012-3456',
-    email: 'sophie@guardianlocksmith.com'
+    phone: '+91 98765 76543',
+    email: 'kavya@reddylocksmith.in'
   },
   {
     id: 'p12',
-    name: 'Ethan Gallagher',
-    businessName: 'PureBreeze Carpet & Window Care',
+    name: 'Aditya Singhania',
+    businessName: 'Singhania Carpet & Window Care',
     avatar: 'https://images.unsplash.com/photo-1501196354995-cbb51c65aaea?auto=format&fit=crop&q=80&w=300',
     coverImage: 'https://images.unsplash.com/photo-1527515637462-cff94eecc1ac?auto=format&fit=crop&q=80&w=1000',
     category: 'Cleaning',
@@ -612,7 +612,7 @@ export const mockProviders: Provider[] = [
     priceUnit: 'fixed',
     distanceMiles: 3.5,
     nextAvailable: 'Tomorrow, 9:30 AM',
-    location: 'Suburban Hills',
+    location: 'Velachery, Chennai',
     serviceRadiusMiles: 25,
     isVerified: true,
     yearsExperience: 10,
@@ -628,8 +628,8 @@ export const mockProviders: Provider[] = [
     ],
     portfolio: [],
     reviews: [],
-    phone: '+1 (555) 123-4567',
-    email: 'ethan@purebreezecare.com'
+    phone: '+91 98765 65432',
+    email: 'aditya@singhaniacare.in'
   }
 ];
 
@@ -638,13 +638,13 @@ export const initialBookings: Booking[] = [
     id: 'b1',
     bookingNumber: 'BK-9482',
     providerId: 'p1',
-    providerName: 'Marcus Vance',
+    providerName: 'Aarav Sharma',
     providerAvatar: 'https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&q=80&w=300',
     providerCategory: 'Plumbing',
-    providerPhone: '+1 (555) 234-8901',
+    providerPhone: '+91 98765 43210',
     customerId: 'usr_cust_1',
-    customerName: 'Alex Morgan',
-    customerPhone: '+1 (555) 999-1122',
+    customerName: 'Aakash Malhotra',
+    customerPhone: '+91 99999 11122',
     serviceId: 's101',
     serviceName: 'Emergency Drain Clog Clearing',
     servicePrice: 95,
@@ -663,13 +663,13 @@ export const initialBookings: Booking[] = [
     id: 'b2',
     bookingNumber: 'BK-9120',
     providerId: 'p2',
-    providerName: 'Elena Rostova',
+    providerName: 'Priya Ananya',
     providerAvatar: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&q=80&w=300',
     providerCategory: 'Cleaning',
-    providerPhone: '+1 (555) 456-7890',
+    providerPhone: '+91 98765 12345',
     customerId: 'usr_cust_1',
-    customerName: 'Alex Morgan',
-    customerPhone: '+1 (555) 999-1122',
+    customerName: 'Aakash Malhotra',
+    customerPhone: '+91 99999 11122',
     serviceId: 's201',
     serviceName: 'Standard 2-Bedroom Deep Cleaning',
     servicePrice: 120,
@@ -687,13 +687,13 @@ export const initialBookings: Booking[] = [
     id: 'b3',
     bookingNumber: 'BK-8755',
     providerId: 'p3',
-    providerName: 'Carlos Mendez',
+    providerName: 'Rajesh Kumar',
     providerAvatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=300',
     providerCategory: 'Electrical',
-    providerPhone: '+1 (555) 789-0123',
+    providerPhone: '+91 98765 67890',
     customerId: 'usr_cust_1',
-    customerName: 'Alex Morgan',
-    customerPhone: '+1 (555) 999-1122',
+    customerName: 'Aakash Malhotra',
+    customerPhone: '+91 99999 11122',
     serviceId: 's302',
     serviceName: 'Chandelier / Ceiling Fan Installation',
     servicePrice: 110,
@@ -715,10 +715,10 @@ export const initialMessages: Message[] = [
     id: 'm1',
     bookingId: 'b1',
     senderId: 'p1',
-    senderName: 'Marcus Vance',
+    senderName: 'Aarav Sharma',
     senderRole: 'provider',
     receiverId: 'usr_cust_1',
-    text: 'Hi Alex! I got your emergency booking for the drain clog. I will bring the heavy-duty snake and camera unit.',
+    text: 'Hi Aakash! I got your emergency booking for the drain clog. I will bring the heavy-duty snake and camera unit.',
     timestamp: '14:35',
     isRead: true
   },
@@ -726,10 +726,10 @@ export const initialMessages: Message[] = [
     id: 'm2',
     bookingId: 'b1',
     senderId: 'usr_cust_1',
-    senderName: 'Alex Morgan',
+    senderName: 'Aakash Malhotra',
     senderRole: 'customer',
     receiverId: 'p1',
-    text: 'Awesome, thanks Marcus! Let me know if you need gate code access.',
+    text: 'Awesome, thanks Aarav! Let me know if you need gate code access.',
     timestamp: '14:38',
     isRead: true
   },
@@ -737,7 +737,7 @@ export const initialMessages: Message[] = [
     id: 'm3',
     bookingId: 'b1',
     senderId: 'p1',
-    senderName: 'Marcus Vance',
+    senderName: 'Aarav Sharma',
     senderRole: 'provider',
     receiverId: 'usr_cust_1',
     text: 'Got the gate code #4492 in the notes! I will update you when I am 15 minutes away tomorrow.',
@@ -750,7 +750,7 @@ export const initialNotifications: AppNotification[] = [
   {
     id: 'n1',
     title: 'Booking Confirmed',
-    message: 'Marcus Vance accepted your request for Emergency Drain Clog Clearing on Aug 10, 2:30 PM.',
+    message: 'Aarav Sharma accepted your request for Emergency Drain Clog Clearing on Aug 10, 2:30 PM.',
     timestamp: '2 hours ago',
     isRead: false,
     type: 'booking',
@@ -759,7 +759,7 @@ export const initialNotifications: AppNotification[] = [
   {
     id: 'n2',
     title: 'Provider In Transit',
-    message: 'Elena Rostova is on the way to your location for Standard 2-Bedroom Deep Cleaning.',
+    message: 'Priya Ananya is on the way to your location for Standard 2-Bedroom Deep Cleaning.',
     timestamp: '20 mins ago',
     isRead: false,
     type: 'booking',
@@ -768,7 +768,7 @@ export const initialNotifications: AppNotification[] = [
   {
     id: 'n3',
     title: 'New Message',
-    message: 'Marcus Vance: "I will update you when I am 15 minutes away tomorrow."',
+    message: 'Aarav Sharma: "I will update you when I am 15 minutes away tomorrow."',
     timestamp: '1 hour ago',
     isRead: false,
     type: 'message',

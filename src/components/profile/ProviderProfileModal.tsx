@@ -2,10 +2,11 @@ import React, { useState } from 'react';
 import { Provider } from '../../types';
 import { useApp } from '../../context/AppContext';
 import { RatingStars } from '../common/RatingStars';
+import { InitialsAvatar } from '../common/InitialsAvatar';
 import { 
   ShieldCheck, MapPin, Clock, Heart, Award, 
   Calendar, CheckCircle2, Phone, Mail, X, 
-  Sparkles, Star, Image as ImageIcon, Wrench, MessageSquare 
+  Sparkles, Star, Image as ImageIcon, Wrench, MessageSquare, User 
 } from 'lucide-react';
 
 interface ProviderProfileModalProps {
@@ -14,7 +15,10 @@ interface ProviderProfileModalProps {
 }
 
 export const ProviderProfileModal: React.FC<ProviderProfileModalProps> = ({ provider: p, onClose }) => {
-  const { setBookingProvider, favorites, toggleFavorite, setActiveBookingForChat, bookings, role } = useApp();
+  const { 
+    setBookingProvider, favorites, toggleFavorite, 
+    cart, addToCart, updateCartQuantity, setReviewProvider, setIsAuthModalOpen, isLoggedIn
+  } = useApp();
   const [activeTab, setActiveTab] = useState<'about' | 'services' | 'reviews' | 'gallery'>('services');
   const [selectedGalleryImg, setSelectedGalleryImg] = useState<string | null>(null);
 
@@ -39,15 +43,14 @@ export const ProviderProfileModal: React.FC<ProviderProfileModalProps> = ({ prov
     <div className="fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-4 bg-slate-900/60 backdrop-blur-sm animate-fade-in overflow-y-auto">
       <div className="bg-white rounded-3xl max-w-4xl w-full max-h-[92vh] overflow-y-auto shadow-elevated border border-slate-100 relative my-auto">
         
-        {/* Top Cover Banner */}
-        <div className="relative h-44 sm:h-56 bg-slate-900 overflow-hidden">
-          {p.coverImage && (
-            <img
-              src={p.coverImage}
-              alt={p.name}
-              className="w-full h-full object-cover opacity-60"
-            />
-          )}
+        {/* Top banner — gradient, no cover photo */}
+        <div className="relative h-44 sm:h-52 overflow-hidden" style={{ background: 'linear-gradient(135deg, #0f172a 0%, #1e293b 60%, #0f172a 100%)' }}>
+          <div className="absolute inset-0" style={{ backgroundImage: 'radial-gradient(circle at 15% 50%, rgba(96,165,250,0.15) 0%, transparent 60%), radial-gradient(circle at 85% 30%, rgba(52,211,153,0.12) 0%, transparent 60%)' }} />
+          {/* Subtle grid pattern */}
+          <div className="absolute inset-0 opacity-5" style={{ backgroundImage: 'linear-gradient(rgba(255,255,255,0.3) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.3) 1px, transparent 1px)', backgroundSize: '40px 40px' }} />
+          <div className="absolute bottom-4 left-6">
+            <span className="bg-white/90 backdrop-blur-md px-3 py-1 rounded-full text-xs font-bold text-slate-900">{p.category}</span>
+          </div>
           <button
             onClick={onClose}
             className="absolute top-4 right-4 p-2.5 rounded-full bg-white/80 backdrop-blur-md text-slate-700 hover:bg-white transition-colors shadow-md z-10"
@@ -62,11 +65,7 @@ export const ProviderProfileModal: React.FC<ProviderProfileModalProps> = ({ prov
             
             <div className="flex items-end gap-5">
               <div className="relative">
-                <img
-                  src={p.avatar}
-                  alt={p.name}
-                  className="w-24 h-24 sm:w-32 sm:h-32 rounded-3xl object-cover border-4 border-white shadow-card bg-white"
-                />
+                <InitialsAvatar name={p.name} size="xl" rounded="3xl" className="border-4 border-white shadow-card" />
                 {p.isVerified && (
                   <div className="absolute -bottom-1 -right-1 bg-emerald-500 text-white p-1.5 rounded-full border-2 border-white shadow" title="Verified Professional">
                     <ShieldCheck className="w-4 h-4" />
@@ -182,7 +181,7 @@ export const ProviderProfileModal: React.FC<ProviderProfileModalProps> = ({ prov
             <div className="space-y-6">
               <div className="flex items-center justify-between">
                 <h3 className="font-extrabold text-slate-900 text-lg">Offered Services & Pricing</h3>
-                <span className="text-xs text-slate-500">Starting from <strong>${p.startingPrice}</strong></span>
+                <span className="text-xs text-slate-500">Starting from <strong>₹{p.startingPrice}</strong></span>
               </div>
 
               <div className="space-y-4">
@@ -203,18 +202,49 @@ export const ProviderProfileModal: React.FC<ProviderProfileModalProps> = ({ prov
                       </p>
                     </div>
 
-                    <div className="flex items-center justify-between sm:justify-end gap-4 shrink-0 pt-2 sm:pt-0 border-t sm:border-t-0 border-slate-200">
+                    <div className="flex items-center justify-between sm:justify-end gap-3 shrink-0 pt-2 sm:pt-0 border-t sm:border-t-0 border-slate-200">
                       <p className="text-lg font-black text-slate-900">
-                        ${service.price} <span className="text-xs font-normal text-slate-500">/{service.priceUnit}</span>
+                        ₹{service.price} <span className="text-xs font-normal text-slate-500">/{service.priceUnit}</span>
                       </p>
+
+                      {/* Urban Company Cart Counter / Add Button */}
+                      {cart.find(c => c.serviceId === service.id) ? (
+                        <div className="flex items-center gap-1.5 bg-brand-50 border border-brand-200 rounded-xl px-2 py-1 shadow-2xs">
+                          <button
+                            onClick={() => updateCartQuantity(service.id, -1)}
+                            className="text-brand-600 hover:text-brand-800 font-black px-1 text-sm"
+                            title="Decrease quantity"
+                          >
+                            -
+                          </button>
+                          <span className="text-xs font-black text-brand-700 px-1">
+                            {cart.find(c => c.serviceId === service.id)?.quantity}
+                          </span>
+                          <button
+                            onClick={() => updateCartQuantity(service.id, 1)}
+                            className="text-brand-600 hover:text-brand-800 font-black px-1 text-sm"
+                            title="Increase quantity"
+                          >
+                            +
+                          </button>
+                        </div>
+                      ) : (
+                        <button
+                          onClick={() => addToCart(p, service)}
+                          className="bg-white hover:bg-brand-50 border border-brand-200 hover:border-brand-400 text-brand-600 font-extrabold text-xs px-3 py-2 rounded-xl transition-all shadow-2xs"
+                        >
+                          + Add to Cart
+                        </button>
+                      )}
+
                       <button
                         onClick={() => {
                           onClose();
                           setBookingProvider(p);
                         }}
-                        className="bg-brand-600 hover:bg-brand-700 text-white font-bold text-xs px-4 py-2.5 rounded-xl transition-all shadow-sm"
+                        className="bg-slate-900 hover:bg-slate-800 text-white font-bold text-xs px-3.5 py-2 rounded-xl transition-all shadow-sm"
                       >
-                        Book This
+                        Book Now
                       </button>
                     </div>
                   </div>
@@ -260,7 +290,7 @@ export const ProviderProfileModal: React.FC<ProviderProfileModalProps> = ({ prov
                       <CheckCircle2 className="w-4 h-4 text-emerald-500" /> Master Trade License #PL-94821
                     </li>
                     <li className="flex items-center gap-2">
-                      <CheckCircle2 className="w-4 h-4 text-emerald-500" /> $2M Commercial Liability Insurance
+                      <CheckCircle2 className="w-4 h-4 text-emerald-500" /> ₹2Cr Commercial Liability Insurance
                     </li>
                     <li className="flex items-center gap-2">
                       <CheckCircle2 className="w-4 h-4 text-emerald-500" /> Background Checked & ID Verified
@@ -285,15 +315,54 @@ export const ProviderProfileModal: React.FC<ProviderProfileModalProps> = ({ prov
           {/* REVIEWS TAB */}
           {activeTab === 'reviews' && (
             <div className="space-y-6">
-              {/* Detailed Breakdown */}
-              <div className="bg-slate-50 p-6 rounded-2xl border border-slate-200/80 grid grid-cols-1 sm:grid-cols-4 gap-6 items-center">
-                <div className="text-center sm:border-r border-slate-200 pr-4">
-                  <p className="text-4xl font-extrabold text-slate-900">{p.rating.toFixed(1)}</p>
-                  <RatingStars rating={p.rating} size={18} />
-                  <p className="text-xs text-slate-500 mt-1">{p.reviewCount} verified reviews</p>
+              {/* Header with CTA */}
+              <div className="flex items-center justify-between flex-wrap gap-3">
+                <div>
+                  <h3 className="font-extrabold text-slate-900 text-lg">Customer Ratings & Reviews</h3>
+                  <p className="text-xs text-slate-500">Verified reviews from verified Chennai customers</p>
+                </div>
+                <button
+                  onClick={() => {
+                    setReviewProvider(p);
+                  }}
+                  className="bg-brand-600 hover:bg-brand-700 text-white font-extrabold text-xs px-4 py-2.5 rounded-xl transition-all shadow-sm flex items-center gap-1.5"
+                >
+                  <Star className="w-4 h-4 fill-white" /> Write a Review
+                </button>
+              </div>
+
+              {/* Detailed Breakdown & Star Distribution */}
+              <div className="bg-slate-50 p-6 rounded-2xl border border-slate-200/80 grid grid-cols-1 md:grid-cols-3 gap-6 items-center">
+                <div className="text-center md:border-r border-slate-200 md:pr-4">
+                  <p className="text-5xl font-black text-slate-900">{p.rating.toFixed(1)}</p>
+                  <div className="flex justify-center my-1.5">
+                    <RatingStars rating={p.rating} size={20} />
+                  </div>
+                  <p className="text-xs text-slate-500">{p.reviewCount} verified reviews</p>
                 </div>
 
-                <div className="sm:col-span-3 space-y-2 text-xs font-semibold text-slate-700">
+                {/* 5-Star Distribution Bars */}
+                <div className="space-y-1.5 md:border-r border-slate-200 md:pr-4">
+                  {[5, 4, 3, 2, 1].map(stars => {
+                    const count = p.reviews.filter(r => Math.round(r.rating) === stars).length;
+                    const pct = p.reviews.length > 0 ? (count / p.reviews.length) * 100 : (stars === 5 ? 85 : 10);
+                    return (
+                      <div key={stars} className="flex items-center gap-2 text-xs font-semibold text-slate-600">
+                        <span className="w-7 text-right">{stars}★</span>
+                        <div className="flex-1 bg-slate-200 rounded-full h-2 overflow-hidden">
+                          <div
+                            className="bg-amber-400 h-full rounded-full transition-all"
+                            style={{ width: `${pct}%` }}
+                          />
+                        </div>
+                        <span className="w-6 text-[10px] text-slate-400">{count}</span>
+                      </div>
+                    );
+                  })}
+                </div>
+
+                {/* Sub-ratings */}
+                <div className="space-y-2 text-xs font-semibold text-slate-700">
                   <div className="flex items-center justify-between">
                     <span>Service Quality</span>
                     <span className="font-bold text-slate-900">{avgQuality} / 5.0</span>
@@ -315,11 +384,9 @@ export const ProviderProfileModal: React.FC<ProviderProfileModalProps> = ({ prov
                   <div key={rev.id} className="p-5 rounded-2xl border border-slate-200/80 bg-white space-y-3">
                     <div className="flex items-center justify-between">
                       <div className="flex items-center gap-3">
-                        <img
-                          src={rev.authorAvatar}
-                          alt={rev.authorName}
-                          className="w-10 h-10 rounded-full object-cover"
-                        />
+                        <div className="w-10 h-10 rounded-full bg-brand-50 border border-brand-100 flex items-center justify-center text-brand-600 shrink-0 font-bold">
+                          <User className="w-5 h-5" />
+                        </div>
                         <div>
                           <h4 className="font-bold text-xs text-slate-900">{rev.authorName}</h4>
                           <span className="text-[10px] text-slate-400">{rev.date} • Service: {rev.serviceUsed}</span>

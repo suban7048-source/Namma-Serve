@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { useApp } from '../../context/AppContext';
+import { InitialsAvatar } from '../common/InitialsAvatar';
 import { Booking } from '../../types';
-import { Send, Image, X, Wrench, ShieldCheck, CheckCheck, Clock } from 'lucide-react';
+import { Send, Image, X, Wrench, ShieldCheck, CheckCheck, Clock, User, Phone, Info } from 'lucide-react';
 
 export const MessagingModal: React.FC = () => {
   const { 
@@ -41,10 +42,6 @@ export const MessagingModal: React.FC = () => {
     ? activeBookingForChat.providerName 
     : activeBookingForChat.customerName;
 
-  const recipientAvatar = role === 'customer' 
-    ? activeBookingForChat.providerAvatar 
-    : 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=150';
-
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-slate-900/65 backdrop-blur-sm animate-fade-in">
       <div className="bg-white rounded-3xl max-w-xl w-full h-[620px] max-h-[90vh] shadow-elevated border border-slate-100 flex flex-col relative overflow-hidden my-auto">
@@ -53,11 +50,7 @@ export const MessagingModal: React.FC = () => {
         <div className="p-4 sm:p-5 border-b border-slate-100 bg-white flex items-center justify-between z-10">
           <div className="flex items-center gap-3">
             <div className="relative">
-              <img
-                src={recipientAvatar}
-                alt={recipientName}
-                className="w-11 h-11 rounded-2xl object-cover border border-slate-200"
-              />
+              <InitialsAvatar name={recipientName} size="sm" rounded="2xl" />
               <span className="absolute bottom-0 right-0 w-3 h-3 bg-emerald-500 rounded-full border-2 border-white" />
             </div>
 

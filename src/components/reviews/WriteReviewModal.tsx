@@ -5,7 +5,7 @@ import { RatingStars } from '../common/RatingStars';
 import { Star, X, CheckCircle2 } from 'lucide-react';
 
 export const WriteReviewModal: React.FC = () => {
-  const { reviewBooking, setReviewBooking, addReview } = useApp();
+  const { reviewBooking, setReviewBooking, reviewProvider, setReviewProvider, addReview, loggedInUser } = useApp();
   const { showToast } = useToast();
 
   const [overallRating, setOverallRating] = useState<number>(5);
@@ -14,6 +14,7 @@ export const WriteReviewModal: React.FC = () => {
   const [punctualityRating, setPunctualityRating] = useState<number>(5);
   const [comment, setComment] = useState<string>('');
   const [selectedTags, setSelectedTags] = useState<string[]>(['Punctual', 'Fair Price']);
+  const [selectedServiceName, setSelectedServiceName] = useState<string>('');
 
   React.useEffect(() => {
     if (reviewBooking) {
@@ -23,10 +24,22 @@ export const WriteReviewModal: React.FC = () => {
       setPunctualityRating(5);
       setComment('');
       setSelectedTags(['Punctual', 'Fair Price']);
+      setSelectedServiceName(reviewBooking.serviceName);
+    } else if (reviewProvider) {
+      setOverallRating(5);
+      setQualityRating(5);
+      setProfessionalismRating(5);
+      setPunctualityRating(5);
+      setComment('');
+      setSelectedTags(['Punctual', 'Expert Work']);
+      setSelectedServiceName(reviewProvider.offeredServices[0]?.name || reviewProvider.category);
     }
-  }, [reviewBooking]);
+  }, [reviewBooking, reviewProvider]);
 
-  if (!reviewBooking) return null;
+  if (!reviewBooking && !reviewProvider) return null;
+
+  const targetProviderId = reviewBooking ? reviewBooking.providerId : reviewProvider!.id;
+  const targetProviderName = reviewBooking ? reviewBooking.providerName : reviewProvider!.name;
 
   const availableTags = ['Punctual', 'Fair Price', 'Clean Worksite', 'Fast Response', 'Expert Work', 'Friendly'];
 
@@ -34,6 +47,11 @@ export const WriteReviewModal: React.FC = () => {
     setSelectedTags(prev =>
       prev.includes(tag) ? prev.filter(t => t !== tag) : [...prev, tag]
     );
+  };
+
+  const handleClose = () => {
+    if (reviewBooking) setReviewBooking(null);
+    if (reviewProvider) setReviewProvider(null);
   };
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -44,10 +62,10 @@ export const WriteReviewModal: React.FC = () => {
     }
 
     addReview(
-      reviewBooking.providerId,
+      targetProviderId,
       {
-        authorName: 'Alex Morgan',
-        authorAvatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=150',
+        authorName: loggedInUser?.name || 'Aakash Malhotra',
+        authorAvatar: '',
         rating: overallRating,
         subRatings: {
           quality: qualityRating,
@@ -56,32 +74,49 @@ export const WriteReviewModal: React.FC = () => {
         },
         comment: comment.trim(),
         tags: selectedTags,
-        serviceUsed: reviewBooking.serviceName
+        serviceUsed: selectedServiceName || 'General Service'
       },
-      reviewBooking.id
+      reviewBooking?.id
     );
 
-    showToast('Review Submitted!', 'Thank you for your feedback.', 'success');
-    setReviewBooking(null);
+    showToast('Review Submitted!', 'Thank you for your valuable feedback.', 'success');
+    handleClose();
   };
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-slate-900/65 backdrop-blur-sm animate-fade-in">
-      <div className="bg-white rounded-3xl max-w-lg w-full p-6 sm:p-8 shadow-elevated border border-slate-100 relative my-auto">
+      <div className="bg-white rounded-3xl max-w-lg w-full p-6 sm:p-8 shadow-elevated border border-slate-100 relative my-auto max-h-[92vh] overflow-y-auto">
         
         <div className="flex items-center justify-between pb-4 mb-4 border-b border-slate-100">
           <div>
             <h3 className="font-extrabold text-slate-900 text-lg">Leave a Review</h3>
-            <p className="text-xs text-slate-500">For {reviewBooking.providerName} • {reviewBooking.serviceName}</p>
+            <p className="text-xs text-slate-500">For {targetProviderName} • Chennai</p>
           </div>
 
           <button
-            onClick={() => setReviewBooking(null)}
-            className="p-2 text-slate-400 hover:text-slate-600 rounded-full hover:bg-slate-100"
+            onClick={handleClose}
+            className="p-2 text-slate-400 hover:text-slate-600 rounded-full hover:bg-slate-100 transition-colors"
           >
             <X className="w-5 h-5" />
           </button>
         </div>
+
+        {/* Service selector if reviewProvider has multiple services */}
+        {reviewProvider && reviewProvider.offeredServices.length > 0 && (
+          <div className="mb-4 space-y-1.5">
+            <label className="text-xs font-bold text-slate-700">Service availed:</label>
+            <select
+              value={selectedServiceName}
+              onChange={(e) => setSelectedServiceName(e.target.value)}
+              className="w-full bg-slate-50 border border-slate-200 rounded-xl p-2.5 text-xs font-semibold text-slate-800 focus:outline-none focus:border-brand-600"
+            >
+              {reviewProvider.offeredServices.map(s => (
+                <option key={s.id} value={s.name}>{s.name} (₹{s.price})</option>
+              ))}
+              <option value="General Service">General Service / Consultation</option>
+            </select>
+          </div>
+        )}
 
         <form onSubmit={handleSubmit} className="space-y-5">
           

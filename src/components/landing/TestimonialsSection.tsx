@@ -1,35 +1,32 @@
 import React, { useState } from 'react';
 import { RatingStars } from '../common/RatingStars';
-import { ChevronDown, Quote, CheckCircle2 } from 'lucide-react';
+import { ChevronDown, Quote, CheckCircle2, User } from 'lucide-react';
 
 export const TestimonialsSection: React.FC = () => {
   const [openFaq, setOpenFaq] = useState<number | null>(0);
 
   const testimonials = [
     {
-      quote: "Found Marcus within 10 minutes when our main drain clogged on a Sunday. He arrived fast, solved the issue cleanly, and saved us thousands in water damage!",
-      name: "Sarah Jenkins",
+      quote: "Found Aarav within 10 minutes when our main drain clogged on a Sunday. He arrived fast, solved the issue cleanly, and saved us thousands in water damage!",
+      name: "Sunita Rao",
       role: "Homeowner",
-      location: "Downtown",
-      avatar: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&q=80&w=150",
+      location: "Anna Nagar, Chennai",
       rating: 5,
       service: "Plumbing Emergency"
     },
     {
       quote: "As a small electrical business owner, LocalFix helped me double my bookings in 3 months without expensive ads. The schedule manager is top notch.",
-      name: "Carlos Mendez",
+      name: "Rajesh Kumar",
       role: "Master Electrician",
-      location: "Eastside",
-      avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=150",
+      location: "Adyar, Chennai",
       rating: 5,
       service: "Local Fix Provider"
     },
     {
       quote: "The deep cleaning service before our move-out was immaculate. We got 100% of our rental deposit back! Super easy booking system.",
-      name: "Amanda Chen",
+      name: "Neha Agarwal",
       role: "Tenant",
-      location: "West End",
-      avatar: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=150",
+      location: "T. Nagar, Chennai",
       rating: 5,
       service: "Deep House Clean"
     }
@@ -83,11 +80,10 @@ export const TestimonialsSection: React.FC = () => {
               </div>
 
               <div className="pt-6 mt-6 border-t border-slate-200/70 flex items-center gap-3">
-                <img
-                  src={item.avatar}
-                  alt={item.name}
-                  className="w-11 h-11 rounded-full object-cover border border-white shadow-sm"
-                />
+                {/* Initials avatar — no photo */}
+                <div className="w-11 h-11 rounded-full bg-gradient-to-br from-brand-500 to-brand-700 text-white flex items-center justify-center font-extrabold text-sm shrink-0">
+                  {item.name.split(' ').map(n => n[0]).join('').slice(0,2).toUpperCase()}
+                </div>
                 <div>
                   <h4 className="font-bold text-xs text-slate-900">{item.name}</h4>
                   <p className="text-[10px] text-slate-500">{item.role} • {item.location}</p>

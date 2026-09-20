@@ -4,6 +4,7 @@ import { BookingStatus, Booking } from '../../types';
 import { useToast } from '../../context/ToastContext';
 import { ConfirmModal } from '../common/ConfirmModal';
 import { RatingStars } from '../common/RatingStars';
+import { InitialsAvatar } from '../common/InitialsAvatar';
 import { 
   Wrench, CheckCircle2, XCircle, Clock, Calendar, 
   DollarSign, MessageSquare, ShieldCheck, MapPin, User, Settings, AlertCircle 
@@ -40,7 +41,7 @@ export const ProviderDashboard: React.FC = () => {
 
   const handleMarkCompleted = (b: Booking) => {
     updateBookingStatus(b.id, 'Completed');
-    showToast('Job Marked Completed!', `Earned $${b.servicePrice}`, 'success');
+    showToast('Job Marked Completed!', `Earned ₹${b.servicePrice}`, 'success');
   };
 
   const handleStartJob = (b: Booking) => {
@@ -55,11 +56,7 @@ export const ProviderDashboard: React.FC = () => {
         {/* Provider Portal Header */}
         <div className="bg-slate-850 rounded-3xl p-6 sm:p-8 border border-slate-800 shadow-elevated flex flex-col md:flex-row md:items-center justify-between gap-6">
           <div className="flex items-center gap-4">
-            <img
-              src={currentProvider.avatar}
-              alt={currentProvider.name}
-              className="w-16 h-16 sm:w-20 sm:h-20 rounded-2xl object-cover border-2 border-brand-500 shadow-md"
-            />
+            <InitialsAvatar name={currentProvider.name} size="lg" rounded="2xl" className="border-2 border-brand-500" />
             <div>
               <div className="flex items-center gap-2 flex-wrap">
                 <h1 className="text-2xl sm:text-3xl font-extrabold text-white">{currentProvider.name}</h1>
@@ -99,7 +96,7 @@ export const ProviderDashboard: React.FC = () => {
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
           <div className="bg-slate-850 rounded-2xl p-5 border border-slate-800 space-y-1">
             <p className="text-xs font-bold text-slate-400 uppercase">Monthly Earnings</p>
-            <p className="text-2xl font-black text-emerald-400">${totalEarnings}</p>
+            <p className="text-2xl font-black text-emerald-400">₹{totalEarnings}</p>
           </div>
           <div className="bg-slate-850 rounded-2xl p-5 border border-slate-800 space-y-1">
             <p className="text-xs font-bold text-slate-400 uppercase">New Requests</p>
@@ -159,7 +156,7 @@ export const ProviderDashboard: React.FC = () => {
                   </div>
 
                   <div className="flex items-center justify-between pt-2">
-                    <p className="text-lg font-black text-emerald-400">${b.servicePrice}</p>
+                    <p className="text-lg font-black text-emerald-400">₹{b.servicePrice}</p>
                     <div className="flex items-center gap-2">
                       <button
                         onClick={() => setDeclineBooking(b)}

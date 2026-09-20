@@ -1,6 +1,7 @@
 import React from 'react';
 import { useApp } from '../../context/AppContext';
 import { RatingStars } from '../common/RatingStars';
+import { InitialsAvatar } from '../common/InitialsAvatar';
 import { ShieldCheck, MapPin, Clock, ArrowRight, Heart } from 'lucide-react';
 
 export const FeaturedProviders: React.FC = () => {
@@ -45,15 +46,9 @@ export const FeaturedProviders: React.FC = () => {
                 className="bg-white rounded-3xl border border-slate-200/80 shadow-soft hover:shadow-card transition-all duration-300 overflow-hidden flex flex-col justify-between group"
               >
                 <div>
-                  {/* Header / Avatar Banner */}
-                  <div className="relative h-32 bg-gradient-to-r from-slate-800 to-slate-900 overflow-hidden">
-                    {p.coverImage && (
-                      <img
-                        src={p.coverImage}
-                        alt={p.name}
-                        className="w-full h-full object-cover opacity-60 group-hover:scale-105 transition-transform duration-500"
-                      />
-                    )}
+                  {/* Category banner — no cover photo */}
+                  <div className="relative h-24 overflow-hidden" style={{ background: 'linear-gradient(135deg, #0f172a 0%, #1e293b 100%)' }}>
+                    <div className="absolute inset-0 opacity-10" style={{ backgroundImage: 'radial-gradient(circle at 20% 50%, #60a5fa 0%, transparent 60%), radial-gradient(circle at 80% 50%, #34d399 0%, transparent 60%)' }} />
                     <button
                       onClick={(e) => {
                         e.stopPropagation();
@@ -63,21 +58,16 @@ export const FeaturedProviders: React.FC = () => {
                     >
                       <Heart className={`w-4 h-4 ${isFav ? 'fill-rose-500 text-rose-500' : ''}`} />
                     </button>
-                    
                     <span className="absolute bottom-3 left-3 bg-white/90 backdrop-blur-md px-3 py-1 rounded-full text-xs font-bold text-slate-900">
                       {p.category}
                     </span>
                   </div>
 
                   <div className="p-6 relative pt-0">
-                    {/* Avatar */}
-                    <div className="relative -mt-10 mb-3 flex items-end justify-between">
+                    {/* Avatar — initials only */}
+                    <div className="relative -mt-8 mb-3 flex items-end justify-between">
                       <div className="relative">
-                        <img
-                          src={p.avatar}
-                          alt={p.name}
-                          className="w-20 h-20 rounded-2xl object-cover border-4 border-white shadow-md"
-                        />
+                        <InitialsAvatar name={p.name} size="lg" rounded="2xl" className="border-4 border-white" />
                         {p.isVerified && (
                           <div className="absolute -bottom-1 -right-1 bg-emerald-500 text-white p-1 rounded-full border-2 border-white" title="Verified Professional">
                             <ShieldCheck className="w-3.5 h-3.5" />
@@ -88,7 +78,7 @@ export const FeaturedProviders: React.FC = () => {
                       <div className="text-right">
                         <span className="text-xs text-slate-400 font-medium">Starting at</span>
                         <p className="text-xl font-extrabold text-slate-900">
-                          ${p.startingPrice} <span className="text-xs font-normal text-slate-500">/{p.priceUnit}</span>
+                          ₹{p.startingPrice} <span className="text-xs font-normal text-slate-500">/{p.priceUnit}</span>
                         </p>
                       </div>
                     </div>

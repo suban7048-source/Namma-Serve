@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useApp } from '../../context/AppContext';
 import { BookingStatus, Booking } from '../../types';
 import { RatingStars } from '../common/RatingStars';
+import { InitialsAvatar } from '../common/InitialsAvatar';
 import { ConfirmModal } from '../common/ConfirmModal';
 import { 
   Calendar, Clock, MapPin, MessageSquare, Star, 
@@ -11,7 +12,7 @@ import {
 export const CustomerDashboard: React.FC = () => {
   const { 
     bookings, updateBookingStatus, favorites, providers, 
-    setActiveBookingForChat, setReviewBooking, setActiveProviderProfile, setPage 
+    setActiveBookingForChat, setReviewBooking, setActiveProviderProfile, setPage, resetFilters
   } = useApp();
 
   const [statusTab, setStatusTab] = useState<string>('all');
@@ -65,10 +66,10 @@ export const CustomerDashboard: React.FC = () => {
               <span className="text-xs font-bold uppercase tracking-wider text-brand-600 bg-brand-50 px-3 py-1 rounded-full border border-brand-100">
                 Customer Portal
               </span>
-              <span className="text-xs text-slate-400 font-medium">Logged in as Alex Morgan</span>
+              <span className="text-xs text-slate-400 font-medium">Logged in as Aakash Malhotra</span>
             </div>
             <h1 className="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">
-              Welcome back, Alex! 👋
+              Welcome back, Aakash! 👋
             </h1>
             <p className="text-xs sm:text-sm text-slate-500">
               Manage your local service requests, track appointments, and chat with providers.
@@ -76,7 +77,10 @@ export const CustomerDashboard: React.FC = () => {
           </div>
 
           <button
-            onClick={() => setPage('discovery')}
+            onClick={() => {
+              resetFilters();
+              setPage('discovery');
+            }}
             className="bg-brand-600 hover:bg-brand-700 text-white font-bold text-xs px-5 py-3 rounded-2xl shadow-md transition-all flex items-center gap-2 self-start md:self-auto shrink-0"
           >
             <Wrench className="w-4 h-4" /> Book New Service
@@ -166,11 +170,7 @@ export const CustomerDashboard: React.FC = () => {
                     className="bg-white rounded-3xl border border-slate-200/80 p-6 shadow-soft hover:shadow-card transition-all flex flex-col lg:flex-row items-start lg:items-center justify-between gap-6"
                   >
                     <div className="flex items-start gap-4 flex-1">
-                      <img
-                        src={b.providerAvatar}
-                        alt={b.providerName}
-                        className="w-14 h-14 rounded-2xl object-cover border border-slate-100 shadow-sm shrink-0"
-                      />
+                      <InitialsAvatar name={b.providerName} size="md" rounded="2xl" className="shrink-0" />
 
                       <div className="space-y-1.5 flex-1">
                         <div className="flex items-center gap-3 flex-wrap">
@@ -211,7 +211,7 @@ export const CustomerDashboard: React.FC = () => {
                     <div className="w-full lg:w-auto flex flex-row lg:flex-col items-center lg:items-end justify-between border-t lg:border-t-0 pt-4 lg:pt-0 border-slate-100 gap-4 shrink-0">
                       <div className="text-left lg:text-right">
                         <span className="text-[10px] text-slate-400 uppercase font-semibold">Total Price</span>
-                        <p className="text-xl font-black text-slate-900">${b.totalPrice}</p>
+                        <p className="text-xl font-black text-slate-900">₹{b.totalPrice}</p>
                       </div>
 
                       <div className="flex items-center gap-2 flex-wrap">
@@ -266,7 +266,7 @@ export const CustomerDashboard: React.FC = () => {
                 {savedProvidersList.map((p) => (
                   <div key={p.id} className="bg-white rounded-3xl border border-slate-200/80 p-5 shadow-soft space-y-4">
                     <div className="flex items-center gap-3">
-                      <img src={p.avatar} alt={p.name} className="w-14 h-14 rounded-2xl object-cover" />
+                      <InitialsAvatar name={p.name} size="md" rounded="2xl" />
                       <div>
                         <h4 className="font-extrabold text-slate-900 text-base">{p.name}</h4>
                         <span className="text-xs text-slate-500 font-medium">{p.category}</span>
@@ -274,7 +274,7 @@ export const CustomerDashboard: React.FC = () => {
                       </div>
                     </div>
                     <div className="flex items-center justify-between text-xs pt-3 border-t">
-                      <span className="font-bold text-slate-900">${p.startingPrice}/{p.priceUnit}</span>
+                      <span className="font-bold text-slate-900">₹{p.startingPrice}/{p.priceUnit}</span>
                       <button
                         onClick={() => setActiveProviderProfile(p)}
                         className="text-brand-600 font-bold hover:underline"

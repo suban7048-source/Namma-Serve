@@ -14,6 +14,9 @@ import { MessagingModal } from './components/messaging/MessagingModal';
 import { WriteReviewModal } from './components/reviews/WriteReviewModal';
 import { AuthModal } from './components/auth/AuthModal';
 import { ToastContainer } from './components/common/ToastContainer';
+import { FloatingCartBar } from './components/cart/FloatingCartBar';
+import { CartDrawer } from './components/cart/CartDrawer';
+import { LocationModal } from './components/layout/LocationModal';
 
 const MainLayout: React.FC = () => {
   const {
@@ -23,7 +26,7 @@ const MainLayout: React.FC = () => {
   } = useApp();
 
   return (
-    <div className="min-h-screen flex flex-col bg-slate-50 text-slate-900 font-sans selection:bg-brand-500 selection:text-white">
+    <div className="min-h-screen flex flex-col bg-slate-50 text-slate-900 font-sans selection:bg-brand-500 selection:text-white pb-16 sm:pb-0">
       {/* Top Navbar */}
       <Navbar />
 
@@ -40,6 +43,15 @@ const MainLayout: React.FC = () => {
 
       {/* Mobile Fixed Navigation */}
       <MobileBottomNav />
+
+      {/* Urban Company Floating Cart Summary Bar */}
+      <FloatingCartBar />
+
+      {/* Urban Company Cart & Checkout Drawer */}
+      <CartDrawer />
+
+      {/* Chennai Location Picker Modal */}
+      <LocationModal />
 
       {/* Global Modals Stack */}
       <ProviderProfileModal

@@ -8,7 +8,7 @@ import {
 } from 'lucide-react';
 
 export const AuthModal: React.FC = () => {
-  const { isAuthModalOpen, setIsAuthModalOpen, authMode, setAuthMode, setRole, setPage } = useApp();
+  const { isAuthModalOpen, setIsAuthModalOpen, authMode, setAuthMode, setRole, setPage, login } = useApp();
   const { showToast } = useToast();
 
   const [selectedRole, setSelectedRole] = useState<Role>('customer');
@@ -34,16 +34,16 @@ export const AuthModal: React.FC = () => {
     }
 
     // Success login/signup
-    setRole(selectedRole);
+    login(fullName || (authMode === 'login' ? 'User' : 'New User'), email, selectedRole);
     setIsAuthModalOpen(false);
     setOtpStep(false);
 
     if (selectedRole === 'customer') {
       setPage('customer-dashboard');
-      showToast(`Welcome ${fullName || 'User'}!`, 'Logged in as Customer', 'success');
+      showToast(`Welcome ${fullName || 'back'}!`, 'Logged in as Customer', 'success');
     } else {
       setPage('provider-dashboard');
-      showToast(`Welcome ${fullName || 'Provider'}!`, 'Logged in to Provider Portal', 'success');
+      showToast(`Welcome ${fullName || 'back'}!`, 'Logged in to Provider Portal', 'success');
     }
   };
 
@@ -134,7 +134,7 @@ export const AuthModal: React.FC = () => {
                   <input
                     type="text"
                     required
-                    placeholder="Alex Morgan"
+                    placeholder="Aakash Malhotra"
                     value={fullName}
                     onChange={(e) => setFullName(e.target.value)}
                     className="w-full bg-slate-50 border border-slate-200 rounded-xl p-3 text-xs focus:outline-none focus:border-brand-500"
@@ -147,7 +147,7 @@ export const AuthModal: React.FC = () => {
                       <label className="text-xs font-bold text-slate-700">Business / Service Name</label>
                       <input
                         type="text"
-                        placeholder="e.g. Vance Plumbing & Drainage"
+                        placeholder="e.g. Sharma Plumbing & Drainage"
                         value={businessName}
                         onChange={(e) => setBusinessName(e.target.value)}
                         className="w-full bg-slate-50 border border-slate-200 rounded-xl p-3 text-xs focus:outline-none focus:border-brand-500"
@@ -176,7 +176,7 @@ export const AuthModal: React.FC = () => {
                   <label className="text-xs font-bold text-slate-700">Phone Number</label>
                   <input
                     type="tel"
-                    placeholder="+1 (555) 000-0000"
+                    placeholder="+91 98765 00000"
                     value={phone}
                     onChange={(e) => setPhone(e.target.value)}
                     className="w-full bg-slate-50 border border-slate-200 rounded-xl p-3 text-xs focus:outline-none focus:border-brand-500"
@@ -190,7 +190,7 @@ export const AuthModal: React.FC = () => {
               <input
                 type="email"
                 required
-                placeholder="alex@example.com"
+                placeholder="aakash@example.com"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 className="w-full bg-slate-50 border border-slate-200 rounded-xl p-3 text-xs focus:outline-none focus:border-brand-500"

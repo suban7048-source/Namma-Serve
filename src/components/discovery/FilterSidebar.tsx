@@ -48,10 +48,12 @@ export const FilterSidebar: React.FC = () => {
             className="w-full bg-slate-50 border border-slate-200 rounded-xl py-2.5 pl-9 pr-3 text-xs font-semibold text-slate-800 focus:outline-none focus:border-brand-500 cursor-pointer"
           >
             <option value="All Locations">All Locations</option>
-            <option value="Downtown, Sector 4">Downtown / Central</option>
-            <option value="West End Heights">West End Heights</option>
-            <option value="Eastside Park">Eastside Park</option>
-            <option value="Suburban Hills">Suburban Hills</option>
+            <option value="Anna Nagar">Anna Nagar, Chennai</option>
+            <option value="T. Nagar">T. Nagar, Chennai</option>
+            <option value="Adyar">Adyar, Chennai</option>
+            <option value="Velachery">Velachery, Chennai</option>
+            <option value="Ambattur">Ambattur, Chennai</option>
+            <option value="OMR">OMR / Sholinganallur, Chennai</option>
           </select>
         </div>
       </div>
@@ -85,7 +87,7 @@ export const FilterSidebar: React.FC = () => {
       <div className="space-y-2">
         <div className="flex items-center justify-between">
           <label className="text-xs font-bold text-slate-800 uppercase tracking-wide">Max Price</label>
-          <span className="text-xs font-extrabold text-brand-600">${filters.maxPrice}</span>
+          <span className="text-xs font-extrabold text-brand-600">₹{filters.maxPrice}</span>
         </div>
         <input
           type="range"
@@ -97,8 +99,8 @@ export const FilterSidebar: React.FC = () => {
           className="w-full accent-brand-600 cursor-pointer"
         />
         <div className="flex justify-between text-[10px] text-slate-400 font-semibold">
-          <span>$50</span>
-          <span>$500+</span>
+          <span>₹50</span>
+          <span>₹500+</span>
         </div>
       </div>
 
