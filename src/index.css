@@ -22,22 +22,21 @@
   --shadow-elevated: 0 20px 40px -6px rgba(0, 0, 0, 0.1), 0 8px 16px -4px rgba(0, 0, 0, 0.06);
 }
 
-/* Page Zoom Scaling & Container Expansion */
+/* Responsive Typography & Container Scaling */
 html {
-  font-size: 16.5px;
-  zoom: 1.15;
+  font-size: 16px;
+  -webkit-text-size-adjust: 100%;
 }
 
-@media (min-width: 768px) {
+@media (min-width: 1280px) {
   html {
-    font-size: 17px;
-    zoom: 1.20;
+    font-size: 16.5px;
   }
 }
 
-/* Eliminate excessive empty side margins and widen content layout */
+/* Widen content layout to reduce extra empty side space on wide screens */
 .max-w-7xl {
-  max-width: 1560px !important;
+  max-width: 1440px !important;
 }
 
 

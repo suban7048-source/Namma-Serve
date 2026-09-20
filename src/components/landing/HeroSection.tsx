@@ -224,25 +224,26 @@ export const HeroSection: React.FC = () => {
                 </div>
               </div>
 
-              {/* Floating Badge Card 1 */}
-              <div className="absolute -top-6 -left-6 bg-white text-slate-900 p-4 rounded-2xl shadow-elevated border border-slate-100 flex items-center gap-3 animate-fade-in">
-                <div className="w-10 h-10 rounded-xl bg-brand-50 text-brand-600 flex items-center justify-center font-bold">
-                  <Clock className="w-5 h-5" />
+              {/* Clean Quick Assurance Pills */}
+              <div className="grid grid-cols-2 gap-3 mt-4">
+                <div className="bg-white/10 backdrop-blur-md text-white p-3 rounded-2xl border border-white/15 flex items-center gap-2.5">
+                  <div className="w-8 h-8 rounded-xl bg-brand-500/20 text-brand-300 flex items-center justify-center shrink-0">
+                    <Clock className="w-4 h-4" />
+                  </div>
+                  <div>
+                    <p className="text-xs font-extrabold text-white leading-tight">Same-Day Service</p>
+                    <p className="text-[10px] text-slate-300">Slots open today</p>
+                  </div>
                 </div>
-                <div>
-                  <p className="text-xs font-bold text-slate-900">Same-Day Booking</p>
-                  <p className="text-[10px] text-slate-500">Available slots today</p>
-                </div>
-              </div>
 
-              {/* Floating Badge Card 2 */}
-              <div className="absolute -bottom-6 -right-6 bg-white text-slate-900 p-4 rounded-2xl shadow-elevated border border-slate-100 flex items-center gap-3 animate-fade-in">
-                <div className="w-10 h-10 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center font-bold">
-                  <ShieldCheck className="w-5 h-5" />
-                </div>
-                <div>
-                  <p className="text-xs font-bold text-slate-900">Guaranteed Work</p>
-                  <p className="text-[10px] text-slate-500">100% money-back safety</p>
+                <div className="bg-white/10 backdrop-blur-md text-white p-3 rounded-2xl border border-white/15 flex items-center gap-2.5">
+                  <div className="w-8 h-8 rounded-xl bg-emerald-500/20 text-emerald-300 flex items-center justify-center shrink-0">
+                    <ShieldCheck className="w-4 h-4" />
+                  </div>
+                  <div>
+                    <p className="text-xs font-extrabold text-white leading-tight">100% Guaranteed</p>
+                    <p className="text-[10px] text-slate-300">Free 30-day revisit</p>
+                  </div>
                 </div>
               </div>
 
