@@ -30,7 +30,7 @@ export const HowItWorks: React.FC = () => {
   ];
 
   return (
-    <section id="how-it-works" className="py-20 bg-white border-y border-slate-200/60">
+    <section id="how-it-works" className="py-20 bg-gradient-to-b from-white via-indigo-50/20 to-white border-y border-slate-100">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         <div className="text-center max-w-2xl mx-auto mb-16 space-y-3">
@@ -49,14 +49,14 @@ export const HowItWorks: React.FC = () => {
           {steps.map((step, idx) => (
             <div
               key={step.num}
-              className="bg-slate-50/80 rounded-3xl p-6 border border-slate-200/80 relative flex flex-col justify-between hover:shadow-card transition-all"
+              className="bg-white rounded-3xl p-6 border border-slate-200/80 relative flex flex-col justify-between hover:shadow-card hover:border-brand-300 transition-all shadow-soft"
             >
               <div>
                 <div className="flex items-center justify-between mb-6">
-                  <div className="w-12 h-12 rounded-2xl bg-white shadow-soft border border-slate-100 flex items-center justify-center">
+                  <div className="w-12 h-12 rounded-2xl bg-brand-50 shadow-soft border border-brand-100 flex items-center justify-center">
                     {step.icon}
                   </div>
-                  <span className="text-2xl font-black text-slate-300 font-mono">
+                  <span className="text-2xl font-black text-brand-600/30 font-mono">
                     {step.num}
                   </span>
                 </div>

@@ -26,7 +26,7 @@ const MainLayout: React.FC = () => {
   } = useApp();
 
   return (
-    <div className="min-h-screen flex flex-col bg-slate-50 text-slate-900 font-sans selection:bg-brand-500 selection:text-white pb-16 sm:pb-0">
+    <div className="min-h-screen flex flex-col bg-white text-slate-900 font-sans selection:bg-brand-500 selection:text-white pb-16 sm:pb-0">
       {/* Top Navbar */}
       <Navbar />
 

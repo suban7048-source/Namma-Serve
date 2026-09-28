@@ -88,7 +88,7 @@ export const DiscoveryPage: React.FC = () => {
   }, [providers, filters]);
 
   return (
-    <div className="py-8 bg-slate-50 min-h-screen animate-fade-in">
+    <div className="py-8 bg-gradient-to-b from-brand-50/40 via-white to-slate-50 min-h-screen animate-fade-in">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Top Header & Search Bar */}

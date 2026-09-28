@@ -10,8 +10,20 @@ export const FeaturedProviders: React.FC = () => {
   // Show top 3 providers for featured display
   const featured = providers.slice(0, 3);
 
+  const getCategoryGradient = (cat: string) => {
+    switch (cat) {
+      case 'Plumbing': return 'linear-gradient(135deg, #0284c7 0%, #0369a1 100%)';
+      case 'Electrical': return 'linear-gradient(135deg, #d97706 0%, #b45309 100%)';
+      case 'Cleaning': return 'linear-gradient(135deg, #0d9488 0%, #0f766e 100%)';
+      case 'Appliance Repair': return 'linear-gradient(135deg, #4f46e5 0%, #4338ca 100%)';
+      case 'Painting': return 'linear-gradient(135deg, #e11d48 0%, #be123c 100%)';
+      case 'AC & HVAC': return 'linear-gradient(135deg, #0284c7 0%, #06b6d4 100%)';
+      default: return 'linear-gradient(135deg, #2563eb 0%, #4f46e5 100%)';
+    }
+  };
+
   return (
-    <section className="py-20 bg-slate-50">
+    <section className="py-20 bg-gradient-to-b from-white via-brand-50/20 to-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-4">
@@ -29,7 +41,7 @@ export const FeaturedProviders: React.FC = () => {
 
           <button
             onClick={() => setPage('discovery')}
-            className="inline-flex items-center gap-2 text-sm font-bold text-brand-600 hover:text-brand-700 transition-colors group self-start md:self-auto"
+            className="inline-flex items-center gap-2 text-sm font-bold text-brand-600 hover:text-brand-700 transition-colors group self-start md:self-auto cursor-pointer"
           >
             Explore All Providers
             <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
@@ -46,19 +58,19 @@ export const FeaturedProviders: React.FC = () => {
                 className="bg-white rounded-3xl border border-slate-200/80 shadow-soft hover:shadow-card transition-all duration-300 overflow-hidden flex flex-col justify-between group"
               >
                 <div>
-                  {/* Category banner — no cover photo */}
-                  <div className="relative h-24 overflow-hidden" style={{ background: 'linear-gradient(135deg, #0f172a 0%, #1e293b 100%)' }}>
-                    <div className="absolute inset-0 opacity-10" style={{ backgroundImage: 'radial-gradient(circle at 20% 50%, #60a5fa 0%, transparent 60%), radial-gradient(circle at 80% 50%, #34d399 0%, transparent 60%)' }} />
+                  {/* Category banner with vibrant color gradients */}
+                  <div className="relative h-24 overflow-hidden" style={{ background: getCategoryGradient(p.category) }}>
+                    <div className="absolute inset-0 opacity-15" style={{ backgroundImage: 'radial-gradient(circle at 20% 50%, #ffffff 0%, transparent 60%), radial-gradient(circle at 80% 50%, #ffffff 0%, transparent 60%)' }} />
                     <button
                       onClick={(e) => {
                         e.stopPropagation();
                         toggleFavorite(p.id);
                       }}
-                      className="absolute top-3 right-3 p-2 rounded-full bg-white/80 backdrop-blur-md text-slate-600 hover:text-rose-500 transition-colors shadow-sm"
+                      className="absolute top-3 right-3 p-2 rounded-full bg-white/90 backdrop-blur-md text-slate-600 hover:text-rose-500 transition-colors shadow-sm cursor-pointer"
                     >
                       <Heart className={`w-4 h-4 ${isFav ? 'fill-rose-500 text-rose-500' : ''}`} />
                     </button>
-                    <span className="absolute bottom-3 left-3 bg-white/90 backdrop-blur-md px-3 py-1 rounded-full text-xs font-bold text-slate-900">
+                    <span className="absolute bottom-3 left-3 bg-white/95 backdrop-blur-md px-3 py-1 rounded-full text-xs font-bold text-slate-900 shadow-xs">
                       {p.category}
                     </span>
                   </div>

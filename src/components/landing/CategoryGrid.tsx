@@ -23,7 +23,7 @@ export const CategoryGrid: React.FC = () => {
   };
 
   return (
-    <section className="py-20 bg-slate-50">
+    <section className="py-20 bg-gradient-to-b from-white via-sky-50/20 to-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Section Header */}

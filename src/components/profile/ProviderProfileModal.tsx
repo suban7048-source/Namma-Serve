@@ -39,17 +39,29 @@ export const ProviderProfileModal: React.FC<ProviderProfileModalProps> = ({ prov
     ? (p.reviews.reduce((acc, r) => acc + (r.subRatings?.punctuality || r.rating), 0) / p.reviews.length).toFixed(1)
     : p.rating.toFixed(1);
 
+  const getCategoryGradient = (cat: string) => {
+    switch (cat) {
+      case 'Plumbing': return 'linear-gradient(135deg, #0284c7 0%, #0369a1 100%)';
+      case 'Electrical': return 'linear-gradient(135deg, #d97706 0%, #b45309 100%)';
+      case 'Cleaning': return 'linear-gradient(135deg, #0d9488 0%, #0f766e 100%)';
+      case 'Appliance Repair': return 'linear-gradient(135deg, #4f46e5 0%, #4338ca 100%)';
+      case 'Painting': return 'linear-gradient(135deg, #e11d48 0%, #be123c 100%)';
+      case 'AC & HVAC': return 'linear-gradient(135deg, #0284c7 0%, #06b6d4 100%)';
+      default: return 'linear-gradient(135deg, #2563eb 0%, #4f46e5 100%)';
+    }
+  };
+
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-4 bg-slate-900/60 backdrop-blur-sm animate-fade-in overflow-y-auto">
       <div className="bg-white rounded-3xl max-w-4xl w-full max-h-[92vh] overflow-y-auto shadow-elevated border border-slate-100 relative my-auto">
         
-        {/* Top banner — gradient, no cover photo */}
-        <div className="relative h-44 sm:h-52 overflow-hidden" style={{ background: 'linear-gradient(135deg, #0f172a 0%, #1e293b 60%, #0f172a 100%)' }}>
-          <div className="absolute inset-0" style={{ backgroundImage: 'radial-gradient(circle at 15% 50%, rgba(96,165,250,0.15) 0%, transparent 60%), radial-gradient(circle at 85% 30%, rgba(52,211,153,0.12) 0%, transparent 60%)' }} />
+        {/* Top banner — vibrant category gradient */}
+        <div className="relative h-44 sm:h-52 overflow-hidden" style={{ background: getCategoryGradient(p.category) }}>
+          <div className="absolute inset-0" style={{ backgroundImage: 'radial-gradient(circle at 15% 50%, rgba(255,255,255,0.2) 0%, transparent 60%), radial-gradient(circle at 85% 30%, rgba(255,255,255,0.15) 0%, transparent 60%)' }} />
           {/* Subtle grid pattern */}
-          <div className="absolute inset-0 opacity-5" style={{ backgroundImage: 'linear-gradient(rgba(255,255,255,0.3) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.3) 1px, transparent 1px)', backgroundSize: '40px 40px' }} />
+          <div className="absolute inset-0 opacity-10" style={{ backgroundImage: 'linear-gradient(rgba(255,255,255,0.3) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.3) 1px, transparent 1px)', backgroundSize: '40px 40px' }} />
           <div className="absolute bottom-4 left-6">
-            <span className="bg-white/90 backdrop-blur-md px-3 py-1 rounded-full text-xs font-bold text-slate-900">{p.category}</span>
+            <span className="bg-white/95 backdrop-blur-md px-3.5 py-1 rounded-full text-xs font-bold text-slate-900 shadow-sm">{p.category}</span>
           </div>
           <button
             onClick={onClose}
