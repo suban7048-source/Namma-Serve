@@ -66,7 +66,7 @@ export const CartDrawer: React.FC = () => {
           scheduledDate: date,
           scheduledTime: slot,
           serviceLocation: address,
-          problemDescription: `Booked via Urban Company Cart. Quantity: ${item.quantity}`,
+          problemDescription: `Booked via Cart. Quantity: ${item.quantity}`,
           isEmergency: false,
           notes: `Payment method: ${paymentMode === 'pay_after' ? 'Pay after service (Cash/UPI)' : 'Online Payment'}`
         });

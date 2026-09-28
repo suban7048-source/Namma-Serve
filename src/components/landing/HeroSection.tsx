@@ -165,9 +165,6 @@ export const HeroSection: React.FC = () => {
                     <span className="w-3 h-3 rounded-full bg-emerald-400 animate-pulse" />
                     <span className="text-xs font-bold text-slate-300">Live in Chennai</span>
                   </div>
-                  <span className="px-2.5 py-0.5 bg-brand-500/20 text-brand-300 border border-brand-500/30 rounded-full text-[10px] font-black uppercase tracking-wider">
-                    Urban Company Standard
-                  </span>
                 </div>
 
                 <div className="space-y-1">
