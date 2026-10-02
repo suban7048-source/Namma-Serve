@@ -1,0 +1,74 @@
+# Render Blueprint — provisions the database, API and static site together.
+# In Render: New → Blueprint → point at this repo. Everything below is created
+# in one pass, with the cross-service values wired up automatically.
+
+databases:
+  - name: nammaserve-db
+    databaseName: nammaserve
+    user: nammaserve
+    plan: free
+
+services:
+  # ---------------------------------------------------------------- API
+  - type: web
+    name: nammaserve-api
+    runtime: docker
+    plan: free
+    region: singapore          # closest Render region to Chennai
+    rootDir: backend
+    dockerfilePath: ./Dockerfile
+    healthCheckPath: /api/services/categories
+    envVars:
+      - key: SPRING_PROFILES_ACTIVE
+        value: prod
+
+      # Postgres connection, taken from the database above. Render's
+      # DATABASE_URL is a postgres:// URI, which is not a valid JDBC URL, so the
+      # discrete fields are used instead and assembled in application-prod.properties.
+      - key: DB_HOST
+        fromDatabase: { name: nammaserve-db, property: host }
+      - key: DB_PORT
+        fromDatabase: { name: nammaserve-db, property: port }
+      - key: DB_NAME
+        fromDatabase: { name: nammaserve-db, property: database }
+      - key: DB_USER
+        fromDatabase: { name: nammaserve-db, property: user }
+      - key: DB_PASSWORD
+        fromDatabase: { name: nammaserve-db, property: password }
+
+      # Signing key for JWTs. generateValue produces a random secret on first
+      # deploy and keeps it thereafter — never commit a real one.
+      - key: LOCALFIX_JWT_SECRET
+        generateValue: true
+      - key: LOCALFIX_JWT_EXPIRY_MS
+        value: "86400000"
+
+      # Browsers block the frontend from calling the API unless its exact
+      # origin is listed here. Set after the static site's URL is known.
+      - key: LOCALFIX_CORS_ORIGINS
+        sync: false
+
+      - key: LOCALFIX_H2_CONSOLE
+        value: "false"
+
+  # ----------------------------------------------------------- Frontend
+  - type: web
+    name: nammaserve-web
+    runtime: static
+    buildCommand: npm ci && npm run build
+    staticPublishPath: ./dist
+    pullRequestPreviewsEnabled: false
+    envVars:
+      # Vite inlines this at build time, so changing it requires a rebuild,
+      # not just a restart. Set to the API service's URL + /api.
+      - key: VITE_API_BASE_URL
+        sync: false
+    headers:
+      - path: /assets/*
+        name: Cache-Control
+        value: public, max-age=31536000, immutable
+    routes:
+      # Single-page app: every path serves index.html.
+      - type: rewrite
+        source: /*
+        destination: /index.html
