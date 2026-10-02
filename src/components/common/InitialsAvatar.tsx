@@ -7,15 +7,18 @@ interface InitialsAvatarProps {
   rounded?: 'full' | 'xl' | '2xl' | '3xl';
 }
 
+/**
+ * Fallback monograms stay inside the Kolam range — indigo, teal and a single
+ * marigold — instead of the previous eight-hue rainbow, so a wall of fallbacks
+ * still reads as one system.
+ */
 const PALETTE = [
-  { bg: 'from-blue-500 to-blue-700' },
-  { bg: 'from-emerald-500 to-emerald-700' },
-  { bg: 'from-violet-500 to-violet-700' },
-  { bg: 'from-amber-500 to-orange-600' },
-  { bg: 'from-rose-500 to-rose-700' },
-  { bg: 'from-sky-500 to-sky-700' },
-  { bg: 'from-teal-500 to-teal-700' },
-  { bg: 'from-indigo-500 to-indigo-700' },
+  { bg: 'from-brand-500 to-brand-700', fg: 'text-white' },
+  { bg: 'from-[#0F6E66] to-[#0A4F49]', fg: 'text-white' },
+  { bg: 'from-brand-600 to-brand-800', fg: 'text-white' },
+  { bg: 'from-[#F0A830] to-[#D2882A]', fg: 'text-ns-navy' },
+  { bg: 'from-[#2B4088] to-[#141D44]', fg: 'text-white' },
+  { bg: 'from-[#17857C] to-[#0F6E66]', fg: 'text-white' },
 ];
 
 const sizeMap = {
@@ -54,7 +57,7 @@ export const InitialsAvatar: React.FC<InitialsAvatarProps> = ({
   rounded = '2xl',
 }) => {
   const colorIdx = getColorIndex(name);
-  const { bg } = PALETTE[colorIdx];
+  const { bg, fg } = PALETTE[colorIdx];
   const initials = getInitials(name);
 
   return (

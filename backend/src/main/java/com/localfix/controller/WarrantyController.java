@@ -23,8 +23,10 @@ public class WarrantyController {
     }
 
     @PostMapping("/claim")
-    public ResponseEntity<ApiResponse<Warranty>> claimWarranty(@Valid @RequestBody WarrantyClaimRequest request) {
-        Warranty warranty = warrantyService.claimWarranty(request);
+    public ResponseEntity<ApiResponse<Warranty>> claimWarranty(
+            @Valid @RequestBody WarrantyClaimRequest request,
+            @AuthenticationPrincipal UserPrincipal userPrincipal) {
+        Warranty warranty = warrantyService.claimWarranty(request, userPrincipal.getId());
         return ResponseEntity.ok(ApiResponse.success("Warranty claim registered. Our team will contact you shortly.", warranty));
     }
 

@@ -128,29 +128,29 @@ export const LocationModal: React.FC = () => {
   ];
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-slate-900/60 backdrop-blur-sm animate-fade-in">
-      <div className="bg-white rounded-3xl max-w-lg w-full p-6 sm:p-7 shadow-elevated border border-slate-100 relative my-auto max-h-[90vh] flex flex-col">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-ns-navy/60 backdrop-blur-sm animate-fade-in">
+      <div className="bg-kolam-surface rounded-2xl max-w-lg w-full p-6 sm:p-7 shadow-elevated border border-kolam-sunk relative my-auto max-h-[90vh] flex flex-col">
         
         {/* Header */}
-        <div className="flex items-center justify-between pb-4 border-b border-slate-100 shrink-0">
+        <div className="flex items-center justify-between pb-4 border-b border-kolam-sunk shrink-0">
           <div className="flex items-center gap-2.5">
-            <div className="w-10 h-10 rounded-2xl bg-brand-50 text-brand-600 flex items-center justify-center font-bold shadow-2xs">
+            <div className="w-10 h-10 rounded-2xl bg-brand-50 text-brand-600 flex items-center justify-center font-semibold shadow-2xs">
               <MapPin className="w-5 h-5" />
             </div>
             <div>
-              <h3 className="font-extrabold text-slate-900 text-lg">Select Chennai Locality</h3>
-              <p className="text-xs text-slate-500">Serving 40+ areas across Chennai & Greater Chennai</p>
+              <h3 className="font-display font-semibold text-ns-navy text-lg">Select Chennai Locality</h3>
+              <p className="text-xs text-ns-text-secondary">Serving 40+ areas across Chennai & Greater Chennai</p>
             </div>
           </div>
           {selectedArea ? (
             <button
               onClick={() => setIsLocationModalOpen(false)}
-              className="p-2 text-slate-400 hover:text-slate-600 rounded-full hover:bg-slate-100 transition-colors cursor-pointer"
+              className="p-2 text-ns-text-secondary hover:text-ns-text-secondary rounded-full hover:bg-kolam-sunk transition-colors cursor-pointer"
             >
               <X className="w-5 h-5" />
             </button>
           ) : (
-            <div className="px-3 py-1 bg-amber-50 border border-amber-200 text-amber-700 text-[10px] font-black rounded-lg uppercase tracking-wider">
+            <div className="px-3 py-1 bg-kolam-marigold-soft border border-kolam-marigold-line text-kolam-marigold text-[10px] font-semibold rounded-lg uppercase tracking-wider">
               Required
             </div>
           )}
@@ -158,13 +158,13 @@ export const LocationModal: React.FC = () => {
 
         {/* Search input */}
         <div className="mt-4 relative shrink-0">
-          <Search className="w-4 h-4 text-slate-400 absolute left-3.5 top-3.5" />
+          <Search className="w-4 h-4 text-ns-text-secondary absolute left-3.5 top-3.5" />
           <input
             type="text"
             placeholder="Search Chennai area or pincode (e.g. Velachery, 600042)..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="w-full bg-slate-50 border border-slate-200 focus:border-brand-600 focus:bg-white text-sm font-semibold rounded-2xl py-3 pl-10 pr-4 text-slate-900 placeholder-slate-400 focus:outline-none transition-all shadow-2xs"
+            className="w-full bg-kolam-wash border border-ns-border focus:border-brand-600 focus:bg-white text-sm font-semibold rounded-2xl py-3 pl-10 pr-4 text-ns-navy placeholder-ns-text-secondary focus:outline-none transition-all shadow-2xs"
             autoFocus
           />
         </div>
@@ -173,7 +173,7 @@ export const LocationModal: React.FC = () => {
         <button
           onClick={handleUseCurrentLocation}
           disabled={isDetecting}
-          className="w-full mt-3 p-3 rounded-2xl border border-dashed border-brand-300 bg-brand-50/70 hover:bg-brand-100/70 text-brand-700 flex items-center justify-between transition-all text-xs font-bold group cursor-pointer shrink-0 disabled:opacity-75"
+          className="w-full mt-3 p-3 rounded-2xl border border-dashed border-brand-300 bg-brand-50/70 hover:bg-brand-100/70 text-brand-700 flex items-center justify-between transition-all text-xs font-semibold group cursor-pointer shrink-0 disabled:opacity-75"
         >
           <div className="flex items-center gap-2.5">
             {isDetecting ? (
@@ -185,7 +185,7 @@ export const LocationModal: React.FC = () => {
               {isDetecting ? 'Detecting your exact locality via GPS...' : 'Auto-Detect Current Location in Chennai'}
             </span>
           </div>
-          <span className="text-[10px] font-black uppercase tracking-wider bg-brand-600 text-white px-2.5 py-1 rounded-lg shadow-2xs">
+          <span className="text-[10px] font-semibold uppercase tracking-wider bg-brand-600 text-white px-2.5 py-1 rounded-lg shadow-2xs">
             {isDetecting ? 'Detecting...' : 'GPS Auto'}
           </span>
         </button>
@@ -196,10 +196,10 @@ export const LocationModal: React.FC = () => {
             <button
               key={zone}
               onClick={() => setSelectedZone(zone)}
-              className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all whitespace-nowrap cursor-pointer ${
+              className={`px-3 py-1.5 rounded-xl text-xs font-semibold transition-all whitespace-nowrap cursor-pointer ${
                 selectedZone === zone
-                  ? 'bg-slate-900 text-white shadow-2xs'
-                  : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
+                  ? 'bg-ns-navy text-white shadow-2xs'
+                  : 'bg-kolam-sunk text-ns-text-secondary hover:bg-ns-border'
               }`}
             >
               {zone}
@@ -208,7 +208,7 @@ export const LocationModal: React.FC = () => {
         </div>
 
         {/* Locality list */}
-        <div className="mt-3 flex-1 overflow-y-auto divide-y divide-slate-100 pr-1 space-y-1">
+        <div className="mt-3 flex-1 overflow-y-auto divide-y divide-kolam-sunk pr-1 space-y-1">
           {filteredAreas.map((area) => {
             const isSelected = selectedArea.startsWith(area.name);
             return (
@@ -216,43 +216,43 @@ export const LocationModal: React.FC = () => {
                 key={area.name}
                 onClick={() => handleSelect(area.name)}
                 className={`w-full py-2.5 px-3 rounded-xl flex items-center justify-between text-left transition-colors text-xs cursor-pointer ${
-                  isSelected ? 'bg-brand-50 font-black text-brand-700' : 'hover:bg-slate-50 text-slate-800'
+                  isSelected ? 'bg-brand-50 font-semibold text-brand-700' : 'hover:bg-kolam-wash text-ns-navy'
                 }`}
               >
                 <div>
                   <div className="flex items-center gap-1.5">
-                    <p className="font-bold text-slate-900">{area.name}</p>
+                    <p className="font-semibold text-ns-navy">{area.name}</p>
                     {area.popular && (
-                      <span className="text-[9px] font-extrabold uppercase px-1.5 py-0.5 rounded bg-amber-50 text-amber-700 border border-amber-200">
+                      <span className="text-[9px] font-semibold uppercase px-1.5 py-0.5 rounded bg-kolam-marigold-soft text-kolam-marigold border border-kolam-marigold-line">
                         Popular
                       </span>
                     )}
                   </div>
-                  <p className="text-[11px] text-slate-400 mt-0.5">
+                  <p className="text-[11px] text-ns-text-secondary mt-0.5">
                     {area.zone}, Chennai • {area.pincode}
                   </p>
                 </div>
                 {isSelected ? (
                   <Check className="w-4 h-4 text-brand-600" />
                 ) : (
-                  <span className="text-[11px] text-slate-400 font-semibold hover:text-brand-600">Select</span>
+                  <span className="text-[11px] text-ns-text-secondary font-semibold hover:text-brand-600">Select</span>
                 )}
               </button>
             );
           })}
 
           {filteredAreas.length === 0 && (
-            <div className="text-center py-8 text-slate-400 text-xs font-semibold">
+            <div className="text-center py-8 text-ns-text-secondary text-xs font-semibold">
               No matching Chennai localities found for "{search}".
             </div>
           )}
         </div>
 
         {/* Footer Note */}
-        <div className="mt-3 pt-3 border-t border-slate-100 flex items-center justify-between text-[11px] text-slate-500 font-medium shrink-0">
+        <div className="mt-3 pt-3 border-t border-kolam-sunk flex items-center justify-between text-[11px] text-ns-text-secondary font-medium shrink-0">
           <span>Showing {filteredAreas.length} of {CHENNAI_LOCALITIES.length} Chennai localities</span>
-          <span className="text-emerald-700 font-bold flex items-center gap-1">
-            <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" /> Live in Chennai
+          <span className="text-kolam-teal font-semibold flex items-center gap-1">
+            <span className="w-1.5 h-1.5 rounded-full bg-kolam-teal animate-pulse" /> Live in Chennai
           </span>
         </div>
 

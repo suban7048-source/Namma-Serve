@@ -8,6 +8,7 @@ import com.localfix.exception.ResourceNotFoundException;
 import com.localfix.repository.BookingRepository;
 import com.localfix.repository.ComplaintRepository;
 import com.localfix.repository.UserRepository;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -33,6 +34,12 @@ public class ComplaintService {
     public Complaint createComplaint(ComplaintRequest req, Long customerId) {
         Booking booking = bookingRepository.findById(req.getBookingId())
                 .orElseThrow(() -> new ResourceNotFoundException("Booking not found: " + req.getBookingId()));
+
+        // Complaints are attached to a booking and visible to admins, so only the
+        // customer on that booking may raise one.
+        if (booking.getCustomer() == null || !booking.getCustomer().getId().equals(customerId)) {
+            throw new AccessDeniedException("You can only raise a complaint about your own booking.");
+        }
 
         User customer = userRepository.findById(customerId)
                 .orElseThrow(() -> new ResourceNotFoundException("Customer not found: " + customerId));

@@ -1,11 +1,10 @@
 import React from 'react';
 import { Provider } from '../../types';
 import { useApp } from '../../context/AppContext';
-import { RatingStars } from '../common/RatingStars';
-import { InitialsAvatar } from '../common/InitialsAvatar';
+import { Avatar, CoverImage } from '../common/Avatar';
+import { CategoryIcon } from '../common/Kolam';
 import {
-  ShieldCheck, MapPin, Clock, CheckCircle2, Heart,
-  Star, Zap, ChevronRight, AlertTriangle, BadgeCheck
+  ShieldCheck, MapPin, Clock, Heart, Star, Briefcase, ChevronRight, Plus
 } from 'lucide-react';
 
 interface ProviderCardProps {
@@ -13,164 +12,151 @@ interface ProviderCardProps {
 }
 
 export const ProviderCard: React.FC<ProviderCardProps> = ({ provider: p }) => {
-  const { setActiveProviderProfile, setBookingProvider, favorites, toggleFavorite, addToCart } = useApp();
+  const { setActiveProviderProfile, setBookingProvider, favorites, toggleFavorite } = useApp();
   const isFav = favorites.includes(p.id);
 
-  const getCategoryColor = (cat: string) => {
-    const map: Record<string, string> = {
-      'AC Repair & Service': 'bg-sky-50 text-sky-700 border-sky-200',
-      'Electrical': 'bg-amber-50 text-amber-700 border-amber-200',
-      'Plumbing': 'bg-blue-50 text-blue-700 border-blue-200',
-      'Cleaning': 'bg-teal-50 text-teal-700 border-teal-200',
-      'Appliance Repair': 'bg-purple-50 text-purple-700 border-purple-200',
-      'Carpenter': 'bg-orange-50 text-orange-700 border-orange-200',
-      'Painting': 'bg-pink-50 text-pink-700 border-pink-200',
-      'Pest Control': 'bg-lime-50 text-lime-700 border-lime-200',
-      'Home Maintenance': 'bg-slate-100 text-slate-700 border-slate-200',
-      'Washing Machine Repair': 'bg-cyan-50 text-cyan-700 border-cyan-200',
-      'Refrigerator Repair': 'bg-indigo-50 text-indigo-700 border-indigo-200',
-      'RO/Water Purifier': 'bg-emerald-50 text-emerald-700 border-emerald-200',
-      'TV Repair': 'bg-violet-50 text-violet-700 border-violet-200',
-    };
-    return map[cat] || 'bg-brand-50 text-brand-700 border-brand-200';
-  };
+  // Portfolio photographs were only ever visible inside a modal most people
+  // never opened. Two of them now sit on the card as proof of work.
+  const proof = (p.portfolio ?? []).slice(0, 2);
 
   return (
-    <div className="bg-white rounded-3xl border border-slate-200/80 shadow-soft hover:shadow-card transition-all duration-300 overflow-hidden flex flex-col group">
+    <article className="bg-kolam-surface rounded-2xl border border-ns-border hover:border-brand-300 hover:shadow-card transition-all duration-200 overflow-hidden flex flex-col group">
 
-      {/* Card Top — Badges row */}
-      <div className="flex items-center justify-between p-4 pb-0">
-        <div className="flex items-center gap-2 flex-wrap">
-          <span className={`text-[10px] px-2.5 py-1 rounded-full border font-bold ${getCategoryColor(p.category)}`}>
-            {p.category}
-          </span>
+      {/* Header */}
+      <div className="p-5 pb-4 flex items-start gap-3.5">
+        <div className="relative shrink-0">
+          <Avatar name={p.name} src={p.avatar} size="md" rounded="full" />
           {p.isVerified && (
-            <span className="flex items-center gap-1 text-[10px] font-bold text-emerald-700 bg-emerald-50 border border-emerald-200 px-2 py-0.5 rounded-full">
-              <CheckCircle2 className="w-3 h-3" /> Verified
-            </span>
-          )}
-          {!p.isAvailable && (
-            <span className="text-[10px] font-bold text-slate-500 bg-slate-100 border border-slate-200 px-2 py-0.5 rounded-full">
-              Unavailable
+            <span
+              className="absolute -bottom-0.5 -right-0.5 bg-kolam-teal text-white p-1 rounded-full ring-2 ring-white"
+              title="ID verified"
+            >
+              <ShieldCheck className="w-2.5 h-2.5" />
             </span>
           )}
         </div>
+
+        <div className="flex-1 min-w-0">
+          <h3 className="font-display font-semibold text-ns-navy text-[17px] leading-tight truncate">
+            {p.name}
+          </h3>
+          {p.businessName && (
+            <p className="text-xs text-ns-text-secondary truncate mt-0.5">{p.businessName}</p>
+          )}
+          <div className="flex items-center gap-1.5 mt-1.5">
+            <Star className="w-3.5 h-3.5 fill-kolam-marigold text-kolam-marigold shrink-0" />
+            <span className="text-[13px] font-semibold text-ns-navy tnum">{p.rating.toFixed(1)}</span>
+            <span className="text-[11px] text-ns-text-secondary tnum">({p.reviewCount})</span>
+            <span className="text-ns-border">·</span>
+            <span className="text-[11px] text-ns-text-secondary tnum">{p.completedJobs} jobs</span>
+          </div>
+        </div>
+
         <button
           onClick={() => toggleFavorite(p.id)}
-          className="p-1.5 rounded-full hover:bg-slate-100 transition-colors"
+          className="p-1.5 rounded-full hover:bg-brand-50 transition-colors shrink-0"
+          aria-pressed={isFav}
+          aria-label={isFav ? `Remove ${p.name} from saved` : `Save ${p.name}`}
         >
-          <Heart className={`w-4 h-4 ${isFav ? 'fill-rose-500 text-rose-500' : 'text-slate-400'}`} />
+          <Heart className={`w-4 h-4 ${isFav ? 'fill-kolam-kumkum text-kolam-kumkum' : 'text-ns-text-secondary'}`} />
         </button>
       </div>
 
-      {/* Main Content */}
-      <div className="p-4 flex-1 flex flex-col gap-3">
-
-        {/* Provider Header */}
-        <div className="flex items-start gap-3">
-          <div className="relative shrink-0">
-            <InitialsAvatar name={p.name} size="md" rounded="xl" />
-            {p.isVerified && (
-              <div className="absolute -bottom-1 -right-1 bg-emerald-500 text-white p-0.5 rounded-full border-2 border-white">
-                <ShieldCheck className="w-2.5 h-2.5" />
-              </div>
-            )}
-          </div>
-
-          <div className="flex-1 min-w-0">
-            <h3 className="font-extrabold text-slate-900 text-base group-hover:text-brand-700 transition-colors truncate">
-              {p.name}
-            </h3>
-            {p.businessName && (
-              <p className="text-xs text-slate-500 font-medium truncate">{p.businessName}</p>
-            )}
-            <div className="flex items-center gap-2 mt-1">
-              <RatingStars rating={p.rating} reviewCount={p.reviewCount} showNumeric />
-              <span className="text-slate-300">•</span>
-              <span className="text-[11px] text-slate-500 font-medium">{p.completedJobs} jobs</span>
-            </div>
-          </div>
-        </div>
-
-        {/* Bio */}
-        <p className="text-xs text-slate-600 line-clamp-2 leading-relaxed">{p.bio}</p>
-
-        {/* Skills */}
-        <div className="flex flex-wrap gap-1.5">
-          {p.skills.slice(0, 3).map(skill => (
-            <span key={skill} className="text-[10px] bg-slate-100 text-slate-600 px-2 py-0.5 rounded-full font-semibold">
-              {skill}
-            </span>
-          ))}
-        </div>
-
-        {/* Location & ETA row */}
-        <div className="flex items-center gap-3 text-xs text-slate-500 bg-slate-50 rounded-xl p-2.5 border border-slate-100">
-          <span className="flex items-center gap-1">
-            <MapPin className="w-3.5 h-3.5 text-brand-500" />
-            <span className="font-semibold text-slate-700">{p.distanceKm} km</span>
+      {/* Category + availability */}
+      <div className="px-5 flex items-center gap-2 flex-wrap">
+        <span className="inline-flex items-center gap-1.5 text-[11px] font-semibold text-ns-primary bg-brand-50 border border-kolam-indigo-line px-2.5 py-1 rounded-full">
+          <CategoryIcon categoryName={p.category} className="w-3.5 h-3.5" showDot={false} />
+          {p.category}
+        </span>
+        {p.isAvailable ? (
+          <span className="inline-flex items-center gap-1.5 text-[11px] font-semibold text-kolam-teal bg-kolam-teal-soft border border-kolam-teal-line px-2.5 py-1 rounded-full">
+            <span className="w-1.5 h-1.5 rounded-full bg-kolam-teal" />
+            Available now
           </span>
-          <span className="text-slate-300">•</span>
-          <span className="flex items-center gap-1">
-            <Clock className="w-3.5 h-3.5 text-emerald-500" />
-            <span>ETA <span className="font-semibold text-slate-700">{p.etaMinutes} min</span></span>
+        ) : (
+          <span className="text-[11px] font-semibold text-ns-text-secondary bg-kolam-sunk border border-ns-border px-2.5 py-1 rounded-full">
+            Fully booked
           </span>
-          <span className="text-slate-300">•</span>
-          <span className="flex items-center gap-1">
-            <Zap className="w-3.5 h-3.5 text-amber-500" />
-            <span>{p.yearsExperience} yrs</span>
-          </span>
-        </div>
-
-        {/* Services / pricing */}
-        <div className="space-y-2">
-          {p.offeredServices.slice(0, 2).map(service => (
-            <div
-              key={service.id}
-              className="flex items-center justify-between gap-2 text-xs py-2 px-3 rounded-xl bg-slate-50 border border-slate-100 hover:border-brand-200 hover:bg-brand-50/30 transition-all"
-            >
-              <div className="flex-1 min-w-0">
-                <p className="font-semibold text-slate-800 truncate">{service.name}</p>
-                <p className="text-slate-400 text-[10px]">{service.durationMinutes} min
-                  {service.warrantyDays && service.warrantyDays > 0 ? ` • ${service.warrantyDays}d warranty` : ''}
-                </p>
-              </div>
-              <div className="flex items-center gap-2 shrink-0">
-                <div className="text-right">
-                  <p className="font-extrabold text-slate-900">₹{service.price}</p>
-                  {service.visitCharge > 0 && (
-                    <p className="text-[9px] text-slate-400">+₹{service.visitCharge} visit</p>
-                  )}
-                </div>
-                <button
-                  onClick={() => addToCart(p, service)}
-                  className="px-2 py-1 bg-brand-600 hover:bg-brand-700 text-white rounded-lg text-[10px] font-black transition-colors shadow-sm"
-                >
-                  +
-                </button>
-              </div>
-            </div>
-          ))}
-        </div>
-
+        )}
       </div>
 
-      {/* Actions Footer */}
-      <div className="p-4 pt-0 grid grid-cols-2 gap-2 border-t border-slate-100">
+      {/* Proof of work */}
+      {proof.length > 0 && (
+        <div className="mt-4 px-5 grid grid-cols-2 gap-2">
+          {proof.map(item => (
+            <figure key={item.id} className="relative rounded-xl overflow-hidden">
+              <CoverImage src={item.imageUrl} alt={item.title} className="w-full h-20" />
+              <figcaption className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-ns-navy/85 to-transparent px-2 pt-5 pb-1.5">
+                <span className="text-[10px] font-medium text-white line-clamp-1">{item.title}</span>
+              </figcaption>
+            </figure>
+          ))}
+        </div>
+      )}
+
+      <div className="px-5 pt-4 flex-1 flex flex-col">
+        <p className="text-[13px] text-ns-text-secondary line-clamp-2 leading-relaxed">{p.bio}</p>
+
+        {/* Facts row */}
+        <dl className="flex items-center gap-4 mt-4 text-[11px] text-ns-text-secondary">
+          <div className="flex items-center gap-1.5">
+            <MapPin className="w-3.5 h-3.5 text-kolam-marigold shrink-0" aria-hidden="true" />
+            <dt className="sr-only">Distance</dt>
+            <dd className="font-semibold text-ns-navy tnum">{p.distanceKm} km</dd>
+          </div>
+          <div className="flex items-center gap-1.5">
+            <Clock className="w-3.5 h-3.5 text-kolam-marigold shrink-0" aria-hidden="true" />
+            <dt className="sr-only">Response time</dt>
+            <dd className="tnum">~{p.etaMinutes} min</dd>
+          </div>
+          <div className="flex items-center gap-1.5">
+            <Briefcase className="w-3.5 h-3.5 text-kolam-marigold shrink-0" aria-hidden="true" />
+            <dt className="sr-only">Experience</dt>
+            <dd className="tnum">{p.yearsExperience} yrs</dd>
+          </div>
+        </dl>
+
+        {/* Services */}
+        <ul className="mt-4 space-y-1.5">
+          {p.offeredServices.slice(0, 2).map(service => (
+            <li
+              key={service.id}
+              className="flex items-center justify-between gap-2 text-xs py-2.5 px-3 rounded-xl bg-kolam-wash border border-ns-border/70"
+            >
+              <div className="flex-1 min-w-0">
+                <p className="font-medium text-ns-navy truncate">{service.name}</p>
+                <p className="text-ns-text-secondary text-[10px] mt-0.5 tnum">
+                  {service.durationMinutes} min
+                  {service.warrantyDays ? ` · ${service.warrantyDays}-day warranty` : ''}
+                </p>
+              </div>
+              <div className="text-right shrink-0">
+                <p className="font-display font-semibold text-ns-navy text-sm tnum">₹{service.price}</p>
+                {service.visitCharge > 0 && (
+                  <p className="text-[9px] text-ns-text-secondary tnum">+₹{service.visitCharge} visit</p>
+                )}
+              </div>
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      {/* Actions */}
+      <div className="p-5 pt-4 grid grid-cols-2 gap-2">
         <button
           onClick={() => setActiveProviderProfile(p)}
-          className="py-2.5 rounded-xl border border-slate-200 hover:bg-slate-50 text-slate-800 font-bold text-xs transition-colors flex items-center justify-center gap-1"
+          className="py-2.5 rounded-full border border-ns-border hover:border-brand-300 hover:bg-brand-50 text-ns-navy font-semibold text-xs transition-colors flex items-center justify-center gap-1"
         >
-          View Profile <ChevronRight className="w-3.5 h-3.5" />
+          Profile <ChevronRight className="w-3.5 h-3.5" />
         </button>
         <button
           onClick={() => setBookingProvider(p)}
           disabled={!p.isAvailable}
-          className="py-2.5 rounded-xl bg-brand-600 hover:bg-brand-700 disabled:bg-slate-300 disabled:cursor-not-allowed text-white font-bold text-xs transition-colors shadow-sm"
+          className="py-2.5 rounded-full bg-kolam-teal hover:bg-[#0B5852] disabled:bg-kolam-sunk disabled:text-ns-text-secondary disabled:cursor-not-allowed text-white font-semibold text-xs transition-colors"
         >
-          {p.isAvailable ? 'Book Now' : 'Unavailable'}
+          {p.isAvailable ? 'Book now' : 'Unavailable'}
         </button>
       </div>
-    </div>
+    </article>
   );
 };

@@ -2,7 +2,8 @@ import React, { useState } from 'react';
 import { Provider, ServiceItem } from '../../types';
 import { useApp } from '../../context/AppContext';
 import { useToast } from '../../context/ToastContext';
-import { InitialsAvatar } from '../common/InitialsAvatar';
+import { Avatar } from '../common/Avatar';
+import { KolamEmptyState } from '../common/Kolam';
 import { 
   Wrench, Calendar, Clock, MapPin, CheckCircle2, 
   ChevronRight, ArrowLeft, ShieldCheck, CreditCard, X, AlertTriangle 
@@ -14,7 +15,7 @@ interface BookingModalProps {
 }
 
 export const BookingModal: React.FC<BookingModalProps> = ({ provider, onClose }) => {
-  const { createBooking, setPage, setActiveBookingForChat, loggedInUser } = useApp();
+  const { createBooking, setPage, setActiveBookingForChat, setActiveProviderProfile, loggedInUser } = useApp();
   const { showToast } = useToast();
 
   const [step, setStep] = useState<number>(1);
@@ -97,18 +98,25 @@ export const BookingModal: React.FC<BookingModalProps> = ({ provider, onClose })
       return;
     }
 
+    if (!loggedInUser) {
+      // The backend rejects anonymous bookings, so stop here rather than
+      // showing a confirmation for a row that will never exist.
+      showToast('Sign in to book', 'Your booking needs an account so you can track it.', 'error');
+      return;
+    }
+
     setIsSubmitting(true);
 
-    setTimeout(() => {
-      const newBooking = createBooking({
+    void (async () => {
+      const { booking: newBooking, persisted, error } = await createBooking({
         providerId: provider.id,
         providerName: provider.name,
         providerAvatar: provider.avatar,
         providerCategory: provider.category,
         providerPhone: provider.phone,
-        customerId: 'usr_cust_1',
-        customerName: loggedInUser?.name || 'Aakash Malhotra',
-        customerPhone: '+91 99999 11122',
+        customerId: String(loggedInUser?.id ?? ''),
+        customerName: loggedInUser?.name ?? '',
+        customerPhone: loggedInUser?.phone ?? '',
         serviceId: selectedService.id,
         serviceName: selectedService.name,
         servicePrice: rawServicePrice,
@@ -132,27 +140,38 @@ export const BookingModal: React.FC<BookingModalProps> = ({ provider, onClose })
 
       setIsSubmitting(false);
       setCreatedBookingResult(newBooking);
-      showToast('Booking Confirmed!', `Booking reference #${newBooking.bookingNumber}`, 'success');
-    }, 600);
+
+      if (persisted) {
+        showToast('Booking confirmed', `Reference #${newBooking.bookingNumber}`, 'success');
+      } else {
+        // Saying "confirmed" when the server rejected it is how bookings went
+        // missing without anyone noticing.
+        showToast(
+          'Saved on this device only',
+          error ?? 'We could not reach the booking service. It has not been sent to the professional yet.',
+          'warning'
+        );
+      }
+    })();
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-slate-900/65 backdrop-blur-sm animate-fade-in overflow-y-auto">
-      <div className="bg-white rounded-3xl max-w-2xl w-full p-6 sm:p-8 shadow-elevated border border-slate-100 relative my-auto">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-ns-navy/65 backdrop-blur-sm animate-fade-in overflow-y-auto">
+      <div className="bg-kolam-surface rounded-2xl max-w-2xl w-full p-6 sm:p-8 shadow-elevated border border-kolam-sunk relative my-auto">
         
         {/* Top Header / Progress indicator */}
-        <div className="flex items-center justify-between pb-6 mb-6 border-b border-slate-100">
+        <div className="flex items-center justify-between pb-6 mb-6 border-b border-kolam-sunk">
           <div className="flex items-center gap-3">
-            <InitialsAvatar name={provider.name} size="sm" rounded="2xl" />
+            <Avatar name={provider.name} src={provider.avatar} size="sm" rounded="full" />
             <div>
-              <h3 className="font-extrabold text-slate-900 text-base">Book {provider.name}</h3>
-              <p className="text-xs text-slate-500 font-medium">{provider.category} • Step {step} of 5</p>
+              <h3 className="font-display font-semibold text-ns-navy text-base">Book {provider.name}</h3>
+              <p className="text-xs text-ns-text-secondary font-medium">{provider.category} • Step {step} of 5</p>
             </div>
           </div>
 
           <button
             onClick={onClose}
-            className="p-2 text-slate-400 hover:text-slate-600 rounded-full hover:bg-slate-100"
+            className="p-2 text-ns-text-secondary hover:text-ns-text-secondary rounded-full hover:bg-kolam-sunk"
           >
             <X className="w-5 h-5" />
           </button>
@@ -165,10 +184,10 @@ export const BookingModal: React.FC<BookingModalProps> = ({ provider, onClose })
               <div key={sIdx} className="flex-1 flex flex-col items-center gap-1.5">
                 <div
                   className={`w-full h-1.5 rounded-full transition-all ${
-                    sIdx <= step ? 'bg-brand-600' : 'bg-slate-100'
+                    sIdx <= step ? 'bg-brand-600' : 'bg-kolam-sunk'
                   }`}
                 />
-                <span className={`text-[10px] font-bold ${sIdx === step ? 'text-brand-600' : 'text-slate-400'}`}>
+                <span className={`text-[10px] font-semibold ${sIdx === step ? 'text-brand-600' : 'text-ns-text-secondary'}`}>
                   {sIdx === 1 && 'Service'}
                   {sIdx === 2 && 'Details'}
                   {sIdx === 3 && 'Location'}
@@ -183,38 +202,38 @@ export const BookingModal: React.FC<BookingModalProps> = ({ provider, onClose })
         {/* SUCCESS CONFIRMATION RECEIPT */}
         {createdBookingResult ? (
           <div className="text-center py-6 space-y-6 animate-fade-in">
-            <div className="w-16 h-16 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center mx-auto shadow-sm">
+            <div className="w-16 h-16 bg-kolam-teal-soft text-kolam-teal rounded-full flex items-center justify-center mx-auto shadow-sm">
               <CheckCircle2 className="w-10 h-10" />
             </div>
 
             <div className="space-y-1">
-              <span className="text-xs font-bold text-emerald-600 bg-emerald-50 px-3 py-1 rounded-full border border-emerald-100">
+              <span className="text-xs font-semibold text-kolam-teal bg-kolam-teal-soft px-3 py-1 rounded-full border border-kolam-teal-soft">
                 Booking Successfully Confirmed
               </span>
-              <h2 className="text-2xl font-extrabold text-slate-900">Reference #{createdBookingResult.bookingNumber}</h2>
-              <p className="text-xs text-slate-500">
+              <h2 className="font-display text-2xl font-semibold text-ns-navy">Reference #{createdBookingResult.bookingNumber}</h2>
+              <p className="text-xs text-ns-text-secondary">
                 We sent a confirmation email & SMS receipt to your registered phone number.
               </p>
             </div>
 
-            <div className="bg-slate-50 rounded-2xl p-5 border border-slate-200 text-xs space-y-2 max-w-md mx-auto text-left">
+            <div className="bg-kolam-wash rounded-2xl p-5 border border-ns-border text-xs space-y-2 max-w-md mx-auto text-left">
               <div className="flex justify-between border-b pb-2">
-                <span className="text-slate-500">Service:</span>
-                <span className="font-bold text-slate-900">{createdBookingResult.serviceName}</span>
+                <span className="text-ns-text-secondary">Service:</span>
+                <span className="font-semibold text-ns-navy">{createdBookingResult.serviceName}</span>
               </div>
               <div className="flex justify-between border-b pb-2">
-                <span className="text-slate-500">Provider:</span>
-                <span className="font-bold text-slate-900">{createdBookingResult.providerName}</span>
+                <span className="text-ns-text-secondary">Provider:</span>
+                <span className="font-semibold text-ns-navy">{createdBookingResult.providerName}</span>
               </div>
               <div className="flex justify-between border-b pb-2">
-                <span className="text-slate-500">Date & Time:</span>
-                <span className="font-bold text-slate-900">{createdBookingResult.scheduledDate} at {createdBookingResult.scheduledTime}</span>
+                <span className="text-ns-text-secondary">Date & Time:</span>
+                <span className="font-semibold text-ns-navy">{createdBookingResult.scheduledDate} at {createdBookingResult.scheduledTime}</span>
               </div>
               <div className="flex justify-between border-b pb-2">
-                <span className="text-slate-500">Location:</span>
-                <span className="font-bold text-slate-900">{createdBookingResult.serviceLocation}</span>
+                <span className="text-ns-text-secondary">Location:</span>
+                <span className="font-semibold text-ns-navy">{createdBookingResult.serviceLocation}</span>
               </div>
-              <div className="flex justify-between pt-1 font-bold text-slate-900 text-sm">
+              <div className="flex justify-between pt-1 font-semibold text-ns-navy text-sm">
                 <span>Total Amount:</span>
                 <span className="text-brand-600">₹{createdBookingResult.totalPrice}</span>
               </div>
@@ -226,7 +245,7 @@ export const BookingModal: React.FC<BookingModalProps> = ({ provider, onClose })
                   onClose();
                   setPage('customer-dashboard');
                 }}
-                className="w-full sm:w-auto px-6 py-3 bg-brand-600 hover:bg-brand-700 text-white font-bold text-xs rounded-2xl transition-all shadow-sm"
+                className="w-full sm:w-auto px-6 py-3 bg-brand-600 hover:bg-brand-700 text-white font-semibold text-xs rounded-2xl transition-all shadow-sm"
               >
                 Track in Dashboard
               </button>
@@ -235,7 +254,7 @@ export const BookingModal: React.FC<BookingModalProps> = ({ provider, onClose })
                   onClose();
                   setActiveBookingForChat(createdBookingResult);
                 }}
-                className="w-full sm:w-auto px-6 py-3 border border-slate-200 text-slate-800 font-bold text-xs rounded-2xl hover:bg-slate-50 transition-colors"
+                className="w-full sm:w-auto px-6 py-3 border border-ns-border text-ns-navy font-semibold text-xs rounded-2xl hover:bg-kolam-wash transition-colors"
               >
                 Message Provider
               </button>
@@ -246,9 +265,26 @@ export const BookingModal: React.FC<BookingModalProps> = ({ provider, onClose })
             {/* STEP 1 — SELECT SERVICE */}
             {step === 1 && (
               <div className="space-y-4">
-                <h4 className="font-extrabold text-slate-900 text-base">Step 1 — Select Service</h4>
-                <p className="text-xs text-slate-500">Choose the specific service you require from {provider.name}'s offered options:</p>
+                <h4 className="font-display font-semibold text-ns-navy text-base">Step 1 — Select Service</h4>
+                <p className="text-xs text-ns-text-secondary">Choose the specific service you require from {provider.name}'s offered options:</p>
 
+                {provider.offeredServices.length === 0 ? (
+                  /* A provider with no services listed used to render an empty
+                     panel with a dead "Next Step" button and no explanation. */
+                  <KolamEmptyState
+                    title="This professional hasn't listed their services yet"
+                    description={`${provider.name} is available, but has not published a price list yet. Their profile has contact details and past work so you can reach them directly.`}
+                    action={
+                      <button
+                        type="button"
+                        onClick={() => { onClose(); setActiveProviderProfile(provider); }}
+                        className="bg-ns-primary hover:bg-ns-primary-bright text-white text-xs font-semibold px-5 py-2.5 rounded-full transition-colors"
+                      >
+                        View {provider.name.split(' ')[0]}'s profile
+                      </button>
+                    }
+                  />
+                ) : (
                 <div className="space-y-3">
                   {provider.offeredServices.map((service) => (
                     <div
@@ -257,44 +293,45 @@ export const BookingModal: React.FC<BookingModalProps> = ({ provider, onClose })
                       className={`p-4 rounded-2xl border cursor-pointer transition-all flex items-center justify-between gap-4 ${
                         selectedService?.id === service.id
                           ? 'border-brand-500 bg-brand-50/50 shadow-sm'
-                          : 'border-slate-200 hover:border-slate-300 bg-white'
+                          : 'border-ns-border hover:border-ns-border bg-white'
                       }`}
                     >
                       <div className="space-y-0.5">
-                        <h5 className="font-bold text-sm text-slate-900">{service.name}</h5>
-                        <p className="text-xs text-slate-500 leading-relaxed">{service.description}</p>
+                        <h5 className="font-semibold text-sm text-ns-navy">{service.name}</h5>
+                        <p className="text-xs text-ns-text-secondary leading-relaxed">{service.description}</p>
                       </div>
 
                       <div className="text-right shrink-0">
-                        <p className="text-base font-extrabold text-slate-900">₹{service.price}</p>
-                        <span className="text-[10px] text-slate-400 font-medium">{service.durationMinutes} mins</span>
+                        <p className="text-base font-semibold text-ns-navy">₹{service.price}</p>
+                        <span className="text-[10px] text-ns-text-secondary font-medium">{service.durationMinutes} mins</span>
                       </div>
                     </div>
                   ))}
                 </div>
+                )}
               </div>
             )}
 
             {/* STEP 2 — DETAILS */}
             {step === 2 && (
               <div className="space-y-4">
-                <h4 className="font-extrabold text-slate-900 text-base">Step 2 — Describe Your Problem</h4>
-                <p className="text-xs text-slate-500">Provide notes or specifics so the provider can bring the right tools:</p>
+                <h4 className="font-display font-semibold text-ns-navy text-base">Step 2 — Describe Your Problem</h4>
+                <p className="text-xs text-ns-text-secondary">Provide notes or specifics so the provider can bring the right tools:</p>
 
                 <textarea
                   rows={4}
                   placeholder="Describe what needs repair or cleaning (e.g. Kitchen sink pipe leaking under cabinet)..."
                   value={problemDescription}
                   onChange={(e) => setProblemDescription(e.target.value)}
-                  className="w-full bg-slate-50 border border-slate-200 rounded-2xl p-4 text-xs text-slate-900 focus:outline-none focus:border-brand-500"
+                  className="w-full bg-kolam-wash border border-ns-border rounded-2xl p-4 text-xs text-ns-navy focus:outline-none focus:border-brand-500"
                 />
 
-                <div className="p-4 rounded-2xl bg-amber-50 border border-amber-200/80 flex items-center justify-between">
+                <div className="p-4 rounded-2xl bg-kolam-marigold-soft border border-kolam-marigold-line/80 flex items-center justify-between">
                   <div className="flex items-center gap-3">
-                    <AlertTriangle className="w-5 h-5 text-amber-600 shrink-0" />
+                    <AlertTriangle className="w-5 h-5 text-kolam-marigold shrink-0" />
                     <div>
-                      <h5 className="font-bold text-xs text-amber-900">Mark as Emergency Service</h5>
-                      <p className="text-[10px] text-amber-700">Notifies provider for immediate priority dispatch</p>
+                      <h5 className="font-semibold text-xs text-kolam-marigold">Mark as Emergency Service</h5>
+                      <p className="text-[10px] text-kolam-marigold">Notifies provider for immediate priority dispatch</p>
                     </div>
                   </div>
                   <input
@@ -310,29 +347,29 @@ export const BookingModal: React.FC<BookingModalProps> = ({ provider, onClose })
             {/* STEP 3 — LOCATION */}
             {step === 3 && (
               <div className="space-y-4">
-                <h4 className="font-extrabold text-slate-900 text-base">Step 3 — Service Location</h4>
+                <h4 className="font-display font-semibold text-ns-navy text-base">Step 3 — Service Location</h4>
                 
                 <div className="space-y-2">
-                  <label className="text-xs font-bold text-slate-700">Street Address & Apartment / Suite</label>
+                  <label className="text-xs font-semibold text-ns-text">Street Address & Apartment / Suite</label>
                   <div className="relative">
-                    <MapPin className="w-4 h-4 text-slate-400 absolute left-3 top-3.5" />
+                    <MapPin className="w-4 h-4 text-ns-text-secondary absolute left-3 top-3.5" />
                     <input
                       type="text"
                       value={serviceLocation}
                       onChange={(e) => setServiceLocation(e.target.value)}
-                      className="w-full bg-slate-50 border border-slate-200 rounded-2xl py-3 pl-9 pr-4 text-xs font-semibold text-slate-900 focus:outline-none focus:border-brand-500"
+                      className="w-full bg-kolam-wash border border-ns-border rounded-2xl py-3 pl-9 pr-4 text-xs font-semibold text-ns-navy focus:outline-none focus:border-brand-500"
                     />
                   </div>
                 </div>
 
                 <div className="space-y-2">
-                  <label className="text-xs font-bold text-slate-700">Gate Code & Access Instructions</label>
+                  <label className="text-xs font-semibold text-ns-text">Gate Code & Access Instructions</label>
                   <input
                     type="text"
                     value={accessNotes}
                     onChange={(e) => setAccessNotes(e.target.value)}
                     placeholder="Gate code, parking instructions..."
-                    className="w-full bg-slate-50 border border-slate-200 rounded-2xl p-3 text-xs text-slate-900 focus:outline-none focus:border-brand-500"
+                    className="w-full bg-kolam-wash border border-ns-border rounded-2xl p-3 text-xs text-ns-navy focus:outline-none focus:border-brand-500"
                   />
                 </div>
               </div>
@@ -341,30 +378,30 @@ export const BookingModal: React.FC<BookingModalProps> = ({ provider, onClose })
             {/* STEP 4 — DATE & TIME */}
             {step === 4 && (
               <div className="space-y-4">
-                <h4 className="font-extrabold text-slate-900 text-base">Step 4 — Select Date & Available Time Slot</h4>
+                <h4 className="font-display font-semibold text-ns-navy text-base">Step 4 — Select Date & Available Time Slot</h4>
 
                 <div className="space-y-2">
-                  <label className="text-xs font-bold text-slate-700">Preferred Date</label>
+                  <label className="text-xs font-semibold text-ns-text">Preferred Date</label>
                   <input
                     type="date"
                     value={scheduledDate}
                     min={todayStr}
                     onChange={(e) => setScheduledDate(e.target.value)}
-                    className="w-full bg-slate-50 border border-slate-200 rounded-2xl p-3 text-xs font-bold text-slate-900 focus:outline-none focus:border-brand-500"
+                    className="w-full bg-kolam-wash border border-ns-border rounded-2xl p-3 text-xs font-semibold text-ns-navy focus:outline-none focus:border-brand-500"
                   />
                 </div>
 
                 <div className="space-y-2">
-                  <label className="text-xs font-bold text-slate-700">Select Available Slot</label>
+                  <label className="text-xs font-semibold text-ns-text">Select Available Slot</label>
                   <div className="grid grid-cols-3 gap-2">
                     {availableTimes.map((timeStr) => (
                       <button
                         key={timeStr}
                         onClick={() => setScheduledTime(timeStr)}
-                        className={`py-3 px-2 rounded-2xl border text-xs font-bold transition-all ${
+                        className={`py-3 px-2 rounded-2xl border text-xs font-semibold transition-all ${
                           scheduledTime === timeStr
                             ? 'bg-brand-600 text-white border-brand-600 shadow-sm'
-                            : 'bg-slate-50 border-slate-200 text-slate-700 hover:bg-slate-100'
+                            : 'bg-kolam-wash border-ns-border text-ns-text hover:bg-kolam-sunk'
                         }`}
                       >
                         {timeStr}
@@ -378,24 +415,24 @@ export const BookingModal: React.FC<BookingModalProps> = ({ provider, onClose })
             {/* STEP 5 — CONFIRMATION & SUMMARY */}
             {step === 5 && (
               <div className="space-y-6">
-                <h4 className="font-extrabold text-slate-900 text-base">Step 5 — Summary & Final Confirmation</h4>
+                <h4 className="font-display font-semibold text-ns-navy text-base">Step 5 — Summary & Final Confirmation</h4>
 
-                <div className="bg-slate-50 rounded-2xl p-5 border border-slate-200 space-y-3 text-xs">
+                <div className="bg-kolam-wash rounded-2xl p-5 border border-ns-border space-y-3 text-xs">
                   <div className="flex justify-between border-b pb-2">
-                    <span className="text-slate-500">Service:</span>
-                    <span className="font-bold text-slate-900">{selectedService?.name}</span>
+                    <span className="text-ns-text-secondary">Service:</span>
+                    <span className="font-semibold text-ns-navy">{selectedService?.name}</span>
                   </div>
                   <div className="flex justify-between border-b pb-2">
-                    <span className="text-slate-500">Provider:</span>
-                    <span className="font-bold text-slate-900">{provider.name} ({provider.category})</span>
+                    <span className="text-ns-text-secondary">Provider:</span>
+                    <span className="font-semibold text-ns-navy">{provider.name} ({provider.category})</span>
                   </div>
                   <div className="flex justify-between border-b pb-2">
-                    <span className="text-slate-500">Date & Time:</span>
-                    <span className="font-bold text-slate-900">{scheduledDate} at {scheduledTime}</span>
+                    <span className="text-ns-text-secondary">Date & Time:</span>
+                    <span className="font-semibold text-ns-navy">{scheduledDate} at {scheduledTime}</span>
                   </div>
                   <div className="flex justify-between border-b pb-2">
-                    <span className="text-slate-500">Location:</span>
-                    <span className="font-bold text-slate-900">{serviceLocation}</span>
+                    <span className="text-ns-text-secondary">Location:</span>
+                    <span className="font-semibold text-ns-navy">{serviceLocation}</span>
                   </div>
 
                   {/* Promo code */}
@@ -405,44 +442,44 @@ export const BookingModal: React.FC<BookingModalProps> = ({ provider, onClose })
                       placeholder="Promo Code (e.g. FIRST100)"
                       value={promoCode}
                       onChange={(e) => setPromoCode(e.target.value)}
-                      className="bg-white border border-slate-200 rounded-xl px-3 py-1.5 text-xs flex-1 uppercase"
+                      className="bg-kolam-surface border border-ns-border rounded-xl px-3 py-1.5 text-xs flex-1 uppercase"
                     />
                     <button
                       onClick={handleApplyPromo}
-                      className="px-3 py-1.5 bg-slate-900 text-white rounded-xl font-bold text-xs"
+                      className="px-3 py-1.5 bg-ns-navy text-white rounded-xl font-semibold text-xs"
                     >
                       Apply
                     </button>
                   </div>
 
                   {/* Price breakdown */}
-                  <div className="pt-3 border-t border-slate-200 space-y-1.5">
-                    <div className="flex justify-between text-slate-600">
+                  <div className="pt-3 border-t border-ns-border space-y-1.5">
+                    <div className="flex justify-between text-ns-text-secondary">
                       <span>Service Charge:</span>
                       <span>₹{rawServicePrice}</span>
                     </div>
                     {visitCharge > 0 && (
-                      <div className="flex justify-between text-slate-600">
+                      <div className="flex justify-between text-ns-text-secondary">
                         <span>Visit / Inspection Charge:</span>
                         <span>₹{visitCharge}</span>
                       </div>
                     )}
                     {promoApplied && (
-                      <div className="flex justify-between text-emerald-600 font-bold">
+                      <div className="flex justify-between text-kolam-teal font-semibold">
                         <span>Promo Discount:</span>
                         <span>−₹{promoDiscount}</span>
                       </div>
                     )}
-                    <div className="flex justify-between text-slate-600">
+                    <div className="flex justify-between text-ns-text-secondary">
                       <span>GST (18%):</span>
                       <span>₹{gst}</span>
                     </div>
-                    <div className="flex justify-between text-sm font-extrabold text-slate-900 pt-2 border-t border-slate-200">
+                    <div className="flex justify-between text-sm font-semibold text-ns-navy pt-2 border-t border-ns-border">
                       <span>Estimated Total:</span>
                       <span className="text-brand-600 text-base">₹{totalPrice}</span>
                     </div>
                     {warrantyDays > 0 && (
-                      <div className="flex items-center gap-1.5 text-emerald-600 text-[10px] font-bold pt-1 border-t border-slate-100">
+                      <div className="flex items-center gap-1.5 text-kolam-teal text-[10px] font-semibold pt-1 border-t border-kolam-sunk">
                         <ShieldCheck className="w-3 h-3" />
                         <span>{warrantyDays}-day service warranty included</span>
                       </div>
@@ -452,7 +489,7 @@ export const BookingModal: React.FC<BookingModalProps> = ({ provider, onClose })
 
                 {/* Payment Option */}
                 <div className="space-y-2">
-                  <label className="text-xs font-bold text-slate-700">Payment Method</label>
+                  <label className="text-xs font-semibold text-ns-text">Payment Method</label>
                   <div className="grid grid-cols-2 gap-3">
                     {[
                       { id: 'upi', label: 'UPI / QR Code', icon: '📱' },
@@ -463,10 +500,10 @@ export const BookingModal: React.FC<BookingModalProps> = ({ provider, onClose })
                       <button
                         key={opt.id}
                         onClick={() => setPaymentMethod(opt.id as any)}
-                        className={`p-3 rounded-2xl border text-xs font-bold flex items-center gap-2 transition-all ${
+                        className={`p-3 rounded-2xl border text-xs font-semibold flex items-center gap-2 transition-all ${
                           paymentMethod === opt.id
                             ? 'border-brand-500 bg-brand-50 text-brand-700'
-                            : 'border-slate-200 text-slate-700 hover:border-slate-300'
+                            : 'border-ns-border text-ns-text hover:border-ns-border'
                         }`}
                       >
                         <span>{opt.icon}</span>
@@ -479,11 +516,11 @@ export const BookingModal: React.FC<BookingModalProps> = ({ provider, onClose })
             )}
 
             {/* MODAL NAVIGATION BUTTONS */}
-            <div className="pt-8 border-t border-slate-100 flex items-center justify-between gap-3">
+            <div className="pt-8 border-t border-kolam-sunk flex items-center justify-between gap-3">
               {step > 1 ? (
                 <button
                   onClick={() => setStep(step - 1)}
-                  className="px-4 py-2.5 rounded-xl border border-slate-200 text-slate-700 font-bold text-xs hover:bg-slate-50 transition-colors flex items-center gap-1"
+                  className="px-4 py-2.5 rounded-xl border border-ns-border text-ns-text font-semibold text-xs hover:bg-kolam-wash transition-colors flex items-center gap-1"
                 >
                   <ArrowLeft className="w-3.5 h-3.5" /> Back
                 </button>
@@ -495,7 +532,7 @@ export const BookingModal: React.FC<BookingModalProps> = ({ provider, onClose })
                 <button
                   onClick={() => setStep(step + 1)}
                   disabled={!isStepValid()}
-                  className="px-6 py-2.5 bg-brand-600 hover:bg-brand-700 disabled:bg-slate-300 disabled:cursor-not-allowed text-white font-bold text-xs rounded-xl shadow-sm transition-all flex items-center gap-1 ml-auto"
+                  className="px-6 py-2.5 bg-brand-600 hover:bg-brand-700 disabled:bg-ns-border disabled:cursor-not-allowed text-white font-semibold text-xs rounded-xl shadow-sm transition-all flex items-center gap-1 ml-auto"
                 >
                   Next Step <ChevronRight className="w-3.5 h-3.5" />
                 </button>
@@ -503,7 +540,7 @@ export const BookingModal: React.FC<BookingModalProps> = ({ provider, onClose })
                 <button
                   onClick={handleConfirmBooking}
                   disabled={isSubmitting}
-                  className="px-8 py-3 bg-brand-600 hover:bg-brand-700 text-white font-extrabold text-sm rounded-xl shadow-md transition-all flex items-center gap-2 ml-auto disabled:opacity-50"
+                  className="px-8 py-3 bg-brand-600 hover:bg-brand-700 text-white font-semibold text-sm rounded-xl shadow-md transition-all flex items-center gap-2 ml-auto disabled:opacity-50"
                 >
                   {isSubmitting ? (
                     <span>Processing...</span>

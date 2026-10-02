@@ -73,24 +73,24 @@ export const ComplaintModal: React.FC = () => {
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-[200] flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-sm animate-fade-in">
-      <div className="bg-white rounded-3xl shadow-elevated w-full max-w-lg">
+    <div className="fixed inset-0 z-[200] flex items-center justify-center p-4 bg-ns-navy/60 backdrop-blur-sm animate-fade-in">
+      <div className="bg-kolam-surface rounded-2xl shadow-elevated w-full max-w-lg">
 
         {/* Header */}
-        <div className="flex items-center justify-between p-6 border-b border-slate-100">
+        <div className="flex items-center justify-between p-6 border-b border-kolam-sunk">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-2xl bg-red-50 border border-red-100 flex items-center justify-center">
-              <AlertTriangle className="w-5 h-5 text-red-600" />
+            <div className="w-10 h-10 rounded-2xl bg-kolam-kumkum-soft border border-kolam-kumkum-soft flex items-center justify-center">
+              <AlertTriangle className="w-5 h-5 text-kolam-kumkum" />
             </div>
             <div>
-              <h2 className="text-lg font-extrabold text-slate-900">Raise a Complaint</h2>
+              <h2 className="font-display text-lg font-semibold text-ns-navy">Raise a Complaint</h2>
               {targetBooking && (
-                <p className="text-xs text-slate-400 font-mono">#{targetBooking.bookingNumber} — {targetBooking.serviceName}</p>
+                <p className="text-xs text-ns-text-secondary font-mono">#{targetBooking.bookingNumber} — {targetBooking.serviceName}</p>
               )}
             </div>
           </div>
-          <button onClick={close} className="p-2 rounded-full hover:bg-slate-100 transition-colors">
-            <X className="w-5 h-5 text-slate-400" />
+          <button onClick={close} className="p-2 rounded-full hover:bg-kolam-sunk transition-colors">
+            <X className="w-5 h-5 text-ns-text-secondary" />
           </button>
         </div>
 
@@ -99,42 +99,42 @@ export const ComplaintModal: React.FC = () => {
 
           {/* Existing complaints warning */}
           {targetBooking && complaints.some(c => c.bookingId === targetBooking.id) && (
-            <div className="bg-amber-50 border border-amber-200 text-amber-800 text-xs rounded-2xl p-3">
+            <div className="bg-kolam-marigold-soft border border-kolam-marigold-line text-kolam-marigold text-xs rounded-2xl p-3">
               ⚠️ A complaint already exists for this booking and is under review.
             </div>
           )}
 
           {/* Category */}
           <div className="space-y-1.5">
-            <label className="text-xs font-bold text-slate-700 uppercase tracking-wide">Complaint Category</label>
+            <label className="text-xs font-semibold text-ns-text uppercase tracking-wide">Complaint Category</label>
             <div className="relative">
               <select
                 value={category}
                 onChange={e => setCategory(e.target.value as ComplaintCategory)}
-                className="w-full bg-slate-50 border border-slate-200 focus:border-brand-500 rounded-xl p-3 text-sm font-medium text-slate-800 focus:outline-none appearance-none cursor-pointer"
+                className="w-full bg-kolam-wash border border-ns-border focus:border-brand-500 rounded-xl p-3 text-sm font-medium text-ns-navy focus:outline-none appearance-none cursor-pointer"
               >
                 {COMPLAINT_CATEGORIES.map(c => (
                   <option key={c.value} value={c.value}>{c.label}</option>
                 ))}
               </select>
-              <ChevronDown className="w-4 h-4 text-slate-400 absolute right-3 top-3.5 pointer-events-none" />
+              <ChevronDown className="w-4 h-4 text-ns-text-secondary absolute right-3 top-3.5 pointer-events-none" />
             </div>
           </div>
 
           {/* Description */}
           <div className="space-y-1.5">
-            <label className="text-xs font-bold text-slate-700 uppercase tracking-wide">
+            <label className="text-xs font-semibold text-ns-text uppercase tracking-wide">
               Describe the Issue
-              <span className="text-slate-400 font-normal ml-1">(min. 20 characters)</span>
+              <span className="text-ns-text-secondary font-normal ml-1">(min. 20 characters)</span>
             </label>
             <textarea
               value={description}
               onChange={e => setDescription(e.target.value)}
               rows={4}
               placeholder="Please describe what went wrong in detail. The more specific, the faster we can resolve it."
-              className="w-full bg-slate-50 border border-slate-200 focus:border-brand-500 focus:bg-white rounded-xl p-3 text-sm text-slate-800 resize-none focus:outline-none transition-all"
+              className="w-full bg-kolam-wash border border-ns-border focus:border-brand-500 focus:bg-kolam-surface rounded-xl p-3 text-sm text-ns-navy resize-none focus:outline-none transition-all"
             />
-            <div className={`text-[10px] text-right font-semibold ${description.length < 20 && description.length > 0 ? 'text-red-500' : 'text-slate-400'}`}>
+            <div className={`text-[10px] text-right font-semibold ${description.length < 20 && description.length > 0 ? 'text-kolam-kumkum' : 'text-ns-text-secondary'}`}>
               {description.length} / 20 min.
             </div>
           </div>
@@ -149,14 +149,14 @@ export const ComplaintModal: React.FC = () => {
             <button
               type="button"
               onClick={close}
-              className="flex-1 py-3 rounded-2xl border border-slate-200 text-slate-700 font-bold text-sm hover:bg-slate-50 transition-colors"
+              className="flex-1 py-3 rounded-2xl border border-ns-border text-ns-text font-semibold text-sm hover:bg-kolam-wash transition-colors"
             >
               Cancel
             </button>
             <button
               type="submit"
               disabled={isSubmitting || description.trim().length < 20}
-              className="flex-1 py-3 rounded-2xl bg-red-600 hover:bg-red-700 disabled:bg-slate-300 disabled:cursor-not-allowed text-white font-bold text-sm transition-colors"
+              className="flex-1 py-3 rounded-2xl bg-kolam-kumkum hover:bg-kolam-kumkum disabled:bg-ns-border disabled:cursor-not-allowed text-white font-semibold text-sm transition-colors"
             >
               {isSubmitting ? 'Submitting...' : 'Submit Complaint'}
             </button>

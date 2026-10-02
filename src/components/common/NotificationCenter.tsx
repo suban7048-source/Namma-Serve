@@ -36,22 +36,22 @@ export const NotificationCenter: React.FC = () => {
     <div className="relative" ref={menuRef}>
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="relative p-2.5 rounded-xl text-slate-600 hover:text-slate-900 hover:bg-slate-100 transition-colors focus:outline-none"
+        className="relative p-2.5 rounded-xl text-ns-text-secondary hover:text-ns-navy hover:bg-kolam-sunk transition-colors focus:outline-none"
         aria-label="Notifications"
       >
         <Bell className="w-5 h-5" />
         {unreadNotificationCount > 0 && (
-          <span className="absolute top-1.5 right-1.5 w-4 h-4 bg-brand-600 text-white font-bold text-[10px] rounded-full flex items-center justify-center animate-pulse">
+          <span className="absolute top-1.5 right-1.5 w-4 h-4 bg-brand-600 text-white font-semibold text-[10px] rounded-full flex items-center justify-center animate-pulse">
             {unreadNotificationCount}
           </span>
         )}
       </button>
 
       {isOpen && (
-        <div className="absolute right-0 mt-2 w-80 sm:w-96 bg-white rounded-2xl shadow-elevated border border-slate-100 py-3 z-50 animate-fade-in">
-          <div className="px-4 pb-3 border-b border-slate-100 flex items-center justify-between">
+        <div className="absolute right-0 mt-2 w-80 sm:w-96 bg-kolam-surface rounded-2xl shadow-elevated border border-kolam-sunk py-3 z-50 animate-fade-in">
+          <div className="px-4 pb-3 border-b border-kolam-sunk flex items-center justify-between">
             <div className="flex items-center gap-2">
-              <h3 className="font-bold text-slate-800 text-sm">Notifications</h3>
+              <h3 className="font-display font-semibold text-ns-navy text-sm">Notifications</h3>
               {unreadNotificationCount > 0 && (
                 <span className="text-xs bg-brand-50 text-brand-700 font-semibold px-2 py-0.5 rounded-full">
                   {unreadNotificationCount} new
@@ -68,9 +68,9 @@ export const NotificationCenter: React.FC = () => {
             )}
           </div>
 
-          <div className="max-h-80 overflow-y-auto divide-y divide-slate-50">
+          <div className="max-h-80 overflow-y-auto divide-y divide-kolam-wash">
             {notifications.length === 0 ? (
-              <div className="p-6 text-center text-slate-400 text-xs">
+              <div className="p-6 text-center text-ns-text-secondary text-xs">
                 No notifications right now.
               </div>
             ) : (
@@ -78,7 +78,7 @@ export const NotificationCenter: React.FC = () => {
                 <div
                   key={notif.id}
                   onClick={() => handleNotificationClick(notif)}
-                  className={`p-4 hover:bg-slate-50 transition-colors cursor-pointer flex items-start gap-3 ${
+                  className={`p-4 hover:bg-kolam-wash transition-colors cursor-pointer flex items-start gap-3 ${
                     !notif.isRead ? 'bg-brand-50/40' : ''
                   }`}
                 >
@@ -90,10 +90,10 @@ export const NotificationCenter: React.FC = () => {
                   </div>
                   <div className="flex-1">
                     <div className="flex items-center justify-between">
-                      <p className="text-xs font-semibold text-slate-800">{notif.title}</p>
-                      <span className="text-[10px] text-slate-400">{notif.timestamp}</span>
+                      <p className="text-xs font-semibold text-ns-navy">{notif.title}</p>
+                      <span className="text-[10px] text-ns-text-secondary">{notif.timestamp}</span>
                     </div>
-                    <p className="text-xs text-slate-600 mt-0.5 line-clamp-2 leading-relaxed">
+                    <p className="text-xs text-ns-text-secondary mt-0.5 line-clamp-2 leading-relaxed">
                       {notif.message}
                     </p>
                   </div>

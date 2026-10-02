@@ -30,7 +30,7 @@ export const mockCategories: ServiceCategory[] = [
     count: 76,
     description: 'AC servicing, gas refill, PCB repair, and installation.',
     popularServices: ['AC Annual Service', 'Gas Refill', 'AC Installation', 'PCB Repair'],
-    color: 'bg-sky-50 text-sky-700 border-sky-200',
+    color: 'bg-brand-50 text-ns-primary border-brand-200',
     isEmergency: true,
   },
   {
@@ -41,7 +41,7 @@ export const mockCategories: ServiceCategory[] = [
     count: 98,
     description: 'Wiring, switchboard repair, MCB, and fan installation.',
     popularServices: ['Switchboard Repair', 'Fan Installation', 'MCB Repair', 'Wiring'],
-    color: 'bg-amber-50 text-amber-700 border-amber-200',
+    color: 'bg-brand-50 text-ns-primary border-brand-200',
     isEmergency: true,
   },
   {
@@ -52,7 +52,7 @@ export const mockCategories: ServiceCategory[] = [
     count: 142,
     description: 'Leak fixes, tap repair, pipe replacement, and drain cleaning.',
     popularServices: ['Tap Repair', 'Drain Cleaning', 'Pipe Leak Fix', 'Toilet Repair'],
-    color: 'bg-blue-50 text-blue-700 border-blue-200',
+    color: 'bg-brand-50 text-ns-primary border-brand-200',
     isEmergency: true,
   },
   {
@@ -63,7 +63,7 @@ export const mockCategories: ServiceCategory[] = [
     count: 215,
     description: 'Deep home cleaning, bathroom, kitchen, and sofa cleaning.',
     popularServices: ['Deep Home Cleaning', 'Bathroom Cleaning', 'Kitchen Cleaning', 'Sofa Cleaning'],
-    color: 'bg-teal-50 text-teal-700 border-teal-200',
+    color: 'bg-brand-50 text-ns-primary border-brand-200',
   },
   {
     id: 'appliance-repair',
@@ -73,7 +73,7 @@ export const mockCategories: ServiceCategory[] = [
     count: 84,
     description: 'Fridge, washing machine, dishwasher, and microwave repair.',
     popularServices: ['Fridge Repair', 'Washing Machine Repair', 'Microwave Repair', 'Dishwasher Fix'],
-    color: 'bg-purple-50 text-purple-700 border-purple-200',
+    color: 'bg-brand-50 text-ns-primary border-brand-200',
     isEmergency: true,
   },
   {
@@ -84,7 +84,7 @@ export const mockCategories: ServiceCategory[] = [
     count: 65,
     description: 'Furniture repair, door fitting, cupboard and shelf work.',
     popularServices: ['Door Repair', 'Furniture Assembly', 'Wardrobe Fix', 'Shelf Installation'],
-    color: 'bg-orange-50 text-orange-700 border-orange-200',
+    color: 'bg-brand-50 text-ns-primary border-brand-200',
   },
   {
     id: 'painting',
@@ -94,7 +94,7 @@ export const mockCategories: ServiceCategory[] = [
     count: 110,
     description: 'Interior and exterior painting, waterproofing, and texture.',
     popularServices: ['Room Painting', 'Exterior Paint', 'Waterproofing', 'Texture Painting'],
-    color: 'bg-pink-50 text-pink-700 border-pink-200',
+    color: 'bg-brand-50 text-ns-primary border-brand-200',
   },
   {
     id: 'pest-control',
@@ -104,7 +104,7 @@ export const mockCategories: ServiceCategory[] = [
     count: 58,
     description: 'Cockroach, rat, termite, and mosquito treatment.',
     popularServices: ['Cockroach Treatment', 'Rat Control', 'Termite Treatment', 'Mosquito Spray'],
-    color: 'bg-lime-50 text-lime-700 border-lime-200',
+    color: 'bg-brand-50 text-ns-primary border-brand-200',
   },
   {
     id: 'home-maintenance',
@@ -114,7 +114,7 @@ export const mockCategories: ServiceCategory[] = [
     count: 180,
     description: 'Handyman, TV mounting, drywall, and assembly services.',
     popularServices: ['TV Mounting', 'Furniture Assembly', 'Drywall Repair', 'Gutter Cleaning'],
-    color: 'bg-slate-100 text-slate-700 border-slate-200',
+    color: 'bg-brand-50 text-ns-primary border-brand-200',
   },
   {
     id: 'washing-machine',
@@ -124,7 +124,7 @@ export const mockCategories: ServiceCategory[] = [
     count: 92,
     description: 'All brands - LG, Samsung, Whirlpool, IFB washing machine repair.',
     popularServices: ['Not Spinning Fix', 'Drainage Issue', 'Drum Repair', 'PCB Repair'],
-    color: 'bg-cyan-50 text-cyan-700 border-cyan-200',
+    color: 'bg-brand-50 text-ns-primary border-brand-200',
   },
   {
     id: 'refrigerator',
@@ -134,7 +134,7 @@ export const mockCategories: ServiceCategory[] = [
     count: 88,
     description: 'Fridge not cooling, compressor, ice maker, and thermostat repair.',
     popularServices: ['Not Cooling Fix', 'Compressor Repair', 'Gas Refill', 'Thermostat Fix'],
-    color: 'bg-indigo-50 text-indigo-700 border-indigo-200',
+    color: 'bg-brand-50 text-ns-primary border-brand-200',
   },
   {
     id: 'ro-purifier',
@@ -144,7 +144,7 @@ export const mockCategories: ServiceCategory[] = [
     count: 64,
     description: 'RO service, membrane change, UV filter, and installation.',
     popularServices: ['RO Annual Service', 'Membrane Change', 'Filter Replacement', 'New Installation'],
-    color: 'bg-emerald-50 text-emerald-700 border-emerald-200',
+    color: 'bg-brand-50 text-ns-primary border-brand-200',
   },
   {
     id: 'tv-repair',
@@ -154,7 +154,7 @@ export const mockCategories: ServiceCategory[] = [
     count: 47,
     description: 'LED, LCD, OLED TV screen repair, no display, sound issues.',
     popularServices: ['No Display Fix', 'Screen Repair', 'Sound Issue', 'Remote Programming'],
-    color: 'bg-violet-50 text-violet-700 border-violet-200',
+    color: 'bg-brand-50 text-ns-primary border-brand-200',
   },
 ];
 
@@ -1127,8 +1127,25 @@ export const mockProviders: Provider[] = [
     bio: 'Professional Electrical expert providing quality services.',
     about: 'I am a dedicated professional committed to excellent service delivery.',
     skills: ['Electrical Repair'],
-    offeredServices: [],
-    availabilitySlots: [],
+    offeredServices: [
+      {
+        id: 's_p_extra_1_1', name: 'Switchboard & Socket Repair', description: 'Loose connections, sparking and burning-smell diagnosis',
+        price: 200, visitCharge: 199, priceUnit: 'fixed', durationMinutes: 45, warrantyDays: 30
+      },
+      {
+        id: 's_p_extra_1_2', name: 'Fan / Light Installation', description: 'Ceiling fan, chandelier or light fitting with regulator setup',
+        price: 260, visitCharge: 199, priceUnit: 'fixed', durationMinutes: 60, warrantyDays: 30
+      },
+      {
+        id: 's_p_extra_1_3', name: 'Wiring & MCB Fault Finding', description: 'Short circuits, dead outlets and tripping MCBs traced and fixed',
+        price: 400, visitCharge: 199, priceUnit: 'fixed', durationMinutes: 90, warrantyDays: 60
+      }
+    ],
+    availabilitySlots: [
+      { day: 'Today', slots: ['2:00 PM', '4:00 PM', '6:00 PM'] },
+      { day: 'Tomorrow', slots: ['9:00 AM', '11:00 AM', '1:00 PM', '3:00 PM', '5:00 PM'] },
+      { day: 'This Week', slots: ['10:00 AM', '12:00 PM', '3:30 PM'] }
+    ],
     portfolio: [],
     reviews: [],
     phone: '+91 9287475926',
@@ -1162,8 +1179,25 @@ export const mockProviders: Provider[] = [
     bio: 'Professional Home Maintenance expert providing quality services.',
     about: 'I am a dedicated professional committed to excellent service delivery.',
     skills: ['Home Maintenance Repair'],
-    offeredServices: [],
-    availabilitySlots: [],
+    offeredServices: [
+      {
+        id: 's_p_extra_2_1', name: 'General Handyman Visit', description: 'Small repairs, fittings and odd jobs around the house',
+        price: 300, visitCharge: 199, priceUnit: 'fixed', durationMinutes: 60, warrantyDays: 30
+      },
+      {
+        id: 's_p_extra_2_2', name: 'TV & Shelf Wall Mounting', description: 'Bracket fitting, drilling, levelling and cable management',
+        price: 390, visitCharge: 199, priceUnit: 'fixed', durationMinutes: 75, warrantyDays: 30
+      },
+      {
+        id: 's_p_extra_2_3', name: 'Home Repair Combo', description: 'Multiple small fixes across rooms in a single visit',
+        price: 600, visitCharge: 199, priceUnit: 'fixed', durationMinutes: 150, warrantyDays: 30
+      }
+    ],
+    availabilitySlots: [
+      { day: 'Today', slots: ['2:00 PM', '4:00 PM', '6:00 PM'] },
+      { day: 'Tomorrow', slots: ['9:00 AM', '11:00 AM', '1:00 PM', '3:00 PM', '5:00 PM'] },
+      { day: 'This Week', slots: ['10:00 AM', '12:00 PM', '3:30 PM'] }
+    ],
     portfolio: [],
     reviews: [],
     phone: '+91 9578713210',
@@ -1197,8 +1231,25 @@ export const mockProviders: Provider[] = [
     bio: 'Professional Electrical expert providing quality services.',
     about: 'I am a dedicated professional committed to excellent service delivery.',
     skills: ['Electrical Repair'],
-    offeredServices: [],
-    availabilitySlots: [],
+    offeredServices: [
+      {
+        id: 's_p_extra_3_1', name: 'Switchboard & Socket Repair', description: 'Loose connections, sparking and burning-smell diagnosis',
+        price: 300, visitCharge: 199, priceUnit: 'fixed', durationMinutes: 45, warrantyDays: 30
+      },
+      {
+        id: 's_p_extra_3_2', name: 'Fan / Light Installation', description: 'Ceiling fan, chandelier or light fitting with regulator setup',
+        price: 390, visitCharge: 199, priceUnit: 'fixed', durationMinutes: 60, warrantyDays: 30
+      },
+      {
+        id: 's_p_extra_3_3', name: 'Wiring & MCB Fault Finding', description: 'Short circuits, dead outlets and tripping MCBs traced and fixed',
+        price: 600, visitCharge: 199, priceUnit: 'fixed', durationMinutes: 90, warrantyDays: 60
+      }
+    ],
+    availabilitySlots: [
+      { day: 'Today', slots: ['2:00 PM', '4:00 PM', '6:00 PM'] },
+      { day: 'Tomorrow', slots: ['9:00 AM', '11:00 AM', '1:00 PM', '3:00 PM', '5:00 PM'] },
+      { day: 'This Week', slots: ['10:00 AM', '12:00 PM', '3:30 PM'] }
+    ],
     portfolio: [],
     reviews: [],
     phone: '+91 9286056386',
@@ -1232,8 +1283,25 @@ export const mockProviders: Provider[] = [
     bio: 'Professional Painting expert providing quality services.',
     about: 'I am a dedicated professional committed to excellent service delivery.',
     skills: ['Painting Repair'],
-    offeredServices: [],
-    availabilitySlots: [],
+    offeredServices: [
+      {
+        id: 's_p_extra_4_1', name: 'Single Room Painting', description: 'Two coats of emulsion with surface prep and masking',
+        price: 400, visitCharge: 199, priceUnit: 'fixed', durationMinutes: 480, warrantyDays: 180
+      },
+      {
+        id: 's_p_extra_4_2', name: 'Texture & Accent Wall', description: 'Designer texture or accent finish on one feature wall',
+        price: 640, visitCharge: 199, priceUnit: 'fixed', durationMinutes: 360, warrantyDays: 180
+      },
+      {
+        id: 's_p_extra_4_3', name: 'Waterproofing & Damp Repair', description: 'Damp patch treatment, sealing and protective coating',
+        price: 960, visitCharge: 199, priceUnit: 'fixed', durationMinutes: 480, warrantyDays: 365
+      }
+    ],
+    availabilitySlots: [
+      { day: 'Today', slots: ['2:00 PM', '4:00 PM', '6:00 PM'] },
+      { day: 'Tomorrow', slots: ['9:00 AM', '11:00 AM', '1:00 PM', '3:00 PM', '5:00 PM'] },
+      { day: 'This Week', slots: ['10:00 AM', '12:00 PM', '3:30 PM'] }
+    ],
     portfolio: [],
     reviews: [],
     phone: '+91 9399610992',
@@ -1267,8 +1335,25 @@ export const mockProviders: Provider[] = [
     bio: 'Professional Cleaning expert providing quality services.',
     about: 'I am a dedicated professional committed to excellent service delivery.',
     skills: ['Cleaning Repair'],
-    offeredServices: [],
-    availabilitySlots: [],
+    offeredServices: [
+      {
+        id: 's_p_extra_5_1', name: 'Bathroom Deep Cleaning', description: 'Tiles, commode, taps, mirror descaling and sanitisation',
+        price: 200, visitCharge: 199, priceUnit: 'fixed', durationMinutes: 90, warrantyDays: 7
+      },
+      {
+        id: 's_p_extra_5_2', name: 'Kitchen Deep Cleaning', description: 'Hob, chimney, tiles and cabinet exteriors degreased',
+        price: 320, visitCharge: 199, priceUnit: 'fixed', durationMinutes: 120, warrantyDays: 7
+      },
+      {
+        id: 's_p_extra_5_3', name: 'Full Home Deep Cleaning', description: 'Floor to ceiling across all rooms, bathrooms and kitchen',
+        price: 720, visitCharge: 199, priceUnit: 'fixed', durationMinutes: 300, warrantyDays: 7
+      }
+    ],
+    availabilitySlots: [
+      { day: 'Today', slots: ['2:00 PM', '4:00 PM', '6:00 PM'] },
+      { day: 'Tomorrow', slots: ['9:00 AM', '11:00 AM', '1:00 PM', '3:00 PM', '5:00 PM'] },
+      { day: 'This Week', slots: ['10:00 AM', '12:00 PM', '3:30 PM'] }
+    ],
     portfolio: [],
     reviews: [],
     phone: '+91 9549670623',
@@ -1302,8 +1387,25 @@ export const mockProviders: Provider[] = [
     bio: 'Professional Carpenter expert providing quality services.',
     about: 'I am a dedicated professional committed to excellent service delivery.',
     skills: ['Carpenter Repair'],
-    offeredServices: [],
-    availabilitySlots: [],
+    offeredServices: [
+      {
+        id: 's_p_extra_6_1', name: 'Door & Window Repair', description: 'Alignment, hinges, handles, locks and frame fixes',
+        price: 200, visitCharge: 199, priceUnit: 'fixed', durationMinutes: 60, warrantyDays: 30
+      },
+      {
+        id: 's_p_extra_6_2', name: 'Furniture Assembly', description: 'Flat-pack beds, wardrobes, tables and shelving',
+        price: 280, visitCharge: 199, priceUnit: 'fixed', durationMinutes: 90, warrantyDays: 30
+      },
+      {
+        id: 's_p_extra_6_3', name: 'Wardrobe & Cabinet Work', description: 'Sliding doors, drawer channels, shutters and custom shelving',
+        price: 520, visitCharge: 199, priceUnit: 'fixed', durationMinutes: 180, warrantyDays: 60
+      }
+    ],
+    availabilitySlots: [
+      { day: 'Today', slots: ['2:00 PM', '4:00 PM', '6:00 PM'] },
+      { day: 'Tomorrow', slots: ['9:00 AM', '11:00 AM', '1:00 PM', '3:00 PM', '5:00 PM'] },
+      { day: 'This Week', slots: ['10:00 AM', '12:00 PM', '3:30 PM'] }
+    ],
     portfolio: [],
     reviews: [],
     phone: '+91 9553905266',
@@ -1337,8 +1439,25 @@ export const mockProviders: Provider[] = [
     bio: 'Professional Appliance Repair expert providing quality services.',
     about: 'I am a dedicated professional committed to excellent service delivery.',
     skills: ['Appliance Repair Repair'],
-    offeredServices: [],
-    availabilitySlots: [],
+    offeredServices: [
+      {
+        id: 's_p_extra_7_1', name: 'Appliance Diagnosis & Repair', description: 'Fault diagnosis and on-site repair with genuine parts',
+        price: 400, visitCharge: 199, priceUnit: 'fixed', durationMinutes: 60, warrantyDays: 90
+      },
+      {
+        id: 's_p_extra_7_2', name: 'Microwave / OTG Repair', description: 'Magnetron, heating element and control panel faults',
+        price: 520, visitCharge: 199, priceUnit: 'fixed', durationMinutes: 75, warrantyDays: 90
+      },
+      {
+        id: 's_p_extra_7_3', name: 'Geyser Service & Repair', description: 'Element, thermostat and tank descaling',
+        price: 680, visitCharge: 199, priceUnit: 'fixed', durationMinutes: 90, warrantyDays: 90
+      }
+    ],
+    availabilitySlots: [
+      { day: 'Today', slots: ['2:00 PM', '4:00 PM', '6:00 PM'] },
+      { day: 'Tomorrow', slots: ['9:00 AM', '11:00 AM', '1:00 PM', '3:00 PM', '5:00 PM'] },
+      { day: 'This Week', slots: ['10:00 AM', '12:00 PM', '3:30 PM'] }
+    ],
     portfolio: [],
     reviews: [],
     phone: '+91 9900250006',
@@ -1372,8 +1491,25 @@ export const mockProviders: Provider[] = [
     bio: 'Professional Appliance Repair expert providing quality services.',
     about: 'I am a dedicated professional committed to excellent service delivery.',
     skills: ['Appliance Repair Repair'],
-    offeredServices: [],
-    availabilitySlots: [],
+    offeredServices: [
+      {
+        id: 's_p_extra_8_1', name: 'Appliance Diagnosis & Repair', description: 'Fault diagnosis and on-site repair with genuine parts',
+        price: 300, visitCharge: 199, priceUnit: 'fixed', durationMinutes: 60, warrantyDays: 90
+      },
+      {
+        id: 's_p_extra_8_2', name: 'Microwave / OTG Repair', description: 'Magnetron, heating element and control panel faults',
+        price: 390, visitCharge: 199, priceUnit: 'fixed', durationMinutes: 75, warrantyDays: 90
+      },
+      {
+        id: 's_p_extra_8_3', name: 'Geyser Service & Repair', description: 'Element, thermostat and tank descaling',
+        price: 510, visitCharge: 199, priceUnit: 'fixed', durationMinutes: 90, warrantyDays: 90
+      }
+    ],
+    availabilitySlots: [
+      { day: 'Today', slots: ['2:00 PM', '4:00 PM', '6:00 PM'] },
+      { day: 'Tomorrow', slots: ['9:00 AM', '11:00 AM', '1:00 PM', '3:00 PM', '5:00 PM'] },
+      { day: 'This Week', slots: ['10:00 AM', '12:00 PM', '3:30 PM'] }
+    ],
     portfolio: [],
     reviews: [],
     phone: '+91 9827239314',
@@ -1407,8 +1543,25 @@ export const mockProviders: Provider[] = [
     bio: 'Professional Cleaning expert providing quality services.',
     about: 'I am a dedicated professional committed to excellent service delivery.',
     skills: ['Cleaning Repair'],
-    offeredServices: [],
-    availabilitySlots: [],
+    offeredServices: [
+      {
+        id: 's_p_extra_9_1', name: 'Bathroom Deep Cleaning', description: 'Tiles, commode, taps, mirror descaling and sanitisation',
+        price: 400, visitCharge: 199, priceUnit: 'fixed', durationMinutes: 90, warrantyDays: 7
+      },
+      {
+        id: 's_p_extra_9_2', name: 'Kitchen Deep Cleaning', description: 'Hob, chimney, tiles and cabinet exteriors degreased',
+        price: 640, visitCharge: 199, priceUnit: 'fixed', durationMinutes: 120, warrantyDays: 7
+      },
+      {
+        id: 's_p_extra_9_3', name: 'Full Home Deep Cleaning', description: 'Floor to ceiling across all rooms, bathrooms and kitchen',
+        price: 1440, visitCharge: 199, priceUnit: 'fixed', durationMinutes: 300, warrantyDays: 7
+      }
+    ],
+    availabilitySlots: [
+      { day: 'Today', slots: ['2:00 PM', '4:00 PM', '6:00 PM'] },
+      { day: 'Tomorrow', slots: ['9:00 AM', '11:00 AM', '1:00 PM', '3:00 PM', '5:00 PM'] },
+      { day: 'This Week', slots: ['10:00 AM', '12:00 PM', '3:30 PM'] }
+    ],
     portfolio: [],
     reviews: [],
     phone: '+91 9475825785',
@@ -1442,8 +1595,25 @@ export const mockProviders: Provider[] = [
     bio: 'Professional Plumbing expert providing quality services.',
     about: 'I am a dedicated professional committed to excellent service delivery.',
     skills: ['Plumbing Repair'],
-    offeredServices: [],
-    availabilitySlots: [],
+    offeredServices: [
+      {
+        id: 's_p_extra_10_1', name: 'Tap & Mixer Repair', description: 'Dripping tap, broken handle or full replacement',
+        price: 400, visitCharge: 199, priceUnit: 'fixed', durationMinutes: 45, warrantyDays: 30
+      },
+      {
+        id: 's_p_extra_10_2', name: 'Drain & Blockage Clearing', description: 'Kitchen sink, washbasin and bathroom drain unclogging',
+        price: 560, visitCharge: 199, priceUnit: 'fixed', durationMinutes: 60, warrantyDays: 30
+      },
+      {
+        id: 's_p_extra_10_3', name: 'Pipe Leak & Concealed Repair', description: 'Leak tracing, pipe section replacement and resealing',
+        price: 880, visitCharge: 199, priceUnit: 'fixed', durationMinutes: 120, warrantyDays: 60
+      }
+    ],
+    availabilitySlots: [
+      { day: 'Today', slots: ['2:00 PM', '4:00 PM', '6:00 PM'] },
+      { day: 'Tomorrow', slots: ['9:00 AM', '11:00 AM', '1:00 PM', '3:00 PM', '5:00 PM'] },
+      { day: 'This Week', slots: ['10:00 AM', '12:00 PM', '3:30 PM'] }
+    ],
     portfolio: [],
     reviews: [],
     phone: '+91 9163647115',
@@ -1477,8 +1647,25 @@ export const mockProviders: Provider[] = [
     bio: 'Professional Home Maintenance expert providing quality services.',
     about: 'I am a dedicated professional committed to excellent service delivery.',
     skills: ['Home Maintenance Repair'],
-    offeredServices: [],
-    availabilitySlots: [],
+    offeredServices: [
+      {
+        id: 's_p_extra_11_1', name: 'General Handyman Visit', description: 'Small repairs, fittings and odd jobs around the house',
+        price: 300, visitCharge: 199, priceUnit: 'fixed', durationMinutes: 60, warrantyDays: 30
+      },
+      {
+        id: 's_p_extra_11_2', name: 'TV & Shelf Wall Mounting', description: 'Bracket fitting, drilling, levelling and cable management',
+        price: 390, visitCharge: 199, priceUnit: 'fixed', durationMinutes: 75, warrantyDays: 30
+      },
+      {
+        id: 's_p_extra_11_3', name: 'Home Repair Combo', description: 'Multiple small fixes across rooms in a single visit',
+        price: 600, visitCharge: 199, priceUnit: 'fixed', durationMinutes: 150, warrantyDays: 30
+      }
+    ],
+    availabilitySlots: [
+      { day: 'Today', slots: ['2:00 PM', '4:00 PM', '6:00 PM'] },
+      { day: 'Tomorrow', slots: ['9:00 AM', '11:00 AM', '1:00 PM', '3:00 PM', '5:00 PM'] },
+      { day: 'This Week', slots: ['10:00 AM', '12:00 PM', '3:30 PM'] }
+    ],
     portfolio: [],
     reviews: [],
     phone: '+91 9148378198',
@@ -1512,8 +1699,25 @@ export const mockProviders: Provider[] = [
     bio: 'Professional Electrical expert providing quality services.',
     about: 'I am a dedicated professional committed to excellent service delivery.',
     skills: ['Electrical Repair'],
-    offeredServices: [],
-    availabilitySlots: [],
+    offeredServices: [
+      {
+        id: 's_p_extra_12_1', name: 'Switchboard & Socket Repair', description: 'Loose connections, sparking and burning-smell diagnosis',
+        price: 400, visitCharge: 199, priceUnit: 'fixed', durationMinutes: 45, warrantyDays: 30
+      },
+      {
+        id: 's_p_extra_12_2', name: 'Fan / Light Installation', description: 'Ceiling fan, chandelier or light fitting with regulator setup',
+        price: 520, visitCharge: 199, priceUnit: 'fixed', durationMinutes: 60, warrantyDays: 30
+      },
+      {
+        id: 's_p_extra_12_3', name: 'Wiring & MCB Fault Finding', description: 'Short circuits, dead outlets and tripping MCBs traced and fixed',
+        price: 800, visitCharge: 199, priceUnit: 'fixed', durationMinutes: 90, warrantyDays: 60
+      }
+    ],
+    availabilitySlots: [
+      { day: 'Today', slots: ['2:00 PM', '4:00 PM', '6:00 PM'] },
+      { day: 'Tomorrow', slots: ['9:00 AM', '11:00 AM', '1:00 PM', '3:00 PM', '5:00 PM'] },
+      { day: 'This Week', slots: ['10:00 AM', '12:00 PM', '3:30 PM'] }
+    ],
     portfolio: [],
     reviews: [],
     phone: '+91 9979497968',
@@ -1547,8 +1751,25 @@ export const mockProviders: Provider[] = [
     bio: 'Professional Pest Control expert providing quality services.',
     about: 'I am a dedicated professional committed to excellent service delivery.',
     skills: ['Pest Control Repair'],
-    offeredServices: [],
-    availabilitySlots: [],
+    offeredServices: [
+      {
+        id: 's_p_extra_13_1', name: 'Cockroach & Ant Treatment', description: 'Gel and spray treatment across kitchen and bathrooms',
+        price: 300, visitCharge: 199, priceUnit: 'fixed', durationMinutes: 60, warrantyDays: 90
+      },
+      {
+        id: 's_p_extra_13_2', name: 'Termite Treatment', description: 'Drill-fill-seal treatment for woodwork and skirting',
+        price: 960, visitCharge: 199, priceUnit: 'fixed', durationMinutes: 180, warrantyDays: 365
+      },
+      {
+        id: 's_p_extra_13_3', name: 'Mosquito & Bed Bug Control', description: 'Fogging and mattress-level treatment',
+        price: 480, visitCharge: 199, priceUnit: 'fixed', durationMinutes: 90, warrantyDays: 60
+      }
+    ],
+    availabilitySlots: [
+      { day: 'Today', slots: ['2:00 PM', '4:00 PM', '6:00 PM'] },
+      { day: 'Tomorrow', slots: ['9:00 AM', '11:00 AM', '1:00 PM', '3:00 PM', '5:00 PM'] },
+      { day: 'This Week', slots: ['10:00 AM', '12:00 PM', '3:30 PM'] }
+    ],
     portfolio: [],
     reviews: [],
     phone: '+91 9458276488',
@@ -1582,8 +1803,25 @@ export const mockProviders: Provider[] = [
     bio: 'Professional Cleaning expert providing quality services.',
     about: 'I am a dedicated professional committed to excellent service delivery.',
     skills: ['Cleaning Repair'],
-    offeredServices: [],
-    availabilitySlots: [],
+    offeredServices: [
+      {
+        id: 's_p_extra_14_1', name: 'Bathroom Deep Cleaning', description: 'Tiles, commode, taps, mirror descaling and sanitisation',
+        price: 200, visitCharge: 199, priceUnit: 'fixed', durationMinutes: 90, warrantyDays: 7
+      },
+      {
+        id: 's_p_extra_14_2', name: 'Kitchen Deep Cleaning', description: 'Hob, chimney, tiles and cabinet exteriors degreased',
+        price: 320, visitCharge: 199, priceUnit: 'fixed', durationMinutes: 120, warrantyDays: 7
+      },
+      {
+        id: 's_p_extra_14_3', name: 'Full Home Deep Cleaning', description: 'Floor to ceiling across all rooms, bathrooms and kitchen',
+        price: 720, visitCharge: 199, priceUnit: 'fixed', durationMinutes: 300, warrantyDays: 7
+      }
+    ],
+    availabilitySlots: [
+      { day: 'Today', slots: ['2:00 PM', '4:00 PM', '6:00 PM'] },
+      { day: 'Tomorrow', slots: ['9:00 AM', '11:00 AM', '1:00 PM', '3:00 PM', '5:00 PM'] },
+      { day: 'This Week', slots: ['10:00 AM', '12:00 PM', '3:30 PM'] }
+    ],
     portfolio: [],
     reviews: [],
     phone: '+91 9360278710',
@@ -1617,8 +1855,25 @@ export const mockProviders: Provider[] = [
     bio: 'Professional Carpenter expert providing quality services.',
     about: 'I am a dedicated professional committed to excellent service delivery.',
     skills: ['Carpenter Repair'],
-    offeredServices: [],
-    availabilitySlots: [],
+    offeredServices: [
+      {
+        id: 's_p_extra_15_1', name: 'Door & Window Repair', description: 'Alignment, hinges, handles, locks and frame fixes',
+        price: 300, visitCharge: 199, priceUnit: 'fixed', durationMinutes: 60, warrantyDays: 30
+      },
+      {
+        id: 's_p_extra_15_2', name: 'Furniture Assembly', description: 'Flat-pack beds, wardrobes, tables and shelving',
+        price: 420, visitCharge: 199, priceUnit: 'fixed', durationMinutes: 90, warrantyDays: 30
+      },
+      {
+        id: 's_p_extra_15_3', name: 'Wardrobe & Cabinet Work', description: 'Sliding doors, drawer channels, shutters and custom shelving',
+        price: 780, visitCharge: 199, priceUnit: 'fixed', durationMinutes: 180, warrantyDays: 60
+      }
+    ],
+    availabilitySlots: [
+      { day: 'Today', slots: ['2:00 PM', '4:00 PM', '6:00 PM'] },
+      { day: 'Tomorrow', slots: ['9:00 AM', '11:00 AM', '1:00 PM', '3:00 PM', '5:00 PM'] },
+      { day: 'This Week', slots: ['10:00 AM', '12:00 PM', '3:30 PM'] }
+    ],
     portfolio: [],
     reviews: [],
     phone: '+91 9314509776',
@@ -1652,8 +1907,25 @@ export const mockProviders: Provider[] = [
     bio: 'Professional Painting expert providing quality services.',
     about: 'I am a dedicated professional committed to excellent service delivery.',
     skills: ['Painting Repair'],
-    offeredServices: [],
-    availabilitySlots: [],
+    offeredServices: [
+      {
+        id: 's_p_extra_16_1', name: 'Single Room Painting', description: 'Two coats of emulsion with surface prep and masking',
+        price: 200, visitCharge: 199, priceUnit: 'fixed', durationMinutes: 480, warrantyDays: 180
+      },
+      {
+        id: 's_p_extra_16_2', name: 'Texture & Accent Wall', description: 'Designer texture or accent finish on one feature wall',
+        price: 320, visitCharge: 199, priceUnit: 'fixed', durationMinutes: 360, warrantyDays: 180
+      },
+      {
+        id: 's_p_extra_16_3', name: 'Waterproofing & Damp Repair', description: 'Damp patch treatment, sealing and protective coating',
+        price: 480, visitCharge: 199, priceUnit: 'fixed', durationMinutes: 480, warrantyDays: 365
+      }
+    ],
+    availabilitySlots: [
+      { day: 'Today', slots: ['2:00 PM', '4:00 PM', '6:00 PM'] },
+      { day: 'Tomorrow', slots: ['9:00 AM', '11:00 AM', '1:00 PM', '3:00 PM', '5:00 PM'] },
+      { day: 'This Week', slots: ['10:00 AM', '12:00 PM', '3:30 PM'] }
+    ],
     portfolio: [],
     reviews: [],
     phone: '+91 9555620911',
@@ -1687,8 +1959,25 @@ export const mockProviders: Provider[] = [
     bio: 'Professional Carpenter expert providing quality services.',
     about: 'I am a dedicated professional committed to excellent service delivery.',
     skills: ['Carpenter Repair'],
-    offeredServices: [],
-    availabilitySlots: [],
+    offeredServices: [
+      {
+        id: 's_p_extra_17_1', name: 'Door & Window Repair', description: 'Alignment, hinges, handles, locks and frame fixes',
+        price: 200, visitCharge: 199, priceUnit: 'fixed', durationMinutes: 60, warrantyDays: 30
+      },
+      {
+        id: 's_p_extra_17_2', name: 'Furniture Assembly', description: 'Flat-pack beds, wardrobes, tables and shelving',
+        price: 280, visitCharge: 199, priceUnit: 'fixed', durationMinutes: 90, warrantyDays: 30
+      },
+      {
+        id: 's_p_extra_17_3', name: 'Wardrobe & Cabinet Work', description: 'Sliding doors, drawer channels, shutters and custom shelving',
+        price: 520, visitCharge: 199, priceUnit: 'fixed', durationMinutes: 180, warrantyDays: 60
+      }
+    ],
+    availabilitySlots: [
+      { day: 'Today', slots: ['2:00 PM', '4:00 PM', '6:00 PM'] },
+      { day: 'Tomorrow', slots: ['9:00 AM', '11:00 AM', '1:00 PM', '3:00 PM', '5:00 PM'] },
+      { day: 'This Week', slots: ['10:00 AM', '12:00 PM', '3:30 PM'] }
+    ],
     portfolio: [],
     reviews: [],
     phone: '+91 9192387450',
@@ -1722,8 +2011,25 @@ export const mockProviders: Provider[] = [
     bio: 'Professional Pest Control expert providing quality services.',
     about: 'I am a dedicated professional committed to excellent service delivery.',
     skills: ['Pest Control Repair'],
-    offeredServices: [],
-    availabilitySlots: [],
+    offeredServices: [
+      {
+        id: 's_p_extra_18_1', name: 'Cockroach & Ant Treatment', description: 'Gel and spray treatment across kitchen and bathrooms',
+        price: 300, visitCharge: 199, priceUnit: 'fixed', durationMinutes: 60, warrantyDays: 90
+      },
+      {
+        id: 's_p_extra_18_2', name: 'Termite Treatment', description: 'Drill-fill-seal treatment for woodwork and skirting',
+        price: 960, visitCharge: 199, priceUnit: 'fixed', durationMinutes: 180, warrantyDays: 365
+      },
+      {
+        id: 's_p_extra_18_3', name: 'Mosquito & Bed Bug Control', description: 'Fogging and mattress-level treatment',
+        price: 480, visitCharge: 199, priceUnit: 'fixed', durationMinutes: 90, warrantyDays: 60
+      }
+    ],
+    availabilitySlots: [
+      { day: 'Today', slots: ['2:00 PM', '4:00 PM', '6:00 PM'] },
+      { day: 'Tomorrow', slots: ['9:00 AM', '11:00 AM', '1:00 PM', '3:00 PM', '5:00 PM'] },
+      { day: 'This Week', slots: ['10:00 AM', '12:00 PM', '3:30 PM'] }
+    ],
     portfolio: [],
     reviews: [],
     phone: '+91 9245373476',
@@ -1757,8 +2063,25 @@ export const mockProviders: Provider[] = [
     bio: 'Professional Appliance Repair expert providing quality services.',
     about: 'I am a dedicated professional committed to excellent service delivery.',
     skills: ['Appliance Repair Repair'],
-    offeredServices: [],
-    availabilitySlots: [],
+    offeredServices: [
+      {
+        id: 's_p_extra_19_1', name: 'Appliance Diagnosis & Repair', description: 'Fault diagnosis and on-site repair with genuine parts',
+        price: 300, visitCharge: 199, priceUnit: 'fixed', durationMinutes: 60, warrantyDays: 90
+      },
+      {
+        id: 's_p_extra_19_2', name: 'Microwave / OTG Repair', description: 'Magnetron, heating element and control panel faults',
+        price: 390, visitCharge: 199, priceUnit: 'fixed', durationMinutes: 75, warrantyDays: 90
+      },
+      {
+        id: 's_p_extra_19_3', name: 'Geyser Service & Repair', description: 'Element, thermostat and tank descaling',
+        price: 510, visitCharge: 199, priceUnit: 'fixed', durationMinutes: 90, warrantyDays: 90
+      }
+    ],
+    availabilitySlots: [
+      { day: 'Today', slots: ['2:00 PM', '4:00 PM', '6:00 PM'] },
+      { day: 'Tomorrow', slots: ['9:00 AM', '11:00 AM', '1:00 PM', '3:00 PM', '5:00 PM'] },
+      { day: 'This Week', slots: ['10:00 AM', '12:00 PM', '3:30 PM'] }
+    ],
     portfolio: [],
     reviews: [],
     phone: '+91 9219229671',
@@ -1792,8 +2115,25 @@ export const mockProviders: Provider[] = [
     bio: 'Professional Appliance Repair expert providing quality services.',
     about: 'I am a dedicated professional committed to excellent service delivery.',
     skills: ['Appliance Repair Repair'],
-    offeredServices: [],
-    availabilitySlots: [],
+    offeredServices: [
+      {
+        id: 's_p_extra_20_1', name: 'Appliance Diagnosis & Repair', description: 'Fault diagnosis and on-site repair with genuine parts',
+        price: 400, visitCharge: 199, priceUnit: 'fixed', durationMinutes: 60, warrantyDays: 90
+      },
+      {
+        id: 's_p_extra_20_2', name: 'Microwave / OTG Repair', description: 'Magnetron, heating element and control panel faults',
+        price: 520, visitCharge: 199, priceUnit: 'fixed', durationMinutes: 75, warrantyDays: 90
+      },
+      {
+        id: 's_p_extra_20_3', name: 'Geyser Service & Repair', description: 'Element, thermostat and tank descaling',
+        price: 680, visitCharge: 199, priceUnit: 'fixed', durationMinutes: 90, warrantyDays: 90
+      }
+    ],
+    availabilitySlots: [
+      { day: 'Today', slots: ['2:00 PM', '4:00 PM', '6:00 PM'] },
+      { day: 'Tomorrow', slots: ['9:00 AM', '11:00 AM', '1:00 PM', '3:00 PM', '5:00 PM'] },
+      { day: 'This Week', slots: ['10:00 AM', '12:00 PM', '3:30 PM'] }
+    ],
     portfolio: [],
     reviews: [],
     phone: '+91 9856282143',
@@ -1827,8 +2167,25 @@ export const mockProviders: Provider[] = [
     bio: 'Professional Electrical expert providing quality services.',
     about: 'I am a dedicated professional committed to excellent service delivery.',
     skills: ['Electrical Repair'],
-    offeredServices: [],
-    availabilitySlots: [],
+    offeredServices: [
+      {
+        id: 's_p_extra_21_1', name: 'Switchboard & Socket Repair', description: 'Loose connections, sparking and burning-smell diagnosis',
+        price: 400, visitCharge: 199, priceUnit: 'fixed', durationMinutes: 45, warrantyDays: 30
+      },
+      {
+        id: 's_p_extra_21_2', name: 'Fan / Light Installation', description: 'Ceiling fan, chandelier or light fitting with regulator setup',
+        price: 520, visitCharge: 199, priceUnit: 'fixed', durationMinutes: 60, warrantyDays: 30
+      },
+      {
+        id: 's_p_extra_21_3', name: 'Wiring & MCB Fault Finding', description: 'Short circuits, dead outlets and tripping MCBs traced and fixed',
+        price: 800, visitCharge: 199, priceUnit: 'fixed', durationMinutes: 90, warrantyDays: 60
+      }
+    ],
+    availabilitySlots: [
+      { day: 'Today', slots: ['2:00 PM', '4:00 PM', '6:00 PM'] },
+      { day: 'Tomorrow', slots: ['9:00 AM', '11:00 AM', '1:00 PM', '3:00 PM', '5:00 PM'] },
+      { day: 'This Week', slots: ['10:00 AM', '12:00 PM', '3:30 PM'] }
+    ],
     portfolio: [],
     reviews: [],
     phone: '+91 9515696125',
@@ -1862,8 +2219,25 @@ export const mockProviders: Provider[] = [
     bio: 'Professional Home Maintenance expert providing quality services.',
     about: 'I am a dedicated professional committed to excellent service delivery.',
     skills: ['Home Maintenance Repair'],
-    offeredServices: [],
-    availabilitySlots: [],
+    offeredServices: [
+      {
+        id: 's_p_extra_22_1', name: 'General Handyman Visit', description: 'Small repairs, fittings and odd jobs around the house',
+        price: 300, visitCharge: 199, priceUnit: 'fixed', durationMinutes: 60, warrantyDays: 30
+      },
+      {
+        id: 's_p_extra_22_2', name: 'TV & Shelf Wall Mounting', description: 'Bracket fitting, drilling, levelling and cable management',
+        price: 390, visitCharge: 199, priceUnit: 'fixed', durationMinutes: 75, warrantyDays: 30
+      },
+      {
+        id: 's_p_extra_22_3', name: 'Home Repair Combo', description: 'Multiple small fixes across rooms in a single visit',
+        price: 600, visitCharge: 199, priceUnit: 'fixed', durationMinutes: 150, warrantyDays: 30
+      }
+    ],
+    availabilitySlots: [
+      { day: 'Today', slots: ['2:00 PM', '4:00 PM', '6:00 PM'] },
+      { day: 'Tomorrow', slots: ['9:00 AM', '11:00 AM', '1:00 PM', '3:00 PM', '5:00 PM'] },
+      { day: 'This Week', slots: ['10:00 AM', '12:00 PM', '3:30 PM'] }
+    ],
     portfolio: [],
     reviews: [],
     phone: '+91 9308091269',
@@ -1897,8 +2271,25 @@ export const mockProviders: Provider[] = [
     bio: 'Professional AC Repair & Service expert providing quality services.',
     about: 'I am a dedicated professional committed to excellent service delivery.',
     skills: ['AC Repair & Service Repair'],
-    offeredServices: [],
-    availabilitySlots: [],
+    offeredServices: [
+      {
+        id: 's_p_extra_23_1', name: 'AC Service & Cleaning', description: 'Deep clean, filter wash, gas pressure check and performance test',
+        price: 400, visitCharge: 199, priceUnit: 'fixed', durationMinutes: 60, warrantyDays: 30
+      },
+      {
+        id: 's_p_extra_23_2', name: 'AC Gas Refill', description: 'Leak detection, gas top-up and pressure testing',
+        price: 960, visitCharge: 199, priceUnit: 'fixed', durationMinutes: 90, warrantyDays: 90
+      },
+      {
+        id: 's_p_extra_23_3', name: 'AC Installation / Uninstall', description: 'Indoor and outdoor unit mounting, piping and commissioning',
+        price: 1200, visitCharge: 199, priceUnit: 'fixed', durationMinutes: 180, warrantyDays: 30
+      }
+    ],
+    availabilitySlots: [
+      { day: 'Today', slots: ['2:00 PM', '4:00 PM', '6:00 PM'] },
+      { day: 'Tomorrow', slots: ['9:00 AM', '11:00 AM', '1:00 PM', '3:00 PM', '5:00 PM'] },
+      { day: 'This Week', slots: ['10:00 AM', '12:00 PM', '3:30 PM'] }
+    ],
     portfolio: [],
     reviews: [],
     phone: '+91 9745701990',
@@ -1932,8 +2323,25 @@ export const mockProviders: Provider[] = [
     bio: 'Professional Carpenter expert providing quality services.',
     about: 'I am a dedicated professional committed to excellent service delivery.',
     skills: ['Carpenter Repair'],
-    offeredServices: [],
-    availabilitySlots: [],
+    offeredServices: [
+      {
+        id: 's_p_extra_24_1', name: 'Door & Window Repair', description: 'Alignment, hinges, handles, locks and frame fixes',
+        price: 200, visitCharge: 199, priceUnit: 'fixed', durationMinutes: 60, warrantyDays: 30
+      },
+      {
+        id: 's_p_extra_24_2', name: 'Furniture Assembly', description: 'Flat-pack beds, wardrobes, tables and shelving',
+        price: 280, visitCharge: 199, priceUnit: 'fixed', durationMinutes: 90, warrantyDays: 30
+      },
+      {
+        id: 's_p_extra_24_3', name: 'Wardrobe & Cabinet Work', description: 'Sliding doors, drawer channels, shutters and custom shelving',
+        price: 520, visitCharge: 199, priceUnit: 'fixed', durationMinutes: 180, warrantyDays: 60
+      }
+    ],
+    availabilitySlots: [
+      { day: 'Today', slots: ['2:00 PM', '4:00 PM', '6:00 PM'] },
+      { day: 'Tomorrow', slots: ['9:00 AM', '11:00 AM', '1:00 PM', '3:00 PM', '5:00 PM'] },
+      { day: 'This Week', slots: ['10:00 AM', '12:00 PM', '3:30 PM'] }
+    ],
     portfolio: [],
     reviews: [],
     phone: '+91 9800013746',
@@ -1967,8 +2375,25 @@ export const mockProviders: Provider[] = [
     bio: 'Professional Painting expert providing quality services.',
     about: 'I am a dedicated professional committed to excellent service delivery.',
     skills: ['Painting Repair'],
-    offeredServices: [],
-    availabilitySlots: [],
+    offeredServices: [
+      {
+        id: 's_p_extra_25_1', name: 'Single Room Painting', description: 'Two coats of emulsion with surface prep and masking',
+        price: 300, visitCharge: 199, priceUnit: 'fixed', durationMinutes: 480, warrantyDays: 180
+      },
+      {
+        id: 's_p_extra_25_2', name: 'Texture & Accent Wall', description: 'Designer texture or accent finish on one feature wall',
+        price: 480, visitCharge: 199, priceUnit: 'fixed', durationMinutes: 360, warrantyDays: 180
+      },
+      {
+        id: 's_p_extra_25_3', name: 'Waterproofing & Damp Repair', description: 'Damp patch treatment, sealing and protective coating',
+        price: 720, visitCharge: 199, priceUnit: 'fixed', durationMinutes: 480, warrantyDays: 365
+      }
+    ],
+    availabilitySlots: [
+      { day: 'Today', slots: ['2:00 PM', '4:00 PM', '6:00 PM'] },
+      { day: 'Tomorrow', slots: ['9:00 AM', '11:00 AM', '1:00 PM', '3:00 PM', '5:00 PM'] },
+      { day: 'This Week', slots: ['10:00 AM', '12:00 PM', '3:30 PM'] }
+    ],
     portfolio: [],
     reviews: [],
     phone: '+91 9683982825',
@@ -2002,8 +2427,25 @@ export const mockProviders: Provider[] = [
     bio: 'Professional Home Maintenance expert providing quality services.',
     about: 'I am a dedicated professional committed to excellent service delivery.',
     skills: ['Home Maintenance Repair'],
-    offeredServices: [],
-    availabilitySlots: [],
+    offeredServices: [
+      {
+        id: 's_p_extra_26_1', name: 'General Handyman Visit', description: 'Small repairs, fittings and odd jobs around the house',
+        price: 200, visitCharge: 199, priceUnit: 'fixed', durationMinutes: 60, warrantyDays: 30
+      },
+      {
+        id: 's_p_extra_26_2', name: 'TV & Shelf Wall Mounting', description: 'Bracket fitting, drilling, levelling and cable management',
+        price: 260, visitCharge: 199, priceUnit: 'fixed', durationMinutes: 75, warrantyDays: 30
+      },
+      {
+        id: 's_p_extra_26_3', name: 'Home Repair Combo', description: 'Multiple small fixes across rooms in a single visit',
+        price: 400, visitCharge: 199, priceUnit: 'fixed', durationMinutes: 150, warrantyDays: 30
+      }
+    ],
+    availabilitySlots: [
+      { day: 'Today', slots: ['2:00 PM', '4:00 PM', '6:00 PM'] },
+      { day: 'Tomorrow', slots: ['9:00 AM', '11:00 AM', '1:00 PM', '3:00 PM', '5:00 PM'] },
+      { day: 'This Week', slots: ['10:00 AM', '12:00 PM', '3:30 PM'] }
+    ],
     portfolio: [],
     reviews: [],
     phone: '+91 9183329878',
@@ -2037,8 +2479,25 @@ export const mockProviders: Provider[] = [
     bio: 'Professional Painting expert providing quality services.',
     about: 'I am a dedicated professional committed to excellent service delivery.',
     skills: ['Painting Repair'],
-    offeredServices: [],
-    availabilitySlots: [],
+    offeredServices: [
+      {
+        id: 's_p_extra_27_1', name: 'Single Room Painting', description: 'Two coats of emulsion with surface prep and masking',
+        price: 200, visitCharge: 199, priceUnit: 'fixed', durationMinutes: 480, warrantyDays: 180
+      },
+      {
+        id: 's_p_extra_27_2', name: 'Texture & Accent Wall', description: 'Designer texture or accent finish on one feature wall',
+        price: 320, visitCharge: 199, priceUnit: 'fixed', durationMinutes: 360, warrantyDays: 180
+      },
+      {
+        id: 's_p_extra_27_3', name: 'Waterproofing & Damp Repair', description: 'Damp patch treatment, sealing and protective coating',
+        price: 480, visitCharge: 199, priceUnit: 'fixed', durationMinutes: 480, warrantyDays: 365
+      }
+    ],
+    availabilitySlots: [
+      { day: 'Today', slots: ['2:00 PM', '4:00 PM', '6:00 PM'] },
+      { day: 'Tomorrow', slots: ['9:00 AM', '11:00 AM', '1:00 PM', '3:00 PM', '5:00 PM'] },
+      { day: 'This Week', slots: ['10:00 AM', '12:00 PM', '3:30 PM'] }
+    ],
     portfolio: [],
     reviews: [],
     phone: '+91 9754714222',
@@ -2072,8 +2531,25 @@ export const mockProviders: Provider[] = [
     bio: 'Professional Home Maintenance expert providing quality services.',
     about: 'I am a dedicated professional committed to excellent service delivery.',
     skills: ['Home Maintenance Repair'],
-    offeredServices: [],
-    availabilitySlots: [],
+    offeredServices: [
+      {
+        id: 's_p_extra_28_1', name: 'General Handyman Visit', description: 'Small repairs, fittings and odd jobs around the house',
+        price: 400, visitCharge: 199, priceUnit: 'fixed', durationMinutes: 60, warrantyDays: 30
+      },
+      {
+        id: 's_p_extra_28_2', name: 'TV & Shelf Wall Mounting', description: 'Bracket fitting, drilling, levelling and cable management',
+        price: 520, visitCharge: 199, priceUnit: 'fixed', durationMinutes: 75, warrantyDays: 30
+      },
+      {
+        id: 's_p_extra_28_3', name: 'Home Repair Combo', description: 'Multiple small fixes across rooms in a single visit',
+        price: 800, visitCharge: 199, priceUnit: 'fixed', durationMinutes: 150, warrantyDays: 30
+      }
+    ],
+    availabilitySlots: [
+      { day: 'Today', slots: ['2:00 PM', '4:00 PM', '6:00 PM'] },
+      { day: 'Tomorrow', slots: ['9:00 AM', '11:00 AM', '1:00 PM', '3:00 PM', '5:00 PM'] },
+      { day: 'This Week', slots: ['10:00 AM', '12:00 PM', '3:30 PM'] }
+    ],
     portfolio: [],
     reviews: [],
     phone: '+91 9720279862',
@@ -2107,8 +2583,25 @@ export const mockProviders: Provider[] = [
     bio: 'Professional Plumbing expert providing quality services.',
     about: 'I am a dedicated professional committed to excellent service delivery.',
     skills: ['Plumbing Repair'],
-    offeredServices: [],
-    availabilitySlots: [],
+    offeredServices: [
+      {
+        id: 's_p_extra_29_1', name: 'Tap & Mixer Repair', description: 'Dripping tap, broken handle or full replacement',
+        price: 300, visitCharge: 199, priceUnit: 'fixed', durationMinutes: 45, warrantyDays: 30
+      },
+      {
+        id: 's_p_extra_29_2', name: 'Drain & Blockage Clearing', description: 'Kitchen sink, washbasin and bathroom drain unclogging',
+        price: 420, visitCharge: 199, priceUnit: 'fixed', durationMinutes: 60, warrantyDays: 30
+      },
+      {
+        id: 's_p_extra_29_3', name: 'Pipe Leak & Concealed Repair', description: 'Leak tracing, pipe section replacement and resealing',
+        price: 660, visitCharge: 199, priceUnit: 'fixed', durationMinutes: 120, warrantyDays: 60
+      }
+    ],
+    availabilitySlots: [
+      { day: 'Today', slots: ['2:00 PM', '4:00 PM', '6:00 PM'] },
+      { day: 'Tomorrow', slots: ['9:00 AM', '11:00 AM', '1:00 PM', '3:00 PM', '5:00 PM'] },
+      { day: 'This Week', slots: ['10:00 AM', '12:00 PM', '3:30 PM'] }
+    ],
     portfolio: [],
     reviews: [],
     phone: '+91 9127204088',
@@ -2142,8 +2635,25 @@ export const mockProviders: Provider[] = [
     bio: 'Professional Electrical expert providing quality services.',
     about: 'I am a dedicated professional committed to excellent service delivery.',
     skills: ['Electrical Repair'],
-    offeredServices: [],
-    availabilitySlots: [],
+    offeredServices: [
+      {
+        id: 's_p_extra_30_1', name: 'Switchboard & Socket Repair', description: 'Loose connections, sparking and burning-smell diagnosis',
+        price: 200, visitCharge: 199, priceUnit: 'fixed', durationMinutes: 45, warrantyDays: 30
+      },
+      {
+        id: 's_p_extra_30_2', name: 'Fan / Light Installation', description: 'Ceiling fan, chandelier or light fitting with regulator setup',
+        price: 260, visitCharge: 199, priceUnit: 'fixed', durationMinutes: 60, warrantyDays: 30
+      },
+      {
+        id: 's_p_extra_30_3', name: 'Wiring & MCB Fault Finding', description: 'Short circuits, dead outlets and tripping MCBs traced and fixed',
+        price: 400, visitCharge: 199, priceUnit: 'fixed', durationMinutes: 90, warrantyDays: 60
+      }
+    ],
+    availabilitySlots: [
+      { day: 'Today', slots: ['2:00 PM', '4:00 PM', '6:00 PM'] },
+      { day: 'Tomorrow', slots: ['9:00 AM', '11:00 AM', '1:00 PM', '3:00 PM', '5:00 PM'] },
+      { day: 'This Week', slots: ['10:00 AM', '12:00 PM', '3:30 PM'] }
+    ],
     portfolio: [],
     reviews: [],
     phone: '+91 9137729049',
@@ -2177,8 +2687,25 @@ export const mockProviders: Provider[] = [
     bio: 'Professional AC Repair & Service expert providing quality services.',
     about: 'I am a dedicated professional committed to excellent service delivery.',
     skills: ['AC Repair & Service Repair'],
-    offeredServices: [],
-    availabilitySlots: [],
+    offeredServices: [
+      {
+        id: 's_p_extra_31_1', name: 'AC Service & Cleaning', description: 'Deep clean, filter wash, gas pressure check and performance test',
+        price: 300, visitCharge: 199, priceUnit: 'fixed', durationMinutes: 60, warrantyDays: 30
+      },
+      {
+        id: 's_p_extra_31_2', name: 'AC Gas Refill', description: 'Leak detection, gas top-up and pressure testing',
+        price: 720, visitCharge: 199, priceUnit: 'fixed', durationMinutes: 90, warrantyDays: 90
+      },
+      {
+        id: 's_p_extra_31_3', name: 'AC Installation / Uninstall', description: 'Indoor and outdoor unit mounting, piping and commissioning',
+        price: 900, visitCharge: 199, priceUnit: 'fixed', durationMinutes: 180, warrantyDays: 30
+      }
+    ],
+    availabilitySlots: [
+      { day: 'Today', slots: ['2:00 PM', '4:00 PM', '6:00 PM'] },
+      { day: 'Tomorrow', slots: ['9:00 AM', '11:00 AM', '1:00 PM', '3:00 PM', '5:00 PM'] },
+      { day: 'This Week', slots: ['10:00 AM', '12:00 PM', '3:30 PM'] }
+    ],
     portfolio: [],
     reviews: [],
     phone: '+91 9697130325',
@@ -2212,8 +2739,25 @@ export const mockProviders: Provider[] = [
     bio: 'Professional Appliance Repair expert providing quality services.',
     about: 'I am a dedicated professional committed to excellent service delivery.',
     skills: ['Appliance Repair Repair'],
-    offeredServices: [],
-    availabilitySlots: [],
+    offeredServices: [
+      {
+        id: 's_p_extra_32_1', name: 'Appliance Diagnosis & Repair', description: 'Fault diagnosis and on-site repair with genuine parts',
+        price: 400, visitCharge: 199, priceUnit: 'fixed', durationMinutes: 60, warrantyDays: 90
+      },
+      {
+        id: 's_p_extra_32_2', name: 'Microwave / OTG Repair', description: 'Magnetron, heating element and control panel faults',
+        price: 520, visitCharge: 199, priceUnit: 'fixed', durationMinutes: 75, warrantyDays: 90
+      },
+      {
+        id: 's_p_extra_32_3', name: 'Geyser Service & Repair', description: 'Element, thermostat and tank descaling',
+        price: 680, visitCharge: 199, priceUnit: 'fixed', durationMinutes: 90, warrantyDays: 90
+      }
+    ],
+    availabilitySlots: [
+      { day: 'Today', slots: ['2:00 PM', '4:00 PM', '6:00 PM'] },
+      { day: 'Tomorrow', slots: ['9:00 AM', '11:00 AM', '1:00 PM', '3:00 PM', '5:00 PM'] },
+      { day: 'This Week', slots: ['10:00 AM', '12:00 PM', '3:30 PM'] }
+    ],
     portfolio: [],
     reviews: [],
     phone: '+91 9649429528',
@@ -2247,8 +2791,25 @@ export const mockProviders: Provider[] = [
     bio: 'Professional Cleaning expert providing quality services.',
     about: 'I am a dedicated professional committed to excellent service delivery.',
     skills: ['Cleaning Repair'],
-    offeredServices: [],
-    availabilitySlots: [],
+    offeredServices: [
+      {
+        id: 's_p_extra_33_1', name: 'Bathroom Deep Cleaning', description: 'Tiles, commode, taps, mirror descaling and sanitisation',
+        price: 200, visitCharge: 199, priceUnit: 'fixed', durationMinutes: 90, warrantyDays: 7
+      },
+      {
+        id: 's_p_extra_33_2', name: 'Kitchen Deep Cleaning', description: 'Hob, chimney, tiles and cabinet exteriors degreased',
+        price: 320, visitCharge: 199, priceUnit: 'fixed', durationMinutes: 120, warrantyDays: 7
+      },
+      {
+        id: 's_p_extra_33_3', name: 'Full Home Deep Cleaning', description: 'Floor to ceiling across all rooms, bathrooms and kitchen',
+        price: 720, visitCharge: 199, priceUnit: 'fixed', durationMinutes: 300, warrantyDays: 7
+      }
+    ],
+    availabilitySlots: [
+      { day: 'Today', slots: ['2:00 PM', '4:00 PM', '6:00 PM'] },
+      { day: 'Tomorrow', slots: ['9:00 AM', '11:00 AM', '1:00 PM', '3:00 PM', '5:00 PM'] },
+      { day: 'This Week', slots: ['10:00 AM', '12:00 PM', '3:30 PM'] }
+    ],
     portfolio: [],
     reviews: [],
     phone: '+91 9789912526',
@@ -2282,8 +2843,25 @@ export const mockProviders: Provider[] = [
     bio: 'Professional AC Repair & Service expert providing quality services.',
     about: 'I am a dedicated professional committed to excellent service delivery.',
     skills: ['AC Repair & Service Repair'],
-    offeredServices: [],
-    availabilitySlots: [],
+    offeredServices: [
+      {
+        id: 's_p_extra_34_1', name: 'AC Service & Cleaning', description: 'Deep clean, filter wash, gas pressure check and performance test',
+        price: 400, visitCharge: 199, priceUnit: 'fixed', durationMinutes: 60, warrantyDays: 30
+      },
+      {
+        id: 's_p_extra_34_2', name: 'AC Gas Refill', description: 'Leak detection, gas top-up and pressure testing',
+        price: 960, visitCharge: 199, priceUnit: 'fixed', durationMinutes: 90, warrantyDays: 90
+      },
+      {
+        id: 's_p_extra_34_3', name: 'AC Installation / Uninstall', description: 'Indoor and outdoor unit mounting, piping and commissioning',
+        price: 1200, visitCharge: 199, priceUnit: 'fixed', durationMinutes: 180, warrantyDays: 30
+      }
+    ],
+    availabilitySlots: [
+      { day: 'Today', slots: ['2:00 PM', '4:00 PM', '6:00 PM'] },
+      { day: 'Tomorrow', slots: ['9:00 AM', '11:00 AM', '1:00 PM', '3:00 PM', '5:00 PM'] },
+      { day: 'This Week', slots: ['10:00 AM', '12:00 PM', '3:30 PM'] }
+    ],
     portfolio: [],
     reviews: [],
     phone: '+91 9500577153',
@@ -2317,8 +2895,25 @@ export const mockProviders: Provider[] = [
     bio: 'Professional Carpenter expert providing quality services.',
     about: 'I am a dedicated professional committed to excellent service delivery.',
     skills: ['Carpenter Repair'],
-    offeredServices: [],
-    availabilitySlots: [],
+    offeredServices: [
+      {
+        id: 's_p_extra_35_1', name: 'Door & Window Repair', description: 'Alignment, hinges, handles, locks and frame fixes',
+        price: 200, visitCharge: 199, priceUnit: 'fixed', durationMinutes: 60, warrantyDays: 30
+      },
+      {
+        id: 's_p_extra_35_2', name: 'Furniture Assembly', description: 'Flat-pack beds, wardrobes, tables and shelving',
+        price: 280, visitCharge: 199, priceUnit: 'fixed', durationMinutes: 90, warrantyDays: 30
+      },
+      {
+        id: 's_p_extra_35_3', name: 'Wardrobe & Cabinet Work', description: 'Sliding doors, drawer channels, shutters and custom shelving',
+        price: 520, visitCharge: 199, priceUnit: 'fixed', durationMinutes: 180, warrantyDays: 60
+      }
+    ],
+    availabilitySlots: [
+      { day: 'Today', slots: ['2:00 PM', '4:00 PM', '6:00 PM'] },
+      { day: 'Tomorrow', slots: ['9:00 AM', '11:00 AM', '1:00 PM', '3:00 PM', '5:00 PM'] },
+      { day: 'This Week', slots: ['10:00 AM', '12:00 PM', '3:30 PM'] }
+    ],
     portfolio: [],
     reviews: [],
     phone: '+91 9797358100',
@@ -2352,8 +2947,25 @@ export const mockProviders: Provider[] = [
     bio: 'Professional Plumbing expert providing quality services.',
     about: 'I am a dedicated professional committed to excellent service delivery.',
     skills: ['Plumbing Repair'],
-    offeredServices: [],
-    availabilitySlots: [],
+    offeredServices: [
+      {
+        id: 's_p_extra_36_1', name: 'Tap & Mixer Repair', description: 'Dripping tap, broken handle or full replacement',
+        price: 300, visitCharge: 199, priceUnit: 'fixed', durationMinutes: 45, warrantyDays: 30
+      },
+      {
+        id: 's_p_extra_36_2', name: 'Drain & Blockage Clearing', description: 'Kitchen sink, washbasin and bathroom drain unclogging',
+        price: 420, visitCharge: 199, priceUnit: 'fixed', durationMinutes: 60, warrantyDays: 30
+      },
+      {
+        id: 's_p_extra_36_3', name: 'Pipe Leak & Concealed Repair', description: 'Leak tracing, pipe section replacement and resealing',
+        price: 660, visitCharge: 199, priceUnit: 'fixed', durationMinutes: 120, warrantyDays: 60
+      }
+    ],
+    availabilitySlots: [
+      { day: 'Today', slots: ['2:00 PM', '4:00 PM', '6:00 PM'] },
+      { day: 'Tomorrow', slots: ['9:00 AM', '11:00 AM', '1:00 PM', '3:00 PM', '5:00 PM'] },
+      { day: 'This Week', slots: ['10:00 AM', '12:00 PM', '3:30 PM'] }
+    ],
     portfolio: [],
     reviews: [],
     phone: '+91 9799465108',
@@ -2387,8 +2999,25 @@ export const mockProviders: Provider[] = [
     bio: 'Professional Carpenter expert providing quality services.',
     about: 'I am a dedicated professional committed to excellent service delivery.',
     skills: ['Carpenter Repair'],
-    offeredServices: [],
-    availabilitySlots: [],
+    offeredServices: [
+      {
+        id: 's_p_extra_37_1', name: 'Door & Window Repair', description: 'Alignment, hinges, handles, locks and frame fixes',
+        price: 400, visitCharge: 199, priceUnit: 'fixed', durationMinutes: 60, warrantyDays: 30
+      },
+      {
+        id: 's_p_extra_37_2', name: 'Furniture Assembly', description: 'Flat-pack beds, wardrobes, tables and shelving',
+        price: 560, visitCharge: 199, priceUnit: 'fixed', durationMinutes: 90, warrantyDays: 30
+      },
+      {
+        id: 's_p_extra_37_3', name: 'Wardrobe & Cabinet Work', description: 'Sliding doors, drawer channels, shutters and custom shelving',
+        price: 1040, visitCharge: 199, priceUnit: 'fixed', durationMinutes: 180, warrantyDays: 60
+      }
+    ],
+    availabilitySlots: [
+      { day: 'Today', slots: ['2:00 PM', '4:00 PM', '6:00 PM'] },
+      { day: 'Tomorrow', slots: ['9:00 AM', '11:00 AM', '1:00 PM', '3:00 PM', '5:00 PM'] },
+      { day: 'This Week', slots: ['10:00 AM', '12:00 PM', '3:30 PM'] }
+    ],
     portfolio: [],
     reviews: [],
     phone: '+91 9850754276',
@@ -2422,8 +3051,25 @@ export const mockProviders: Provider[] = [
     bio: 'Professional AC Repair & Service expert providing quality services.',
     about: 'I am a dedicated professional committed to excellent service delivery.',
     skills: ['AC Repair & Service Repair'],
-    offeredServices: [],
-    availabilitySlots: [],
+    offeredServices: [
+      {
+        id: 's_p_extra_38_1', name: 'AC Service & Cleaning', description: 'Deep clean, filter wash, gas pressure check and performance test',
+        price: 400, visitCharge: 199, priceUnit: 'fixed', durationMinutes: 60, warrantyDays: 30
+      },
+      {
+        id: 's_p_extra_38_2', name: 'AC Gas Refill', description: 'Leak detection, gas top-up and pressure testing',
+        price: 960, visitCharge: 199, priceUnit: 'fixed', durationMinutes: 90, warrantyDays: 90
+      },
+      {
+        id: 's_p_extra_38_3', name: 'AC Installation / Uninstall', description: 'Indoor and outdoor unit mounting, piping and commissioning',
+        price: 1200, visitCharge: 199, priceUnit: 'fixed', durationMinutes: 180, warrantyDays: 30
+      }
+    ],
+    availabilitySlots: [
+      { day: 'Today', slots: ['2:00 PM', '4:00 PM', '6:00 PM'] },
+      { day: 'Tomorrow', slots: ['9:00 AM', '11:00 AM', '1:00 PM', '3:00 PM', '5:00 PM'] },
+      { day: 'This Week', slots: ['10:00 AM', '12:00 PM', '3:30 PM'] }
+    ],
     portfolio: [],
     reviews: [],
     phone: '+91 9233607432',
@@ -2457,8 +3103,25 @@ export const mockProviders: Provider[] = [
     bio: 'Professional Plumbing expert providing quality services.',
     about: 'I am a dedicated professional committed to excellent service delivery.',
     skills: ['Plumbing Repair'],
-    offeredServices: [],
-    availabilitySlots: [],
+    offeredServices: [
+      {
+        id: 's_p_extra_39_1', name: 'Tap & Mixer Repair', description: 'Dripping tap, broken handle or full replacement',
+        price: 300, visitCharge: 199, priceUnit: 'fixed', durationMinutes: 45, warrantyDays: 30
+      },
+      {
+        id: 's_p_extra_39_2', name: 'Drain & Blockage Clearing', description: 'Kitchen sink, washbasin and bathroom drain unclogging',
+        price: 420, visitCharge: 199, priceUnit: 'fixed', durationMinutes: 60, warrantyDays: 30
+      },
+      {
+        id: 's_p_extra_39_3', name: 'Pipe Leak & Concealed Repair', description: 'Leak tracing, pipe section replacement and resealing',
+        price: 660, visitCharge: 199, priceUnit: 'fixed', durationMinutes: 120, warrantyDays: 60
+      }
+    ],
+    availabilitySlots: [
+      { day: 'Today', slots: ['2:00 PM', '4:00 PM', '6:00 PM'] },
+      { day: 'Tomorrow', slots: ['9:00 AM', '11:00 AM', '1:00 PM', '3:00 PM', '5:00 PM'] },
+      { day: 'This Week', slots: ['10:00 AM', '12:00 PM', '3:30 PM'] }
+    ],
     portfolio: [],
     reviews: [],
     phone: '+91 9553933736',
@@ -2492,8 +3155,25 @@ export const mockProviders: Provider[] = [
     bio: 'Professional Plumbing expert providing quality services.',
     about: 'I am a dedicated professional committed to excellent service delivery.',
     skills: ['Plumbing Repair'],
-    offeredServices: [],
-    availabilitySlots: [],
+    offeredServices: [
+      {
+        id: 's_p_extra_40_1', name: 'Tap & Mixer Repair', description: 'Dripping tap, broken handle or full replacement',
+        price: 200, visitCharge: 199, priceUnit: 'fixed', durationMinutes: 45, warrantyDays: 30
+      },
+      {
+        id: 's_p_extra_40_2', name: 'Drain & Blockage Clearing', description: 'Kitchen sink, washbasin and bathroom drain unclogging',
+        price: 280, visitCharge: 199, priceUnit: 'fixed', durationMinutes: 60, warrantyDays: 30
+      },
+      {
+        id: 's_p_extra_40_3', name: 'Pipe Leak & Concealed Repair', description: 'Leak tracing, pipe section replacement and resealing',
+        price: 440, visitCharge: 199, priceUnit: 'fixed', durationMinutes: 120, warrantyDays: 60
+      }
+    ],
+    availabilitySlots: [
+      { day: 'Today', slots: ['2:00 PM', '4:00 PM', '6:00 PM'] },
+      { day: 'Tomorrow', slots: ['9:00 AM', '11:00 AM', '1:00 PM', '3:00 PM', '5:00 PM'] },
+      { day: 'This Week', slots: ['10:00 AM', '12:00 PM', '3:30 PM'] }
+    ],
     portfolio: [],
     reviews: [],
     phone: '+91 9777328062',
@@ -2527,8 +3207,25 @@ export const mockProviders: Provider[] = [
     bio: 'Professional Pest Control expert providing quality services.',
     about: 'I am a dedicated professional committed to excellent service delivery.',
     skills: ['Pest Control Repair'],
-    offeredServices: [],
-    availabilitySlots: [],
+    offeredServices: [
+      {
+        id: 's_p_extra_41_1', name: 'Cockroach & Ant Treatment', description: 'Gel and spray treatment across kitchen and bathrooms',
+        price: 200, visitCharge: 199, priceUnit: 'fixed', durationMinutes: 60, warrantyDays: 90
+      },
+      {
+        id: 's_p_extra_41_2', name: 'Termite Treatment', description: 'Drill-fill-seal treatment for woodwork and skirting',
+        price: 640, visitCharge: 199, priceUnit: 'fixed', durationMinutes: 180, warrantyDays: 365
+      },
+      {
+        id: 's_p_extra_41_3', name: 'Mosquito & Bed Bug Control', description: 'Fogging and mattress-level treatment',
+        price: 320, visitCharge: 199, priceUnit: 'fixed', durationMinutes: 90, warrantyDays: 60
+      }
+    ],
+    availabilitySlots: [
+      { day: 'Today', slots: ['2:00 PM', '4:00 PM', '6:00 PM'] },
+      { day: 'Tomorrow', slots: ['9:00 AM', '11:00 AM', '1:00 PM', '3:00 PM', '5:00 PM'] },
+      { day: 'This Week', slots: ['10:00 AM', '12:00 PM', '3:30 PM'] }
+    ],
     portfolio: [],
     reviews: [],
     phone: '+91 9263303207',
@@ -2562,8 +3259,25 @@ export const mockProviders: Provider[] = [
     bio: 'Professional Appliance Repair expert providing quality services.',
     about: 'I am a dedicated professional committed to excellent service delivery.',
     skills: ['Appliance Repair Repair'],
-    offeredServices: [],
-    availabilitySlots: [],
+    offeredServices: [
+      {
+        id: 's_p_extra_42_1', name: 'Appliance Diagnosis & Repair', description: 'Fault diagnosis and on-site repair with genuine parts',
+        price: 200, visitCharge: 199, priceUnit: 'fixed', durationMinutes: 60, warrantyDays: 90
+      },
+      {
+        id: 's_p_extra_42_2', name: 'Microwave / OTG Repair', description: 'Magnetron, heating element and control panel faults',
+        price: 260, visitCharge: 199, priceUnit: 'fixed', durationMinutes: 75, warrantyDays: 90
+      },
+      {
+        id: 's_p_extra_42_3', name: 'Geyser Service & Repair', description: 'Element, thermostat and tank descaling',
+        price: 340, visitCharge: 199, priceUnit: 'fixed', durationMinutes: 90, warrantyDays: 90
+      }
+    ],
+    availabilitySlots: [
+      { day: 'Today', slots: ['2:00 PM', '4:00 PM', '6:00 PM'] },
+      { day: 'Tomorrow', slots: ['9:00 AM', '11:00 AM', '1:00 PM', '3:00 PM', '5:00 PM'] },
+      { day: 'This Week', slots: ['10:00 AM', '12:00 PM', '3:30 PM'] }
+    ],
     portfolio: [],
     reviews: [],
     phone: '+91 9294248660',
@@ -2597,8 +3311,25 @@ export const mockProviders: Provider[] = [
     bio: 'Professional AC Repair & Service expert providing quality services.',
     about: 'I am a dedicated professional committed to excellent service delivery.',
     skills: ['AC Repair & Service Repair'],
-    offeredServices: [],
-    availabilitySlots: [],
+    offeredServices: [
+      {
+        id: 's_p_extra_43_1', name: 'AC Service & Cleaning', description: 'Deep clean, filter wash, gas pressure check and performance test',
+        price: 300, visitCharge: 199, priceUnit: 'fixed', durationMinutes: 60, warrantyDays: 30
+      },
+      {
+        id: 's_p_extra_43_2', name: 'AC Gas Refill', description: 'Leak detection, gas top-up and pressure testing',
+        price: 720, visitCharge: 199, priceUnit: 'fixed', durationMinutes: 90, warrantyDays: 90
+      },
+      {
+        id: 's_p_extra_43_3', name: 'AC Installation / Uninstall', description: 'Indoor and outdoor unit mounting, piping and commissioning',
+        price: 900, visitCharge: 199, priceUnit: 'fixed', durationMinutes: 180, warrantyDays: 30
+      }
+    ],
+    availabilitySlots: [
+      { day: 'Today', slots: ['2:00 PM', '4:00 PM', '6:00 PM'] },
+      { day: 'Tomorrow', slots: ['9:00 AM', '11:00 AM', '1:00 PM', '3:00 PM', '5:00 PM'] },
+      { day: 'This Week', slots: ['10:00 AM', '12:00 PM', '3:30 PM'] }
+    ],
     portfolio: [],
     reviews: [],
     phone: '+91 9964345350',
@@ -2632,8 +3363,25 @@ export const mockProviders: Provider[] = [
     bio: 'Professional Electrical expert providing quality services.',
     about: 'I am a dedicated professional committed to excellent service delivery.',
     skills: ['Electrical Repair'],
-    offeredServices: [],
-    availabilitySlots: [],
+    offeredServices: [
+      {
+        id: 's_p_extra_44_1', name: 'Switchboard & Socket Repair', description: 'Loose connections, sparking and burning-smell diagnosis',
+        price: 400, visitCharge: 199, priceUnit: 'fixed', durationMinutes: 45, warrantyDays: 30
+      },
+      {
+        id: 's_p_extra_44_2', name: 'Fan / Light Installation', description: 'Ceiling fan, chandelier or light fitting with regulator setup',
+        price: 520, visitCharge: 199, priceUnit: 'fixed', durationMinutes: 60, warrantyDays: 30
+      },
+      {
+        id: 's_p_extra_44_3', name: 'Wiring & MCB Fault Finding', description: 'Short circuits, dead outlets and tripping MCBs traced and fixed',
+        price: 800, visitCharge: 199, priceUnit: 'fixed', durationMinutes: 90, warrantyDays: 60
+      }
+    ],
+    availabilitySlots: [
+      { day: 'Today', slots: ['2:00 PM', '4:00 PM', '6:00 PM'] },
+      { day: 'Tomorrow', slots: ['9:00 AM', '11:00 AM', '1:00 PM', '3:00 PM', '5:00 PM'] },
+      { day: 'This Week', slots: ['10:00 AM', '12:00 PM', '3:30 PM'] }
+    ],
     portfolio: [],
     reviews: [],
     phone: '+91 9270632915',
@@ -2667,8 +3415,25 @@ export const mockProviders: Provider[] = [
     bio: 'Professional Carpenter expert providing quality services.',
     about: 'I am a dedicated professional committed to excellent service delivery.',
     skills: ['Carpenter Repair'],
-    offeredServices: [],
-    availabilitySlots: [],
+    offeredServices: [
+      {
+        id: 's_p_extra_45_1', name: 'Door & Window Repair', description: 'Alignment, hinges, handles, locks and frame fixes',
+        price: 300, visitCharge: 199, priceUnit: 'fixed', durationMinutes: 60, warrantyDays: 30
+      },
+      {
+        id: 's_p_extra_45_2', name: 'Furniture Assembly', description: 'Flat-pack beds, wardrobes, tables and shelving',
+        price: 420, visitCharge: 199, priceUnit: 'fixed', durationMinutes: 90, warrantyDays: 30
+      },
+      {
+        id: 's_p_extra_45_3', name: 'Wardrobe & Cabinet Work', description: 'Sliding doors, drawer channels, shutters and custom shelving',
+        price: 780, visitCharge: 199, priceUnit: 'fixed', durationMinutes: 180, warrantyDays: 60
+      }
+    ],
+    availabilitySlots: [
+      { day: 'Today', slots: ['2:00 PM', '4:00 PM', '6:00 PM'] },
+      { day: 'Tomorrow', slots: ['9:00 AM', '11:00 AM', '1:00 PM', '3:00 PM', '5:00 PM'] },
+      { day: 'This Week', slots: ['10:00 AM', '12:00 PM', '3:30 PM'] }
+    ],
     portfolio: [],
     reviews: [],
     phone: '+91 9485526036',
@@ -2702,8 +3467,25 @@ export const mockProviders: Provider[] = [
     bio: 'Professional Painting expert providing quality services.',
     about: 'I am a dedicated professional committed to excellent service delivery.',
     skills: ['Painting Repair'],
-    offeredServices: [],
-    availabilitySlots: [],
+    offeredServices: [
+      {
+        id: 's_p_extra_46_1', name: 'Single Room Painting', description: 'Two coats of emulsion with surface prep and masking',
+        price: 400, visitCharge: 199, priceUnit: 'fixed', durationMinutes: 480, warrantyDays: 180
+      },
+      {
+        id: 's_p_extra_46_2', name: 'Texture & Accent Wall', description: 'Designer texture or accent finish on one feature wall',
+        price: 640, visitCharge: 199, priceUnit: 'fixed', durationMinutes: 360, warrantyDays: 180
+      },
+      {
+        id: 's_p_extra_46_3', name: 'Waterproofing & Damp Repair', description: 'Damp patch treatment, sealing and protective coating',
+        price: 960, visitCharge: 199, priceUnit: 'fixed', durationMinutes: 480, warrantyDays: 365
+      }
+    ],
+    availabilitySlots: [
+      { day: 'Today', slots: ['2:00 PM', '4:00 PM', '6:00 PM'] },
+      { day: 'Tomorrow', slots: ['9:00 AM', '11:00 AM', '1:00 PM', '3:00 PM', '5:00 PM'] },
+      { day: 'This Week', slots: ['10:00 AM', '12:00 PM', '3:30 PM'] }
+    ],
     portfolio: [],
     reviews: [],
     phone: '+91 9128470776',
@@ -2737,8 +3519,25 @@ export const mockProviders: Provider[] = [
     bio: 'Professional Home Maintenance expert providing quality services.',
     about: 'I am a dedicated professional committed to excellent service delivery.',
     skills: ['Home Maintenance Repair'],
-    offeredServices: [],
-    availabilitySlots: [],
+    offeredServices: [
+      {
+        id: 's_p_extra_47_1', name: 'General Handyman Visit', description: 'Small repairs, fittings and odd jobs around the house',
+        price: 400, visitCharge: 199, priceUnit: 'fixed', durationMinutes: 60, warrantyDays: 30
+      },
+      {
+        id: 's_p_extra_47_2', name: 'TV & Shelf Wall Mounting', description: 'Bracket fitting, drilling, levelling and cable management',
+        price: 520, visitCharge: 199, priceUnit: 'fixed', durationMinutes: 75, warrantyDays: 30
+      },
+      {
+        id: 's_p_extra_47_3', name: 'Home Repair Combo', description: 'Multiple small fixes across rooms in a single visit',
+        price: 800, visitCharge: 199, priceUnit: 'fixed', durationMinutes: 150, warrantyDays: 30
+      }
+    ],
+    availabilitySlots: [
+      { day: 'Today', slots: ['2:00 PM', '4:00 PM', '6:00 PM'] },
+      { day: 'Tomorrow', slots: ['9:00 AM', '11:00 AM', '1:00 PM', '3:00 PM', '5:00 PM'] },
+      { day: 'This Week', slots: ['10:00 AM', '12:00 PM', '3:30 PM'] }
+    ],
     portfolio: [],
     reviews: [],
     phone: '+91 9659737110',
@@ -2772,8 +3571,25 @@ export const mockProviders: Provider[] = [
     bio: 'Professional Appliance Repair expert providing quality services.',
     about: 'I am a dedicated professional committed to excellent service delivery.',
     skills: ['Appliance Repair Repair'],
-    offeredServices: [],
-    availabilitySlots: [],
+    offeredServices: [
+      {
+        id: 's_p_extra_48_1', name: 'Appliance Diagnosis & Repair', description: 'Fault diagnosis and on-site repair with genuine parts',
+        price: 300, visitCharge: 199, priceUnit: 'fixed', durationMinutes: 60, warrantyDays: 90
+      },
+      {
+        id: 's_p_extra_48_2', name: 'Microwave / OTG Repair', description: 'Magnetron, heating element and control panel faults',
+        price: 390, visitCharge: 199, priceUnit: 'fixed', durationMinutes: 75, warrantyDays: 90
+      },
+      {
+        id: 's_p_extra_48_3', name: 'Geyser Service & Repair', description: 'Element, thermostat and tank descaling',
+        price: 510, visitCharge: 199, priceUnit: 'fixed', durationMinutes: 90, warrantyDays: 90
+      }
+    ],
+    availabilitySlots: [
+      { day: 'Today', slots: ['2:00 PM', '4:00 PM', '6:00 PM'] },
+      { day: 'Tomorrow', slots: ['9:00 AM', '11:00 AM', '1:00 PM', '3:00 PM', '5:00 PM'] },
+      { day: 'This Week', slots: ['10:00 AM', '12:00 PM', '3:30 PM'] }
+    ],
     portfolio: [],
     reviews: [],
     phone: '+91 9176847924',
@@ -2807,8 +3623,25 @@ export const mockProviders: Provider[] = [
     bio: 'Professional Electrical expert providing quality services.',
     about: 'I am a dedicated professional committed to excellent service delivery.',
     skills: ['Electrical Repair'],
-    offeredServices: [],
-    availabilitySlots: [],
+    offeredServices: [
+      {
+        id: 's_p_extra_49_1', name: 'Switchboard & Socket Repair', description: 'Loose connections, sparking and burning-smell diagnosis',
+        price: 200, visitCharge: 199, priceUnit: 'fixed', durationMinutes: 45, warrantyDays: 30
+      },
+      {
+        id: 's_p_extra_49_2', name: 'Fan / Light Installation', description: 'Ceiling fan, chandelier or light fitting with regulator setup',
+        price: 260, visitCharge: 199, priceUnit: 'fixed', durationMinutes: 60, warrantyDays: 30
+      },
+      {
+        id: 's_p_extra_49_3', name: 'Wiring & MCB Fault Finding', description: 'Short circuits, dead outlets and tripping MCBs traced and fixed',
+        price: 400, visitCharge: 199, priceUnit: 'fixed', durationMinutes: 90, warrantyDays: 60
+      }
+    ],
+    availabilitySlots: [
+      { day: 'Today', slots: ['2:00 PM', '4:00 PM', '6:00 PM'] },
+      { day: 'Tomorrow', slots: ['9:00 AM', '11:00 AM', '1:00 PM', '3:00 PM', '5:00 PM'] },
+      { day: 'This Week', slots: ['10:00 AM', '12:00 PM', '3:30 PM'] }
+    ],
     portfolio: [],
     reviews: [],
     phone: '+91 9821117105',
@@ -2842,8 +3675,25 @@ export const mockProviders: Provider[] = [
     bio: 'Professional Appliance Repair expert providing quality services.',
     about: 'I am a dedicated professional committed to excellent service delivery.',
     skills: ['Appliance Repair Repair'],
-    offeredServices: [],
-    availabilitySlots: [],
+    offeredServices: [
+      {
+        id: 's_p_extra_50_1', name: 'Appliance Diagnosis & Repair', description: 'Fault diagnosis and on-site repair with genuine parts',
+        price: 300, visitCharge: 199, priceUnit: 'fixed', durationMinutes: 60, warrantyDays: 90
+      },
+      {
+        id: 's_p_extra_50_2', name: 'Microwave / OTG Repair', description: 'Magnetron, heating element and control panel faults',
+        price: 390, visitCharge: 199, priceUnit: 'fixed', durationMinutes: 75, warrantyDays: 90
+      },
+      {
+        id: 's_p_extra_50_3', name: 'Geyser Service & Repair', description: 'Element, thermostat and tank descaling',
+        price: 510, visitCharge: 199, priceUnit: 'fixed', durationMinutes: 90, warrantyDays: 90
+      }
+    ],
+    availabilitySlots: [
+      { day: 'Today', slots: ['2:00 PM', '4:00 PM', '6:00 PM'] },
+      { day: 'Tomorrow', slots: ['9:00 AM', '11:00 AM', '1:00 PM', '3:00 PM', '5:00 PM'] },
+      { day: 'This Week', slots: ['10:00 AM', '12:00 PM', '3:30 PM'] }
+    ],
     portfolio: [],
     reviews: [],
     phone: '+91 9679245735',
@@ -2877,8 +3727,25 @@ export const mockProviders: Provider[] = [
     bio: 'Professional Home Maintenance expert providing quality services.',
     about: 'I am a dedicated professional committed to excellent service delivery.',
     skills: ['Home Maintenance Repair'],
-    offeredServices: [],
-    availabilitySlots: [],
+    offeredServices: [
+      {
+        id: 's_p_extra_51_1', name: 'General Handyman Visit', description: 'Small repairs, fittings and odd jobs around the house',
+        price: 300, visitCharge: 199, priceUnit: 'fixed', durationMinutes: 60, warrantyDays: 30
+      },
+      {
+        id: 's_p_extra_51_2', name: 'TV & Shelf Wall Mounting', description: 'Bracket fitting, drilling, levelling and cable management',
+        price: 390, visitCharge: 199, priceUnit: 'fixed', durationMinutes: 75, warrantyDays: 30
+      },
+      {
+        id: 's_p_extra_51_3', name: 'Home Repair Combo', description: 'Multiple small fixes across rooms in a single visit',
+        price: 600, visitCharge: 199, priceUnit: 'fixed', durationMinutes: 150, warrantyDays: 30
+      }
+    ],
+    availabilitySlots: [
+      { day: 'Today', slots: ['2:00 PM', '4:00 PM', '6:00 PM'] },
+      { day: 'Tomorrow', slots: ['9:00 AM', '11:00 AM', '1:00 PM', '3:00 PM', '5:00 PM'] },
+      { day: 'This Week', slots: ['10:00 AM', '12:00 PM', '3:30 PM'] }
+    ],
     portfolio: [],
     reviews: [],
     phone: '+91 9820223337',
@@ -2912,8 +3779,25 @@ export const mockProviders: Provider[] = [
     bio: 'Professional Painting expert providing quality services.',
     about: 'I am a dedicated professional committed to excellent service delivery.',
     skills: ['Painting Repair'],
-    offeredServices: [],
-    availabilitySlots: [],
+    offeredServices: [
+      {
+        id: 's_p_extra_52_1', name: 'Single Room Painting', description: 'Two coats of emulsion with surface prep and masking',
+        price: 300, visitCharge: 199, priceUnit: 'fixed', durationMinutes: 480, warrantyDays: 180
+      },
+      {
+        id: 's_p_extra_52_2', name: 'Texture & Accent Wall', description: 'Designer texture or accent finish on one feature wall',
+        price: 480, visitCharge: 199, priceUnit: 'fixed', durationMinutes: 360, warrantyDays: 180
+      },
+      {
+        id: 's_p_extra_52_3', name: 'Waterproofing & Damp Repair', description: 'Damp patch treatment, sealing and protective coating',
+        price: 720, visitCharge: 199, priceUnit: 'fixed', durationMinutes: 480, warrantyDays: 365
+      }
+    ],
+    availabilitySlots: [
+      { day: 'Today', slots: ['2:00 PM', '4:00 PM', '6:00 PM'] },
+      { day: 'Tomorrow', slots: ['9:00 AM', '11:00 AM', '1:00 PM', '3:00 PM', '5:00 PM'] },
+      { day: 'This Week', slots: ['10:00 AM', '12:00 PM', '3:30 PM'] }
+    ],
     portfolio: [],
     reviews: [],
     phone: '+91 9996878367',
@@ -2947,8 +3831,25 @@ export const mockProviders: Provider[] = [
     bio: 'Professional Pest Control expert providing quality services.',
     about: 'I am a dedicated professional committed to excellent service delivery.',
     skills: ['Pest Control Repair'],
-    offeredServices: [],
-    availabilitySlots: [],
+    offeredServices: [
+      {
+        id: 's_p_extra_53_1', name: 'Cockroach & Ant Treatment', description: 'Gel and spray treatment across kitchen and bathrooms',
+        price: 400, visitCharge: 199, priceUnit: 'fixed', durationMinutes: 60, warrantyDays: 90
+      },
+      {
+        id: 's_p_extra_53_2', name: 'Termite Treatment', description: 'Drill-fill-seal treatment for woodwork and skirting',
+        price: 1280, visitCharge: 199, priceUnit: 'fixed', durationMinutes: 180, warrantyDays: 365
+      },
+      {
+        id: 's_p_extra_53_3', name: 'Mosquito & Bed Bug Control', description: 'Fogging and mattress-level treatment',
+        price: 640, visitCharge: 199, priceUnit: 'fixed', durationMinutes: 90, warrantyDays: 60
+      }
+    ],
+    availabilitySlots: [
+      { day: 'Today', slots: ['2:00 PM', '4:00 PM', '6:00 PM'] },
+      { day: 'Tomorrow', slots: ['9:00 AM', '11:00 AM', '1:00 PM', '3:00 PM', '5:00 PM'] },
+      { day: 'This Week', slots: ['10:00 AM', '12:00 PM', '3:30 PM'] }
+    ],
     portfolio: [],
     reviews: [],
     phone: '+91 9910028299',
@@ -2982,8 +3883,25 @@ export const mockProviders: Provider[] = [
     bio: 'Professional Plumbing expert providing quality services.',
     about: 'I am a dedicated professional committed to excellent service delivery.',
     skills: ['Plumbing Repair'],
-    offeredServices: [],
-    availabilitySlots: [],
+    offeredServices: [
+      {
+        id: 's_p_extra_54_1', name: 'Tap & Mixer Repair', description: 'Dripping tap, broken handle or full replacement',
+        price: 300, visitCharge: 199, priceUnit: 'fixed', durationMinutes: 45, warrantyDays: 30
+      },
+      {
+        id: 's_p_extra_54_2', name: 'Drain & Blockage Clearing', description: 'Kitchen sink, washbasin and bathroom drain unclogging',
+        price: 420, visitCharge: 199, priceUnit: 'fixed', durationMinutes: 60, warrantyDays: 30
+      },
+      {
+        id: 's_p_extra_54_3', name: 'Pipe Leak & Concealed Repair', description: 'Leak tracing, pipe section replacement and resealing',
+        price: 660, visitCharge: 199, priceUnit: 'fixed', durationMinutes: 120, warrantyDays: 60
+      }
+    ],
+    availabilitySlots: [
+      { day: 'Today', slots: ['2:00 PM', '4:00 PM', '6:00 PM'] },
+      { day: 'Tomorrow', slots: ['9:00 AM', '11:00 AM', '1:00 PM', '3:00 PM', '5:00 PM'] },
+      { day: 'This Week', slots: ['10:00 AM', '12:00 PM', '3:30 PM'] }
+    ],
     portfolio: [],
     reviews: [],
     phone: '+91 9853953266',
@@ -3017,8 +3935,25 @@ export const mockProviders: Provider[] = [
     bio: 'Professional Pest Control expert providing quality services.',
     about: 'I am a dedicated professional committed to excellent service delivery.',
     skills: ['Pest Control Repair'],
-    offeredServices: [],
-    availabilitySlots: [],
+    offeredServices: [
+      {
+        id: 's_p_extra_55_1', name: 'Cockroach & Ant Treatment', description: 'Gel and spray treatment across kitchen and bathrooms',
+        price: 400, visitCharge: 199, priceUnit: 'fixed', durationMinutes: 60, warrantyDays: 90
+      },
+      {
+        id: 's_p_extra_55_2', name: 'Termite Treatment', description: 'Drill-fill-seal treatment for woodwork and skirting',
+        price: 1280, visitCharge: 199, priceUnit: 'fixed', durationMinutes: 180, warrantyDays: 365
+      },
+      {
+        id: 's_p_extra_55_3', name: 'Mosquito & Bed Bug Control', description: 'Fogging and mattress-level treatment',
+        price: 640, visitCharge: 199, priceUnit: 'fixed', durationMinutes: 90, warrantyDays: 60
+      }
+    ],
+    availabilitySlots: [
+      { day: 'Today', slots: ['2:00 PM', '4:00 PM', '6:00 PM'] },
+      { day: 'Tomorrow', slots: ['9:00 AM', '11:00 AM', '1:00 PM', '3:00 PM', '5:00 PM'] },
+      { day: 'This Week', slots: ['10:00 AM', '12:00 PM', '3:30 PM'] }
+    ],
     portfolio: [],
     reviews: [],
     phone: '+91 9765382074',
@@ -3052,8 +3987,25 @@ export const mockProviders: Provider[] = [
     bio: 'Professional Appliance Repair expert providing quality services.',
     about: 'I am a dedicated professional committed to excellent service delivery.',
     skills: ['Appliance Repair Repair'],
-    offeredServices: [],
-    availabilitySlots: [],
+    offeredServices: [
+      {
+        id: 's_p_extra_56_1', name: 'Appliance Diagnosis & Repair', description: 'Fault diagnosis and on-site repair with genuine parts',
+        price: 400, visitCharge: 199, priceUnit: 'fixed', durationMinutes: 60, warrantyDays: 90
+      },
+      {
+        id: 's_p_extra_56_2', name: 'Microwave / OTG Repair', description: 'Magnetron, heating element and control panel faults',
+        price: 520, visitCharge: 199, priceUnit: 'fixed', durationMinutes: 75, warrantyDays: 90
+      },
+      {
+        id: 's_p_extra_56_3', name: 'Geyser Service & Repair', description: 'Element, thermostat and tank descaling',
+        price: 680, visitCharge: 199, priceUnit: 'fixed', durationMinutes: 90, warrantyDays: 90
+      }
+    ],
+    availabilitySlots: [
+      { day: 'Today', slots: ['2:00 PM', '4:00 PM', '6:00 PM'] },
+      { day: 'Tomorrow', slots: ['9:00 AM', '11:00 AM', '1:00 PM', '3:00 PM', '5:00 PM'] },
+      { day: 'This Week', slots: ['10:00 AM', '12:00 PM', '3:30 PM'] }
+    ],
     portfolio: [],
     reviews: [],
     phone: '+91 9631214877',
@@ -3087,8 +4039,25 @@ export const mockProviders: Provider[] = [
     bio: 'Professional Pest Control expert providing quality services.',
     about: 'I am a dedicated professional committed to excellent service delivery.',
     skills: ['Pest Control Repair'],
-    offeredServices: [],
-    availabilitySlots: [],
+    offeredServices: [
+      {
+        id: 's_p_extra_57_1', name: 'Cockroach & Ant Treatment', description: 'Gel and spray treatment across kitchen and bathrooms',
+        price: 200, visitCharge: 199, priceUnit: 'fixed', durationMinutes: 60, warrantyDays: 90
+      },
+      {
+        id: 's_p_extra_57_2', name: 'Termite Treatment', description: 'Drill-fill-seal treatment for woodwork and skirting',
+        price: 640, visitCharge: 199, priceUnit: 'fixed', durationMinutes: 180, warrantyDays: 365
+      },
+      {
+        id: 's_p_extra_57_3', name: 'Mosquito & Bed Bug Control', description: 'Fogging and mattress-level treatment',
+        price: 320, visitCharge: 199, priceUnit: 'fixed', durationMinutes: 90, warrantyDays: 60
+      }
+    ],
+    availabilitySlots: [
+      { day: 'Today', slots: ['2:00 PM', '4:00 PM', '6:00 PM'] },
+      { day: 'Tomorrow', slots: ['9:00 AM', '11:00 AM', '1:00 PM', '3:00 PM', '5:00 PM'] },
+      { day: 'This Week', slots: ['10:00 AM', '12:00 PM', '3:30 PM'] }
+    ],
     portfolio: [],
     reviews: [],
     phone: '+91 9505616750',
@@ -3122,8 +4091,25 @@ export const mockProviders: Provider[] = [
     bio: 'Professional Cleaning expert providing quality services.',
     about: 'I am a dedicated professional committed to excellent service delivery.',
     skills: ['Cleaning Repair'],
-    offeredServices: [],
-    availabilitySlots: [],
+    offeredServices: [
+      {
+        id: 's_p_extra_58_1', name: 'Bathroom Deep Cleaning', description: 'Tiles, commode, taps, mirror descaling and sanitisation',
+        price: 200, visitCharge: 199, priceUnit: 'fixed', durationMinutes: 90, warrantyDays: 7
+      },
+      {
+        id: 's_p_extra_58_2', name: 'Kitchen Deep Cleaning', description: 'Hob, chimney, tiles and cabinet exteriors degreased',
+        price: 320, visitCharge: 199, priceUnit: 'fixed', durationMinutes: 120, warrantyDays: 7
+      },
+      {
+        id: 's_p_extra_58_3', name: 'Full Home Deep Cleaning', description: 'Floor to ceiling across all rooms, bathrooms and kitchen',
+        price: 720, visitCharge: 199, priceUnit: 'fixed', durationMinutes: 300, warrantyDays: 7
+      }
+    ],
+    availabilitySlots: [
+      { day: 'Today', slots: ['2:00 PM', '4:00 PM', '6:00 PM'] },
+      { day: 'Tomorrow', slots: ['9:00 AM', '11:00 AM', '1:00 PM', '3:00 PM', '5:00 PM'] },
+      { day: 'This Week', slots: ['10:00 AM', '12:00 PM', '3:30 PM'] }
+    ],
     portfolio: [],
     reviews: [],
     phone: '+91 9374797114',
@@ -3157,8 +4143,25 @@ export const mockProviders: Provider[] = [
     bio: 'Professional Appliance Repair expert providing quality services.',
     about: 'I am a dedicated professional committed to excellent service delivery.',
     skills: ['Appliance Repair Repair'],
-    offeredServices: [],
-    availabilitySlots: [],
+    offeredServices: [
+      {
+        id: 's_p_extra_59_1', name: 'Appliance Diagnosis & Repair', description: 'Fault diagnosis and on-site repair with genuine parts',
+        price: 400, visitCharge: 199, priceUnit: 'fixed', durationMinutes: 60, warrantyDays: 90
+      },
+      {
+        id: 's_p_extra_59_2', name: 'Microwave / OTG Repair', description: 'Magnetron, heating element and control panel faults',
+        price: 520, visitCharge: 199, priceUnit: 'fixed', durationMinutes: 75, warrantyDays: 90
+      },
+      {
+        id: 's_p_extra_59_3', name: 'Geyser Service & Repair', description: 'Element, thermostat and tank descaling',
+        price: 680, visitCharge: 199, priceUnit: 'fixed', durationMinutes: 90, warrantyDays: 90
+      }
+    ],
+    availabilitySlots: [
+      { day: 'Today', slots: ['2:00 PM', '4:00 PM', '6:00 PM'] },
+      { day: 'Tomorrow', slots: ['9:00 AM', '11:00 AM', '1:00 PM', '3:00 PM', '5:00 PM'] },
+      { day: 'This Week', slots: ['10:00 AM', '12:00 PM', '3:30 PM'] }
+    ],
     portfolio: [],
     reviews: [],
     phone: '+91 9933063732',
@@ -3192,8 +4195,25 @@ export const mockProviders: Provider[] = [
     bio: 'Professional Appliance Repair expert providing quality services.',
     about: 'I am a dedicated professional committed to excellent service delivery.',
     skills: ['Appliance Repair Repair'],
-    offeredServices: [],
-    availabilitySlots: [],
+    offeredServices: [
+      {
+        id: 's_p_extra_60_1', name: 'Appliance Diagnosis & Repair', description: 'Fault diagnosis and on-site repair with genuine parts',
+        price: 300, visitCharge: 199, priceUnit: 'fixed', durationMinutes: 60, warrantyDays: 90
+      },
+      {
+        id: 's_p_extra_60_2', name: 'Microwave / OTG Repair', description: 'Magnetron, heating element and control panel faults',
+        price: 390, visitCharge: 199, priceUnit: 'fixed', durationMinutes: 75, warrantyDays: 90
+      },
+      {
+        id: 's_p_extra_60_3', name: 'Geyser Service & Repair', description: 'Element, thermostat and tank descaling',
+        price: 510, visitCharge: 199, priceUnit: 'fixed', durationMinutes: 90, warrantyDays: 90
+      }
+    ],
+    availabilitySlots: [
+      { day: 'Today', slots: ['2:00 PM', '4:00 PM', '6:00 PM'] },
+      { day: 'Tomorrow', slots: ['9:00 AM', '11:00 AM', '1:00 PM', '3:00 PM', '5:00 PM'] },
+      { day: 'This Week', slots: ['10:00 AM', '12:00 PM', '3:30 PM'] }
+    ],
     portfolio: [],
     reviews: [],
     phone: '+91 9916242991',
@@ -3423,7 +4443,7 @@ export const mockOffers: Offer[] = [
     code: 'FIRST100',
     validUntil: '2026-10-31',
     category: 'AC Repair & Service',
-    bgColor: 'from-sky-500 to-blue-600',
+    bgColor: 'from-brand-600 to-ns-navy',
     textColor: 'text-white'
   },
   {
@@ -3434,7 +4454,7 @@ export const mockOffers: Offer[] = [
     code: 'FESTIVE15',
     validUntil: '2026-10-15',
     category: 'Cleaning',
-    bgColor: 'from-orange-400 to-amber-500',
+    bgColor: 'from-brand-600 to-ns-navy',
     textColor: 'text-white'
   },
   {
@@ -3444,7 +4464,7 @@ export const mockOffers: Offer[] = [
     discountAmount: 200,
     code: 'REFER200',
     validUntil: '2026-12-31',
-    bgColor: 'from-emerald-500 to-teal-600',
+    bgColor: 'from-brand-600 to-ns-navy',
     textColor: 'text-white'
   },
   {
@@ -3454,7 +4474,7 @@ export const mockOffers: Offer[] = [
     discountAmount: 50,
     code: 'WEEKEND50',
     validUntil: '2026-10-05',
-    bgColor: 'from-violet-500 to-purple-600',
+    bgColor: 'from-brand-600 to-ns-navy',
     textColor: 'text-white'
   },
 ];

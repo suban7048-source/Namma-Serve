@@ -7,12 +7,12 @@ export const FilterSidebar: React.FC = () => {
   const { filters, setFilters, resetFilters } = useApp();
 
   return (
-    <div className="bg-white rounded-3xl border border-slate-200/80 p-6 shadow-soft space-y-6">
+    <div className="bg-kolam-surface rounded-2xl border border-ns-border/80 p-6 shadow-soft space-y-6">
       
-      <div className="flex items-center justify-between pb-4 border-b border-slate-100">
+      <div className="flex items-center justify-between pb-4 border-b border-kolam-sunk">
         <div className="flex items-center gap-2">
           <SlidersHorizontal className="w-4 h-4 text-brand-600" />
-          <h3 className="font-extrabold text-slate-900 text-base">Filter Pros</h3>
+          <h3 className="font-display font-semibold text-ns-navy text-base">Filter Pros</h3>
         </div>
         <button
           onClick={resetFilters}
@@ -24,11 +24,11 @@ export const FilterSidebar: React.FC = () => {
 
       {/* Category Filter */}
       <div className="space-y-2">
-        <label className="text-xs font-bold text-slate-800 uppercase tracking-wide">Category</label>
+        <label className="text-xs font-semibold text-ns-navy uppercase tracking-wide">Category</label>
         <select
           value={filters.category}
           onChange={(e) => setFilters(prev => ({ ...prev, category: e.target.value }))}
-          className="w-full bg-slate-50 border border-slate-200 rounded-xl p-2.5 text-xs font-semibold text-slate-800 focus:outline-none focus:border-brand-500 cursor-pointer"
+          className="w-full bg-kolam-wash border border-ns-border rounded-xl p-2.5 text-xs font-semibold text-ns-navy focus:outline-none focus:border-brand-500 cursor-pointer"
         >
           <option value="All Categories">All Categories</option>
           {mockCategories.map((c) => (
@@ -39,13 +39,13 @@ export const FilterSidebar: React.FC = () => {
 
       {/* Location Filter */}
       <div className="space-y-2">
-        <label className="text-xs font-bold text-slate-800 uppercase tracking-wide">Service Location</label>
+        <label className="text-xs font-semibold text-ns-navy uppercase tracking-wide">Service Location</label>
         <div className="relative">
-          <MapPin className="w-4 h-4 text-slate-400 absolute left-3 top-3" />
+          <MapPin className="w-4 h-4 text-ns-text-secondary absolute left-3 top-3" />
           <select
             value={filters.location}
             onChange={(e) => setFilters(prev => ({ ...prev, location: e.target.value }))}
-            className="w-full bg-slate-50 border border-slate-200 rounded-xl py-2.5 pl-9 pr-3 text-xs font-semibold text-slate-800 focus:outline-none focus:border-brand-500 cursor-pointer"
+            className="w-full bg-kolam-wash border border-ns-border rounded-xl py-2.5 pl-9 pr-3 text-xs font-semibold text-ns-navy focus:outline-none focus:border-brand-500 cursor-pointer"
           >
             <option value="All Locations">All Locations</option>
             <option value="Anna Nagar">Anna Nagar</option>
@@ -69,7 +69,7 @@ export const FilterSidebar: React.FC = () => {
 
       {/* Availability Filter */}
       <div className="space-y-2">
-        <label className="text-xs font-bold text-slate-800 uppercase tracking-wide">Availability</label>
+        <label className="text-xs font-semibold text-ns-navy uppercase tracking-wide">Availability</label>
         <div className="grid grid-cols-2 gap-2 text-xs">
           {[
             { id: 'all', label: 'Anytime' },
@@ -82,8 +82,8 @@ export const FilterSidebar: React.FC = () => {
               onClick={() => setFilters(prev => ({ ...prev, availability: item.id }))}
               className={`py-2 px-3 rounded-xl border text-xs font-semibold transition-all ${
                 filters.availability === item.id
-                  ? 'bg-brand-50 border-brand-500 text-brand-700 font-bold'
-                  : 'bg-slate-50 border-slate-200 text-slate-600 hover:bg-slate-100'
+                  ? 'bg-brand-50 border-brand-500 text-brand-700 font-semibold'
+                  : 'bg-kolam-wash border-ns-border text-ns-text-secondary hover:bg-kolam-sunk'
               }`}
             >
               {item.label}
@@ -95,8 +95,8 @@ export const FilterSidebar: React.FC = () => {
       {/* Price Range Slider */}
       <div className="space-y-2">
         <div className="flex items-center justify-between">
-          <label className="text-xs font-bold text-slate-800 uppercase tracking-wide">Max Price</label>
-          <span className="text-xs font-extrabold text-brand-600">₹{filters.maxPrice}</span>
+          <label className="text-xs font-semibold text-ns-navy uppercase tracking-wide">Max Price</label>
+          <span className="text-xs font-semibold text-brand-600">₹{filters.maxPrice}</span>
         </div>
         <input
           type="range"
@@ -107,7 +107,7 @@ export const FilterSidebar: React.FC = () => {
           onChange={(e) => setFilters(prev => ({ ...prev, maxPrice: Number(e.target.value) }))}
           className="w-full accent-brand-600 cursor-pointer"
         />
-        <div className="flex justify-between text-[10px] text-slate-400 font-semibold">
+        <div className="flex justify-between text-[10px] text-ns-text-secondary font-semibold">
           <span>₹99</span>
           <span>₹5000+</span>
         </div>
@@ -115,7 +115,7 @@ export const FilterSidebar: React.FC = () => {
 
       {/* Minimum Rating */}
       <div className="space-y-2">
-        <label className="text-xs font-bold text-slate-800 uppercase tracking-wide">Minimum Rating</label>
+        <label className="text-xs font-semibold text-ns-navy uppercase tracking-wide">Minimum Rating</label>
         <div className="flex items-center gap-1.5 flex-wrap">
           {[0, 4.0, 4.5, 4.8].map((rate) => (
             <button
@@ -123,12 +123,12 @@ export const FilterSidebar: React.FC = () => {
               onClick={() => setFilters(prev => ({ ...prev, minRating: rate }))}
               className={`px-3 py-1.5 rounded-xl border text-xs font-semibold transition-all flex items-center gap-1 ${
                 filters.minRating === rate
-                  ? 'bg-amber-50 border-amber-400 text-amber-900 font-bold'
-                  : 'bg-slate-50 border-slate-200 text-slate-600 hover:bg-slate-100'
+                  ? 'bg-kolam-marigold-soft border-kolam-marigold text-kolam-marigold font-semibold'
+                  : 'bg-kolam-wash border-ns-border text-ns-text-secondary hover:bg-kolam-sunk'
               }`}
             >
               {rate === 0 ? 'All Ratings' : `${rate}+`}
-              {rate > 0 && <Star className="w-3 h-3 fill-amber-400 text-amber-400" />}
+              {rate > 0 && <Star className="w-3 h-3 fill-kolam-marigold text-kolam-marigold" />}
             </button>
           ))}
         </div>
@@ -137,8 +137,8 @@ export const FilterSidebar: React.FC = () => {
       {/* Max Distance Slider */}
       <div className="space-y-2">
         <div className="flex items-center justify-between">
-          <label className="text-xs font-bold text-slate-800 uppercase tracking-wide">Max Distance</label>
-          <span className="text-xs font-bold text-slate-700">{filters.maxDistance} km</span>
+          <label className="text-xs font-semibold text-ns-navy uppercase tracking-wide">Max Distance</label>
+          <span className="text-xs font-semibold text-ns-text">{filters.maxDistance} km</span>
         </div>
         <input
           type="range"
@@ -151,10 +151,10 @@ export const FilterSidebar: React.FC = () => {
       </div>
 
       {/* Verified Only Toggle */}
-      <div className="pt-3 border-t border-slate-100 flex items-center justify-between">
+      <div className="pt-3 border-t border-kolam-sunk flex items-center justify-between">
         <div className="flex items-center gap-2">
-          <ShieldCheck className="w-4 h-4 text-emerald-500" />
-          <span className="text-xs font-bold text-slate-800">Verified Pros Only</span>
+          <ShieldCheck className="w-4 h-4 text-kolam-teal" />
+          <span className="text-xs font-semibold text-ns-navy">Verified Pros Only</span>
         </div>
         <label className="relative inline-flex items-center cursor-pointer">
           <input
@@ -163,7 +163,7 @@ export const FilterSidebar: React.FC = () => {
             onChange={(e) => setFilters(prev => ({ ...prev, verifiedOnly: e.target.checked }))}
             className="sr-only peer"
           />
-          <div className="w-9 h-5 bg-slate-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-emerald-500" />
+          <div className="w-9 h-5 bg-ns-border peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-ns-border after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-kolam-teal" />
         </label>
       </div>
 
@@ -171,7 +171,7 @@ export const FilterSidebar: React.FC = () => {
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2">
           <span className="text-base">🚨</span>
-          <span className="text-xs font-bold text-slate-800">Emergency Only (24/7)</span>
+          <span className="text-xs font-semibold text-ns-navy">Emergency Only (24/7)</span>
         </div>
         <label className="relative inline-flex items-center cursor-pointer">
           <input
@@ -180,7 +180,7 @@ export const FilterSidebar: React.FC = () => {
             onChange={(e) => setFilters(prev => ({ ...prev, emergencyOnly: e.target.checked }))}
             className="sr-only peer"
           />
-          <div className="w-9 h-5 bg-slate-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-red-500" />
+          <div className="w-9 h-5 bg-ns-border peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-ns-border after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-kolam-kumkum" />
         </label>
       </div>
 

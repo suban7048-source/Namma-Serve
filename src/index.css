@@ -1,41 +1,84 @@
 @import "tailwindcss";
 
+/* ===================================================================
+   NammaServe — "Kolam" design system
+
+   Named for the looping rice-flour patterns drawn on Chennai doorsteps
+   each morning. The palette is Chettinad indigo with marigold as the one
+   bright; kumkum red is held back for genuine urgency, teal confirms.
+   The neutral is a lime-wash grey-green rather than a cool slate, so the
+   page reads warm without turning cream.
+
+   The ns-* and brand-* token names are kept because ~45 components already
+   reference them; their VALUES are what changed. New kolam-* tokens carry
+   the parts of the system the old palette had no name for.
+   =================================================================== */
+
 @theme {
-  /* NammaServe Brand Palette */
-  --color-ns-navy: #102A43;
-  --color-ns-primary: #059669;
-  --color-ns-primary-bright: #10B981;
-  --color-ns-bg: #F8FAFC;
+  /* --- Core brand --------------------------------------------------- */
+  --color-ns-navy: #141D44;          /* deepest indigo — headings, dark panels */
+  --color-ns-primary: #1A2A5E;       /* indigo — primary actions, links       */
+  --color-ns-primary-bright: #2B4088;/* indigo hover                          */
+  --color-ns-bg: #EFEFE8;            /* lime-wash ground                      */
   --color-ns-white: #FFFFFF;
-  --color-ns-text: #102A43;
-  --color-ns-text-secondary: #52667A;
-  --color-ns-border: #DCE4EC;
-  --color-ns-success: #16A34A;
+  --color-ns-text: #171C2E;
+  --color-ns-text-secondary: #5E6479;
+  --color-ns-border: #D8D9CD;
+  --color-ns-success: #0F6E66;       /* teal                                  */
 
-  /* Extended brand blues */
-  --color-brand-50: #ecfdf5;
-  --color-brand-100: #d1fae5;
-  --color-brand-200: #a7f3d0;
-  --color-brand-300: #6ee7b7;
-  --color-brand-400: #34d399;
-  --color-brand-500: #10b981;
-  --color-brand-600: #059669;
-  --color-brand-700: #047857;
-  --color-brand-800: #065f46;
-  --color-brand-900: #064e3b;
-  --color-brand-950: #022c22;
+  /* --- Kolam accents ------------------------------------------------ */
+  --color-kolam-marigold: #F0A830;   /* attention, highlights, the one bright */
+  --color-kolam-marigold-soft: #FDF1DC;
+  --color-kolam-marigold-line: #F3D09A;
+  --color-kolam-kumkum: #B3302C;     /* emergency only                        */
+  --color-kolam-kumkum-soft: #FBEAE8;
+  --color-kolam-kumkum-line: #EFC2BF;
+  --color-kolam-teal: #0F6E66;       /* confirmed, available, booked          */
+  --color-kolam-teal-soft: #E4F0EE;
+  --color-kolam-teal-line: #B5D7D2;
+  --color-kolam-indigo-soft: #E8EAF3;
+  --color-kolam-indigo-line: #C3C9E0;
 
-  /* Fonts */
-  --font-sans: 'Inter', 'Manrope', system-ui, -apple-system, sans-serif;
-  --font-display: 'Manrope', 'Inter', system-ui, sans-serif;
+  /* --- Surfaces ----------------------------------------------------- */
+  --color-kolam-surface: #FFFFFF;
+  --color-kolam-sunk: #E7E7DE;       /* inset fields, wells                   */
+  --color-kolam-wash: #F6F6F0;       /* alternate section ground              */
 
-  /* Shadows - subtle and professional */
-  --shadow-soft: 0 1px 3px 0 rgba(16, 42, 67, 0.04), 0 1px 2px -1px rgba(16, 42, 67, 0.03);
-  --shadow-card: 0 4px 16px -2px rgba(16, 42, 67, 0.06), 0 2px 4px -2px rgba(16, 42, 67, 0.04);
-  --shadow-elevated: 0 12px 32px -4px rgba(16, 42, 67, 0.1), 0 4px 8px -2px rgba(16, 42, 67, 0.04);
+  /* --- Indigo ramp (replaces the old emerald "brand" ramp) ---------- */
+  --color-brand-50:  #F0F1F7;
+  --color-brand-100: #E1E4F0;
+  --color-brand-200: #C3C9E0;
+  --color-brand-300: #9BA5CB;
+  --color-brand-400: #6B7AAE;
+  --color-brand-500: #44558F;
+  --color-brand-600: #1A2A5E;
+  --color-brand-700: #152350;
+  --color-brand-800: #101B3E;
+  --color-brand-900: #0B132D;
+  --color-brand-950: #070C1C;
+
+  /* --- Type ---------------------------------------------------------
+     Mukta Malar is one family covering Tamil and Latin, so the two scripts
+     sit together at the same weight instead of the Tamil falling back to a
+     system face mid-sentence. Bricolage Grotesque carries the display.   */
+  --font-sans: 'Mukta Malar', 'Inter', system-ui, -apple-system, sans-serif;
+  --font-display: 'Bricolage Grotesque', 'Mukta Malar', system-ui, sans-serif;
+  --font-tamil: 'Mukta Malar', system-ui, sans-serif;
+
+  /* --- Elevation — indigo-tinted, never neutral grey ---------------- */
+  --shadow-soft: 0 1px 2px 0 rgba(20, 29, 68, 0.05);
+  --shadow-card: 0 4px 18px -6px rgba(20, 29, 68, 0.12), 0 1px 3px -1px rgba(20, 29, 68, 0.06);
+  --shadow-elevated: 0 18px 44px -16px rgba(20, 29, 68, 0.26), 0 4px 10px -4px rgba(20, 29, 68, 0.1);
+  --shadow-marigold: 0 8px 22px -10px rgba(240, 168, 48, 0.55);
+
+  /* --- Shape -------------------------------------------------------- */
+  --radius-card: 16px;
 }
 
-/* Typography baseline */
+/* ===================================================================
+   Baseline
+   =================================================================== */
+
 html {
   font-size: 16px;
   -webkit-text-size-adjust: 100%;
@@ -43,67 +86,126 @@ html {
 }
 
 @media (min-width: 1280px) {
-  html {
-    font-size: 16.5px;
-  }
+  html { font-size: 16.5px; }
 }
 
-/* Container override */
+body {
+  background-color: var(--color-ns-bg);
+  color: var(--color-ns-text);
+}
+
+/* Display face is set a little tighter than its default. */
+.font-display {
+  letter-spacing: -0.018em;
+}
+
+/* Tamil needs slightly more leading than Latin at the same size. */
+:lang(ta), .lang-ta {
+  line-height: 1.75;
+}
+
 .max-w-7xl {
   max-width: 1280px !important;
 }
 
-/* Custom scrollbars — subtle */
-::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
-}
-::-webkit-scrollbar-track {
-  background: #F1F5F9;
-}
-::-webkit-scrollbar-thumb {
-  background: #CBD5E1;
-  border-radius: 9999px;
-}
-::-webkit-scrollbar-thumb:hover {
-  background: #94A3B8;
+/* ===================================================================
+   Kolam motif
+   The dot grid and continuous loop are the house pattern. Used as a
+   watermark behind dark panels and as a section divider — never loud
+   enough to compete with content.
+   =================================================================== */
+
+.kolam-field {
+  background-image:
+    radial-gradient(circle at 1px 1px, rgba(240, 168, 48, 0.42) 1.4px, transparent 1.6px);
+  background-size: 26px 26px;
 }
 
-/* Restrained animations */
+.kolam-field-subtle {
+  background-image:
+    radial-gradient(circle at 1px 1px, rgba(26, 42, 94, 0.14) 1.2px, transparent 1.4px);
+  background-size: 22px 22px;
+}
+
+/* Thin marigold rule used to close a section. */
+.kolam-rule {
+  height: 2px;
+  background-image: radial-gradient(circle, var(--color-kolam-marigold) 1.4px, transparent 1.6px);
+  background-size: 12px 2px;
+  background-repeat: repeat-x;
+}
+
+/* ===================================================================
+   Scrollbars
+   =================================================================== */
+
+::-webkit-scrollbar { width: 7px; height: 7px; }
+::-webkit-scrollbar-track { background: var(--color-kolam-sunk); }
+::-webkit-scrollbar-thumb {
+  background: #B9BCCE;
+  border-radius: 9999px;
+}
+::-webkit-scrollbar-thumb:hover { background: var(--color-brand-400); }
+
+/* ===================================================================
+   Motion — restrained, and fully disabled on request
+   =================================================================== */
+
 @keyframes fadeIn {
   from { opacity: 0; transform: translateY(4px); }
-  to { opacity: 1; transform: translateY(0); }
+  to   { opacity: 1; transform: translateY(0); }
 }
 
 @keyframes slideInUp {
   from { transform: translateY(100%); }
-  to { transform: translateY(0); }
+  to   { transform: translateY(0); }
 }
 
-.animate-fade-in {
-  animation: fadeIn 0.2s ease-out forwards;
+/* The kolam mark draws itself once on load — one continuous line, which is
+   how a kolam is actually made. */
+@keyframes kolamDraw {
+  from { stroke-dashoffset: var(--kolam-len, 1200); }
+  to   { stroke-dashoffset: 0; }
 }
 
-.animate-slide-up {
-  animation: slideInUp 0.25s ease-out forwards;
+.animate-fade-in  { animation: fadeIn 0.2s ease-out forwards; }
+.animate-slide-up { animation: slideInUp 0.25s ease-out forwards; }
+
+.kolam-draw path {
+  stroke-dasharray: var(--kolam-len, 1200);
+  animation: kolamDraw 2.4s cubic-bezier(0.65, 0, 0.35, 1) forwards;
 }
 
-/* Section spacing utility */
-.section-padding {
-  padding-top: 5rem;
-  padding-bottom: 5rem;
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  .kolam-draw path { stroke-dasharray: none; }
 }
+
+/* ===================================================================
+   Utilities
+   =================================================================== */
+
+.section-padding { padding-top: 5rem; padding-bottom: 5rem; }
 
 @media (min-width: 768px) {
-  .section-padding {
-    padding-top: 6rem;
-    padding-bottom: 6rem;
-  }
+  .section-padding { padding-top: 6rem; padding-bottom: 6rem; }
 }
 
-/* Focus ring utility */
-.focus-ring:focus-visible {
-  outline: 2px solid #059669;
+.focus-ring:focus-visible,
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+  outline: 2px solid var(--color-kolam-marigold);
   outline-offset: 2px;
   border-radius: 8px;
 }
+
+/* Numeric columns — prices, ETAs, counts — line up. */
+.tnum { font-variant-numeric: tabular-nums; }

@@ -42,7 +42,11 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 SecurityContextHolder.getContext().setAuthentication(authentication);
             }
         } catch (Exception ex) {
-            logger.error("Could not set user authentication in security context", ex);
+            // A malformed, expired or orphaned token must leave the request
+            // anonymous. Leaving whatever was in the context before would let a
+            // half-parsed token inherit a previous request's authentication.
+            SecurityContextHolder.clearContext();
+            logger.debug("Rejected bearer token: " + ex.getMessage());
         }
 
         filterChain.doFilter(request, response);

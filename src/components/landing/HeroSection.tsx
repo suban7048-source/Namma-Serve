@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
 import { useApp } from '../../context/AppContext';
-import { Search, MapPin, ArrowRight, CheckCircle2, ShieldCheck, DollarSign, Lock } from 'lucide-react';
+import { Search, MapPin, ArrowRight, ShieldCheck, IndianRupee, Clock } from 'lucide-react';
 import { CHENNAI_LOCALITIES } from '../../data/chennaiLocations';
+import { KolamMark } from '../common/Kolam';
 
 const CHENNAI_AREAS = CHENNAI_LOCALITIES.map(l => l.name);
 
 export const HeroSection: React.FC = () => {
-  const { setFilters, setPage, openAuthModal, isLoggedIn, role, setRole, language } = useApp();
+  const { setFilters, setPage, language } = useApp();
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedLocation, setSelectedLocation] = useState('Anna Nagar');
 
@@ -24,178 +25,126 @@ export const HeroSection: React.FC = () => {
   const popularTags = ['AC Repair', 'Plumbing', 'Cleaning', 'Electrical', 'Appliance Repair'];
 
   return (
-    <section className="relative bg-white pt-12 pb-16 lg:pt-16 lg:pb-24" id="hero">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+    <section className="relative bg-ns-navy overflow-hidden" id="hero">
+      {/* The kolam dot field runs behind the whole hero rather than sitting in a
+          corner as a logo — it is the brand, not an ornament. */}
+      <div className="absolute inset-0 kolam-field opacity-[0.22]" aria-hidden="true" />
+      <div
+        className="absolute inset-0"
+        style={{ background: 'linear-gradient(104deg, #141D44 38%, rgba(20,29,68,0.55) 100%)' }}
+        aria-hidden="true"
+      />
 
-          {/* Left: Content */}
-          <div className="space-y-8 text-center lg:text-left">
-            {/* Headline */}
-            <div className="space-y-4">
-              <h1 className="text-4xl sm:text-5xl lg:text-[56px] font-extrabold text-ns-navy tracking-tight leading-[1.1] font-display">
-                {language === 'ta' 
-                  ? 'சரியான நேரத்தில், நம்பகமான சேவை.'
-                  : 'Reliable help, right when you need it.'}
-              </h1>
-              <p className="text-base sm:text-lg text-ns-text-secondary max-w-xl mx-auto lg:mx-0 leading-relaxed">
-                {language === 'ta'
-                  ? 'சென்னையில் உங்கள் வீட்டுத் தேவைகளுக்கான சிறந்த நிபுணர்களைக் கண்டறியுங்கள். சேவைகளை ஒப்பிட்டு, சில நிமிடங்களில் முன்பதிவு செய்யுங்கள்.'
-                  : 'Find trusted professionals for home services across Chennai. Compare services, check availability and book in minutes.'}
-              </p>
-            </div>
+      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 lg:py-24">
+        <div className="grid grid-cols-1 lg:grid-cols-[1fr_320px] gap-12 lg:gap-16 items-center">
 
-            {/* Search Container */}
-            <div className="max-w-xl mx-auto lg:mx-0">
-              <form onSubmit={handleHeroSearch} className="bg-white border border-ns-border rounded-2xl p-2 shadow-card">
-                <div className="flex flex-col sm:flex-row gap-2">
-                  {/* Service search */}
-                  <div className="flex-1 flex items-center gap-2.5 bg-ns-bg px-4 py-3 rounded-xl">
-                    <Search className="w-[18px] h-[18px] text-ns-text-secondary shrink-0" />
-                    <input
-                      type="text"
-                      placeholder={language === 'ta' ? 'உங்களுக்கு என்ன சேவை தேவை?' : 'What service do you need?'}
-                      value={searchQuery}
-                      onChange={(e) => setSearchQuery(e.target.value)}
-                      className="bg-transparent text-[15px] w-full font-medium placeholder-slate-400 focus:outline-none text-ns-navy"
-                      id="hero-search-input"
-                    />
-                  </div>
+          <div className="text-center lg:text-left">
+            <p className="font-tamil text-kolam-marigold text-base sm:text-lg tracking-wide">
+              நம்ம ஊர், நம்ம ஆட்கள்
+            </p>
 
-                  {/* Location */}
-                  <div className="flex items-center gap-2 bg-ns-bg px-4 py-3 rounded-xl sm:w-44">
-                    <MapPin className="w-[18px] h-[18px] text-ns-primary shrink-0" />
-                    <select
-                      value={selectedLocation}
-                      onChange={(e) => setSelectedLocation(e.target.value)}
-                      className="bg-transparent text-sm font-semibold text-ns-navy w-full focus:outline-none cursor-pointer"
-                      id="hero-location-select"
-                    >
-                      {CHENNAI_AREAS.map(area => (
-                        <option key={area} value={area}>{area}, Chennai</option>
-                      ))}
-                      <option value="All Locations">{language === 'ta' ? 'சென்னை முழுவதும்' : 'All Chennai'}</option>
-                    </select>
-                  </div>
+            <h1 className="mt-3 font-display text-[2.6rem] sm:text-5xl lg:text-[3.6rem] font-semibold text-white leading-[1.06] max-w-[16ch] mx-auto lg:mx-0">
+              {language === 'ta' ? (
+                <>உங்கள் தெருவில் <span className="text-kolam-marigold">யாரை அழைப்பது</span> என்று தெரியும்</>
+              ) : (
+                <>Your street already knows <span className="text-kolam-marigold">who to call</span></>
+              )}
+            </h1>
 
-                  {/* Submit */}
-                  <button
-                    type="submit"
-                    className="bg-ns-primary hover:bg-ns-primary-bright text-white font-bold text-sm px-6 py-3 rounded-xl transition-colors flex items-center justify-center gap-2 shrink-0"
-                    id="hero-search-btn"
-                  >
-                    {language === 'ta' ? 'சேவைகளை தேடு' : 'Search Services'}
-                    <ArrowRight className="w-4 h-4" />
-                  </button>
-                </div>
-              </form>
+            <p className="mt-5 text-white/70 text-base sm:text-[17px] leading-relaxed max-w-xl mx-auto lg:mx-0">
+              {language === 'ta'
+                ? 'சென்னையில் உங்கள் பகுதியில் பணியாற்றும் சரிபார்க்கப்பட்ட பிளம்பர்கள், எலக்ட்ரீஷியன்கள் மற்றும் AC தொழில்நுட்ப வல்லுநர்கள் — இரண்டு நிமிடங்களில் முன்பதிவு.'
+                : 'Verified plumbers, electricians and AC technicians working in your part of Chennai — booked in under two minutes.'}
+            </p>
 
-              {/* Popular tags */}
-              <div className="mt-4 flex items-center gap-2 text-sm flex-wrap justify-center lg:justify-start">
-                <span className="text-ns-text-secondary font-medium">{language === 'ta' ? 'பிரபலம்:' : 'Popular:'}</span>
-                {popularTags.map((tag) => (
-                  <button
-                    key={tag}
-                    type="button"
-                    onClick={() => {
-                      setSearchQuery(tag);
-                      setFilters(prev => ({ ...prev, searchQuery: tag }));
-                      setPage('discovery');
-                    }}
-                    className="px-3 py-1 rounded-lg bg-ns-bg border border-ns-border hover:border-ns-primary/40 hover:bg-brand-50 text-ns-text-secondary hover:text-ns-primary text-xs font-medium transition-colors"
-                  >
-                    {tag}
-                  </button>
-                ))}
+            {/* Search */}
+            <form
+              onSubmit={handleHeroSearch}
+              className="mt-8 bg-kolam-surface rounded-2xl sm:rounded-full p-2 shadow-elevated max-w-2xl mx-auto lg:mx-0 flex flex-col sm:flex-row gap-2"
+            >
+              <div className="flex-1 flex items-center gap-2.5 px-4 py-2.5">
+                <Search className="w-[18px] h-[18px] text-ns-text-secondary shrink-0" />
+                <input
+                  type="text"
+                  placeholder={language === 'ta' ? 'என்ன சரிசெய்ய வேண்டும்?' : 'What needs fixing?'}
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  className="bg-transparent text-[15px] w-full placeholder-ns-text-secondary/70 focus:outline-none text-ns-navy"
+                  id="hero-search-input"
+                />
               </div>
+
+              <div className="flex items-center gap-2 px-4 py-2.5 sm:w-48 sm:border-l border-ns-border">
+                <MapPin className="w-[18px] h-[18px] text-kolam-marigold shrink-0" />
+                <select
+                  value={selectedLocation}
+                  onChange={(e) => setSelectedLocation(e.target.value)}
+                  className="bg-transparent text-sm font-semibold text-ns-navy w-full focus:outline-none cursor-pointer"
+                  id="hero-location-select"
+                  aria-label="Service area"
+                >
+                  {CHENNAI_AREAS.map(area => (
+                    <option key={area} value={area}>{area}</option>
+                  ))}
+                  <option value="All Locations">{language === 'ta' ? 'சென்னை முழுவதும்' : 'All Chennai'}</option>
+                </select>
+              </div>
+
+              <button
+                type="submit"
+                className="bg-kolam-kumkum hover:bg-[#9A2824] text-white font-semibold text-sm px-7 py-3 rounded-xl sm:rounded-full transition-colors flex items-center justify-center gap-2 shrink-0"
+                id="hero-search-btn"
+              >
+                {language === 'ta' ? 'தேடு' : 'Search'}
+                <ArrowRight className="w-4 h-4" />
+              </button>
+            </form>
+
+            <div className="mt-4 flex items-center gap-2 text-sm flex-wrap justify-center lg:justify-start">
+              <span className="text-white/45 text-xs">{language === 'ta' ? 'பிரபலம்:' : 'Popular:'}</span>
+              {popularTags.map((tag) => (
+                <button
+                  key={tag}
+                  type="button"
+                  onClick={() => {
+                    setSearchQuery(tag);
+                    setFilters(prev => ({ ...prev, searchQuery: tag }));
+                    setPage('discovery');
+                  }}
+                  className="px-3 py-1 rounded-full border border-white/20 hover:border-kolam-marigold/70 hover:text-kolam-marigold text-white/70 text-xs transition-colors"
+                >
+                  {tag}
+                </button>
+              ))}
             </div>
 
-            {/* Trust Indicators */}
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 pt-2">
+            {/* Three promises, not a wall of invented statistics. */}
+            <div className="mt-10 pt-6 border-t border-white/10 grid grid-cols-1 sm:grid-cols-3 gap-5 max-w-2xl mx-auto lg:mx-0">
               {[
-                { icon: <ShieldCheck className="w-4 h-4 text-emerald-600" />, label: language === 'ta' ? 'சரிபார்க்கப்பட்ட நிபுணர்கள்' : 'Verified Professionals', color: 'text-emerald-700 bg-emerald-50 border-emerald-200' },
-                { icon: <DollarSign className="w-4 h-4 text-amber-600" />, label: language === 'ta' ? 'தெளிவான விலை' : 'Transparent Pricing', color: 'text-amber-700 bg-amber-50 border-amber-200' },
-                { icon: <Lock className="w-4 h-4 text-ns-primary" />, label: language === 'ta' ? 'பாதுகாப்பான முன்பதிவு' : 'Secure Booking', color: 'text-ns-primary bg-brand-50 border-brand-200' },
-                { icon: <CheckCircle2 className="w-4 h-4 text-violet-600" />, label: language === 'ta' ? 'சேவைக்கான உத்தரவாதம்' : 'Service Warranty', color: 'text-violet-700 bg-violet-50 border-violet-200' },
-              ].map((item, idx) => (
-                <div key={idx} className="flex items-center gap-2 text-xs font-semibold">
-                  <div className={`w-7 h-7 rounded-lg flex items-center justify-center border ${item.color}`}>
-                    {item.icon}
+                { icon: ShieldCheck, label: language === 'ta' ? 'ஐடி சரிபார்க்கப்பட்டது' : 'ID-verified pros',
+                  sub: language === 'ta' ? 'ஒவ்வொருவரும் சரிபார்க்கப்பட்டவர்' : 'Every professional checked' },
+                { icon: IndianRupee, label: language === 'ta' ? 'நிலையான விலை' : 'Fixed prices',
+                  sub: language === 'ta' ? 'முன்பதிவுக்கு முன் தெரியும்' : 'Known before you book' },
+                { icon: Clock, label: language === 'ta' ? '30 நாள் உத்தரவாதம்' : '30-day warranty',
+                  sub: language === 'ta' ? 'ஒவ்வொரு வேலைக்கும்' : 'On every completed job' }
+              ].map(({ icon: Icon, label, sub }) => (
+                <div key={label} className="flex items-start gap-3 text-left">
+                  <Icon className="w-[18px] h-[18px] text-kolam-marigold shrink-0 mt-0.5" />
+                  <div>
+                    <p className="text-white text-sm font-semibold leading-tight">{label}</p>
+                    <p className="text-white/50 text-xs mt-0.5 leading-snug">{sub}</p>
                   </div>
-                  <span className="text-ns-navy text-[13px]">{item.label}</span>
                 </div>
               ))}
             </div>
           </div>
 
-          {/* Right: Visual / Stats Panel */}
+          {/* The mark draws itself once, the way a kolam is made. */}
           <div className="hidden lg:block">
-            <div className="relative">
-              {/* Main visual card */}
-              <div className="bg-emerald-950 rounded-2xl p-8 text-white shadow-2xl">
-                <div className="flex items-center gap-2 mb-6">
-                  <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-                  <span className="text-sm font-medium text-white/80">{language === 'ta' ? 'சென்னையில் நேரலையில்' : 'Live in Chennai'}</span>
-                </div>
-
-                {/* Stats Grid */}
-                <div className="grid grid-cols-2 gap-6 mb-8">
-                  <div className="bg-white/10 rounded-xl p-4">
-                    <p className="text-3xl font-extrabold">500+</p>
-                    <p className="text-sm text-white/60 mt-1">{language === 'ta' ? 'சரிபார்க்கப்பட்ட நிபுணர்கள்' : 'Verified Professionals'}</p>
-                  </div>
-                  <div className="bg-white/10 rounded-xl p-4">
-                    <p className="text-3xl font-extrabold">4.8<span className="text-amber-400 ml-1">★</span></p>
-                    <p className="text-sm text-white/60 mt-1">{language === 'ta' ? 'சராசரி மதிப்பீடு' : 'Average Rating'}</p>
-                  </div>
-                  <div className="bg-white/10 rounded-xl p-4">
-                    <p className="text-3xl font-extrabold">15k+</p>
-                    <p className="text-sm text-white/60 mt-1">{language === 'ta' ? 'முடிந்த முன்பதிவுகள்' : 'Bookings Completed'}</p>
-                  </div>
-                  <div className="bg-white/10 rounded-xl p-4">
-                    <p className="text-3xl font-extrabold">15 min</p>
-                    <p className="text-sm text-white/60 mt-1">{language === 'ta' ? 'சராசரி பதில் நேரம்' : 'Avg Response Time'}</p>
-                  </div>
-                </div>
-
-                {/* Mini provider cards */}
-                <div className="space-y-3">
-                  <p className="text-xs font-bold text-white/50 uppercase tracking-wider">{language === 'ta' ? 'அருகிலுள்ள நிபுணர்கள்' : 'Nearby professionals'}</p>
-                  {[
-                    { name: 'Ravi Kumar', cat: 'AC Expert', rating: '4.8', price: '₹499', accent: 'bg-emerald-600' },
-                    { name: 'Arun S.', cat: 'Plumbing', rating: '4.9', price: '₹349', accent: 'bg-amber-500' },
-                    { name: 'Priya M.', cat: 'Cleaning', rating: '4.7', price: '₹599', accent: 'bg-rose-500' },
-                  ].map((pro, idx) => (
-                    <div key={idx} className="flex items-center justify-between bg-white/5 border border-white/10 rounded-xl px-4 py-3">
-                      <div className="flex items-center gap-3">
-                        <div className={`w-8 h-8 rounded-lg ${pro.accent} flex items-center justify-center text-white font-bold text-xs`}>
-                          {pro.name.charAt(0)}
-                        </div>
-                        <div>
-                          <p className="text-sm font-bold text-white flex items-center gap-1.5">
-                            {pro.name}
-                            <CheckCircle2 className="w-3 h-3 text-emerald-400" />
-                          </p>
-                          <p className="text-xs text-white/50">{pro.cat} · ★ {pro.rating}</p>
-                        </div>
-                      </div>
-                      <div className="text-right">
-                        <p className="text-sm font-bold text-white">{pro.price}</p>
-                        <p className="text-[10px] text-white/40">starting</p>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-
-              {/* Floating accent card */}
-              <div className="absolute -bottom-4 -left-4 bg-emerald-50 border border-emerald-200 rounded-xl px-4 py-3 shadow-card flex items-center gap-2">
-                <ShieldCheck className="w-5 h-5 text-emerald-600" />
-                <div>
-                  <p className="text-xs font-bold text-emerald-800">{language === 'ta' ? 'பின்னணி சரிபார்க்கப்பட்டது' : 'Background Verified'}</p>
-                  <p className="text-[10px] text-emerald-600">{language === 'ta' ? 'அனைத்து நிபுணர்களின் ஐடியும் சரிபார்க்கப்பட்டது' : 'All professionals ID-checked'}</p>
-                </div>
-              </div>
-            </div>
+            <KolamMark className="w-full h-auto max-w-[320px] mx-auto" />
+            <p className="text-center text-[10px] uppercase tracking-[0.18em] text-white/40 mt-5">
+              Kolam · drawn in one line
+            </p>
           </div>
         </div>
       </div>

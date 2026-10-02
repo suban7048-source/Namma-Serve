@@ -46,10 +46,10 @@ export const RatingStars: React.FC<RatingStarsProps> = ({
                 size={size}
                 className={`${
                   isFull
-                    ? 'fill-amber-400 text-amber-400'
+                    ? 'fill-kolam-marigold text-kolam-marigold'
                     : isHalf
-                    ? 'fill-amber-300/50 text-amber-400'
-                    : 'fill-slate-100 text-slate-300'
+                    ? 'fill-kolam-marigold-line/50 text-kolam-marigold'
+                    : 'fill-kolam-sunk text-ns-border'
                 }`}
               />
             </button>
@@ -57,12 +57,12 @@ export const RatingStars: React.FC<RatingStarsProps> = ({
         })}
       </div>
       {showNumeric && (
-        <span className="font-semibold text-slate-800 text-sm ml-1">
+        <span className="font-semibold text-ns-navy text-sm ml-1">
           {rating.toFixed(1)}
         </span>
       )}
       {reviewCount !== undefined && (
-        <span className="text-xs text-slate-500 font-normal">
+        <span className="text-xs text-ns-text-secondary font-normal">
           ({reviewCount})
         </span>
       )}

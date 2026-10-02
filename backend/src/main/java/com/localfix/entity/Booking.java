@@ -1,5 +1,6 @@
 package com.localfix.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -60,7 +61,9 @@ public class Booking {
     private String paymentMethod = "upi"; // upi, card, cash, wallet
     private String paymentStatus = "PENDING"; // PENDING, SUCCESS, FAILED, REFUNDED
 
-    private String otpCode = "4829";
+    // Set per booking from SecureRandom in BookingService. A shared default
+    // here meant every un-initialised booking accepted the same code.
+    private String otpCode;
 
     private Integer warrantyDays = 30;
 
@@ -140,6 +143,13 @@ public class Booking {
     public String getPaymentStatus() { return paymentStatus; }
     public void setPaymentStatus(String paymentStatus) { this.paymentStatus = paymentStatus; }
 
+    /**
+     * Withheld from booking JSON. The technician receives bookings through the
+     * same serialiser as the customer, so exposing this field let them read the
+     * completion code off their own job list and close a job the customer had
+     * not confirmed. Customers fetch it from GET /api/bookings/{id}/otp.
+     */
+    @JsonIgnore
     public String getOtpCode() { return otpCode; }
     public void setOtpCode(String otpCode) { this.otpCode = otpCode; }
 

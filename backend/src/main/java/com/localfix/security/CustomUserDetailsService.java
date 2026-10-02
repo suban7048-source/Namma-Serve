@@ -18,15 +18,19 @@ public class CustomUserDetailsService implements UserDetailsService {
     }
 
     @Override
-    @Transactional
+    @Transactional(readOnly = true)
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        User user = userRepository.findByEmail(email)
-                .orElseThrow(() -> new UsernameNotFoundException("User not found with email: " + email));
+        // Emails are stored normalised; normalise on the way in too so that
+        // "Ravi@Localfix.in" and "ravi@localfix.in" resolve to the same account.
+        String normalized = email == null ? null : email.trim().toLowerCase(java.util.Locale.ROOT);
+
+        User user = userRepository.findByEmail(normalized)
+                .orElseThrow(() -> new UsernameNotFoundException("No account for that email"));
 
         return UserPrincipal.create(user);
     }
 
-    @Transactional
+    @Transactional(readOnly = true)
     public UserDetails loadUserById(Long id) {
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new UsernameNotFoundException("User not found with id: " + id));

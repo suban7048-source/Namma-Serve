@@ -1,27 +1,11 @@
 import React from 'react';
 import { useApp } from '../../context/AppContext';
-import { RatingStars } from '../common/RatingStars';
-import { InitialsAvatar } from '../common/InitialsAvatar';
-import { ShieldCheck, MapPin, Clock, ArrowRight, Star, Briefcase } from 'lucide-react';
-
-// Mixed accent colors per category for provider cards
-const categoryAccents: Record<string, string> = {
-  'AC Repair & Service': 'border-l-sky-500',
-  'Electrical': 'border-l-amber-500',
-  'Cleaning': 'border-l-teal-500',
-  'Plumbing': 'border-l-blue-500',
-  'Painting': 'border-l-rose-500',
-  'Carpenter': 'border-l-orange-500',
-  'Washing Machine Repair': 'border-l-cyan-500',
-  'Refrigerator Repair': 'border-l-indigo-500',
-  'Home Maintenance': 'border-l-slate-500',
-  'Pest Control': 'border-l-lime-500',
-  'RO/Water Purifier': 'border-l-emerald-500',
-  'TV Repair': 'border-l-violet-500',
-};
+import { Avatar } from '../common/Avatar';
+import { CategoryIcon } from '../common/Kolam';
+import { ShieldCheck, MapPin, Star, ArrowRight } from 'lucide-react';
 
 export const FeaturedProviders: React.FC = () => {
-  const { providers, setActiveProviderProfile, setBookingProvider, setPage } = useApp();
+  const { providers, setActiveProviderProfile, setBookingProvider, setPage, language } = useApp();
 
   const featured = providers
     .filter(p => p.isVerified)
@@ -29,104 +13,105 @@ export const FeaturedProviders: React.FC = () => {
     .slice(0, 4);
 
   return (
-    <section className="py-16 lg:py-20 bg-ns-bg" id="find-professionals">
+    <section className="py-16 lg:py-24 bg-ns-bg" id="find-professionals">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
-        {/* Section Header */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between mb-10 gap-4">
-          <div>
-            <h2 className="text-3xl sm:text-4xl font-extrabold text-ns-navy tracking-tight font-display">
-              Find trusted professionals
+        <header className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-12">
+          <div className="max-w-2xl">
+            <h2 className="font-display text-3xl sm:text-4xl font-semibold text-ns-navy">
+              {language === 'ta' ? 'நம்பகமான நிபுணர்கள்' : 'People, not profiles'}
             </h2>
-            <p className="mt-2 text-base text-ns-text-secondary">
-              Verified experts near you with outstanding reviews and experience.
+            <p className="mt-3 text-[17px] text-ns-text-secondary leading-relaxed">
+              {language === 'ta'
+                ? 'சிறந்த மதிப்பீடுகளுடன் உங்கள் பகுதியில் பணியாற்றும் சரிபார்க்கப்பட்ட நிபுணர்கள்.'
+                : 'Verified professionals working near you, rated by the customers who hired them.'}
             </p>
           </div>
           <button
             onClick={() => setPage('discovery')}
-            className="inline-flex items-center gap-2 text-sm font-bold text-ns-primary hover:text-ns-primary-bright transition-colors group self-start md:self-auto"
+            className="inline-flex items-center gap-2 text-sm font-semibold text-ns-primary hover:text-kolam-kumkum transition-colors group self-start md:self-auto"
           >
-            View all professionals
+            {language === 'ta' ? 'அனைவரையும் காண்க' : 'See everyone'}
             <ArrowRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
           </button>
-        </div>
+        </header>
 
-        {/* Provider Cards */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
-          {featured.map((p) => {
-            const accentBorder = categoryAccents[p.category] || 'border-l-brand-500';
+          {featured.map((p) => (
+            <article
+              key={p.id}
+              className="bg-kolam-surface border border-ns-border rounded-2xl overflow-hidden hover:shadow-card transition-all duration-200 flex flex-col"
+              id={`provider-${p.id}`}
+            >
+              {/* The avatar URL has been in the data all along. */}
+              <div className="p-5 pb-0 flex items-start gap-3.5">
+                <Avatar name={p.name} src={p.avatar} size="md" rounded="full" />
+                <div className="flex-1 min-w-0">
+                  <h3 className="font-display font-semibold text-ns-navy text-[17px] leading-tight truncate">
+                    {p.name}
+                  </h3>
+                  {p.businessName && (
+                    <p className="text-xs text-ns-text-secondary truncate mt-0.5">{p.businessName}</p>
+                  )}
+                  {p.isVerified && (
+                    <span className="inline-flex items-center gap-1 text-[11px] font-semibold text-kolam-teal mt-1.5">
+                      <ShieldCheck className="w-3.5 h-3.5" />
+                      {language === 'ta' ? 'ஐடி சரிபார்க்கப்பட்டது' : 'ID verified'}
+                    </span>
+                  )}
+                </div>
+              </div>
 
-            return (
-              <div
-                key={p.id}
-                className={`bg-white border border-ns-border border-l-4 ${accentBorder} rounded-xl overflow-hidden hover:shadow-card transition-all duration-200 flex flex-col`}
-                id={`provider-${p.id}`}
-              >
-                <div className="p-5 flex-1 flex flex-col">
-                  {/* Avatar + Name */}
-                  <div className="flex items-start gap-3 mb-4">
-                    <InitialsAvatar name={p.name} size="lg" rounded="xl" />
-                    <div className="flex-1 min-w-0">
-                      <h3 className="font-bold text-ns-navy text-base leading-tight truncate">
-                        {p.name}
-                      </h3>
-                      {p.isVerified && (
-                        <div className="flex items-center gap-1 text-emerald-600 text-xs font-semibold mt-0.5">
-                          <ShieldCheck className="w-3.5 h-3.5" />
-                          <span>Verified</span>
-                        </div>
-                      )}
-                      <p className="text-xs text-ns-text-secondary mt-0.5">{p.category}</p>
-                    </div>
-                  </div>
+              <div className="p-5 flex-1 flex flex-col">
+                <div className="flex items-center gap-2 text-xs text-ns-text-secondary">
+                  <CategoryIcon categoryName={p.category} className="w-4 h-4 text-ns-primary" showDot={false} />
+                  <span>{p.category}</span>
+                </div>
 
-                  {/* Rating */}
-                  <div className="flex items-center gap-2 mb-3">
-                    <div className="flex items-center gap-1">
-                      <Star className="w-4 h-4 fill-amber-400 text-amber-400" />
-                      <span className="text-sm font-bold text-ns-navy">{p.rating}</span>
-                    </div>
-                    <span className="text-xs text-ns-text-secondary">({p.reviewCount} reviews)</span>
-                  </div>
+                <div className="flex items-center gap-2 mt-3">
+                  <Star className="w-4 h-4 fill-kolam-marigold text-kolam-marigold" />
+                  <span className="text-sm font-semibold text-ns-navy tnum">{p.rating.toFixed(1)}</span>
+                  <span className="text-xs text-ns-text-secondary tnum">
+                    ({p.reviewCount} {language === 'ta' ? 'மதிப்புரைகள்' : 'reviews'})
+                  </span>
+                </div>
 
-                  {/* Meta */}
-                  <div className="space-y-2 flex-1">
-                    <div className="flex items-center gap-2 text-xs text-ns-text-secondary">
-                      <Briefcase className="w-3.5 h-3.5 shrink-0" />
-                      <span>{p.yearsExperience} years experience</span>
-                    </div>
-                    <div className="flex items-center gap-2 text-xs text-ns-text-secondary">
-                      <MapPin className="w-3.5 h-3.5 shrink-0" />
-                      <span>{p.distanceKm} km away · {p.completedJobs} jobs done</span>
-                    </div>
-                  </div>
+                <div className="mt-3 space-y-1.5 text-xs text-ns-text-secondary flex-1">
+                  <p className="tnum">
+                    {p.yearsExperience} {language === 'ta' ? 'ஆண்டு அனுபவம்' : 'years experience'}
+                    {' · '}
+                    {p.completedJobs} {language === 'ta' ? 'வேலைகள்' : 'jobs'}
+                  </p>
+                  <p className="flex items-center gap-1.5">
+                    <MapPin className="w-3.5 h-3.5 shrink-0" />
+                    <span className="tnum">{p.distanceKm} km away</span>
+                  </p>
+                </div>
 
-                  {/* Price + Actions */}
-                  <div className="mt-4 pt-3 border-t border-ns-border/60">
-                    <p className="text-sm text-ns-text-secondary">
-                      Starting at <span className="text-lg font-extrabold text-ns-navy">₹{p.visitCharge}</span>
-                    </p>
-                    <div className="grid grid-cols-2 gap-2 mt-3">
-                      <button
-                        onClick={() => setActiveProviderProfile(p)}
-                        className="py-2 rounded-lg border border-ns-border hover:bg-slate-50 text-ns-navy font-semibold text-xs transition-colors"
-                      >
-                        View Profile
-                      </button>
-                      <button
-                        onClick={() => setBookingProvider(p)}
-                        className="py-2 rounded-lg bg-ns-primary hover:bg-ns-primary-bright text-white font-semibold text-xs transition-colors"
-                      >
-                        Book Now
-                      </button>
-                    </div>
+                <div className="mt-5 pt-4 border-t border-ns-border/70">
+                  <p className="text-xs text-ns-text-secondary">
+                    {language === 'ta' ? 'தொடக்கம்' : 'From'}{' '}
+                    <span className="font-display text-lg font-semibold text-ns-navy tnum">₹{p.visitCharge}</span>
+                  </p>
+                  <div className="grid grid-cols-2 gap-2 mt-3">
+                    <button
+                      onClick={() => setActiveProviderProfile(p)}
+                      className="py-2 rounded-full border border-ns-border hover:border-brand-300 hover:bg-brand-50 text-ns-navy font-semibold text-xs transition-colors"
+                    >
+                      {language === 'ta' ? 'சுயவிவரம்' : 'Profile'}
+                    </button>
+                    <button
+                      onClick={() => setBookingProvider(p)}
+                      className="py-2 rounded-full bg-kolam-teal hover:bg-[#0B5852] text-white font-semibold text-xs transition-colors"
+                    >
+                      {language === 'ta' ? 'முன்பதிவு' : 'Book'}
+                    </button>
                   </div>
                 </div>
               </div>
-            );
-          })}
+            </article>
+          ))}
         </div>
-
       </div>
     </section>
   );

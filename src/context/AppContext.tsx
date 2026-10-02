@@ -8,12 +8,17 @@ import {
   mockProviders, initialBookings, initialMessages, initialNotifications,
   initialWarranties, initialComplaints
 } from '../data/mockData';
+import {
+  authApi, bookingApi, setToken, getToken, toUiRole, AUTH_EXPIRED_EVENT, AuthResponse
+} from '../services/api';
 
 interface LoggedInUser {
+  id: number;
   name: string;
   email: string;
   role: Role;
   phone?: string;
+  area?: string;
 }
 
 interface AppContextType {
@@ -27,8 +32,11 @@ interface AppContextType {
   // Auth State
   isLoggedIn: boolean;
   loggedInUser: LoggedInUser | null;
-  login: (name: string, email: string, role: Role) => void;
+  /** Called with the server's AuthResponse after a successful login/register. */
+  login: (auth: AuthResponse) => void;
   logout: () => void;
+  /** True while the stored token is being revalidated on boot. */
+  isRestoringSession: boolean;
 
   // Search & Filter State
   filters: FilterState;
@@ -85,7 +93,8 @@ interface AppContextType {
 
   // Bookings State & Actions
   bookings: Booking[];
-  createBooking: (newBookingData: Omit<Booking, 'id' | 'bookingNumber' | 'createdAt' | 'status' | 'statusHistory'>) => Booking;
+  createBooking: (newBookingData: Omit<Booking, 'id' | 'bookingNumber' | 'createdAt' | 'status' | 'statusHistory'>)
+    => Promise<{ booking: Booking; persisted: boolean; error?: string }>;
   updateBookingStatus: (bookingId: string, newStatus: BookingStatus, note?: string) => void;
 
   // Messages State & Actions
@@ -152,6 +161,9 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
   // Auth state
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
   const [loggedInUser, setLoggedInUser] = useState<LoggedInUser | null>(null);
+  // A token in localStorage is a claim, not proof. Until /auth/me confirms it we
+  // are neither logged in nor logged out.
+  const [isRestoringSession, setIsRestoringSession] = useState<boolean>(() => !!getToken());
 
   // Modals state
   const [activeProviderProfile, setActiveProviderProfile] = useState<Provider | null>(null);
@@ -276,13 +288,32 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
     return saved ? JSON.parse(saved) : initialComplaints;
   });
 
-  // Sync with Backend H2 Database on mount
+  /**
+   * Pull the signed-in user's bookings from the backend.
+   *
+   * This used to call GET /api/bookings on mount with no credentials, which
+   * returned every booking in the database and rendered them as the current
+   * user's own. It now asks for the caller's bookings and only once there is a
+   * session to ask with.
+   */
   useEffect(() => {
-    fetch('http://localhost:8080/api/bookings')
-      .then(res => res.json())
-      .then(data => {
-        if (data && data.success && Array.isArray(data.data) && data.data.length > 0) {
-          const mappedBookings: Booking[] = data.data.map((b: any) => ({
+    if (!isLoggedIn || !loggedInUser) return;
+
+    let cancelled = false;
+    (async () => {
+      const result = loggedInUser.role === 'provider'
+        ? await bookingApi.getMyJobs()
+        : await bookingApi.getMyBookings();
+
+      if (cancelled) return;
+      if (!result.ok) {
+        // Nothing to show from the server; the locally cached list stands.
+        console.warn('Could not load bookings:', result.error);
+        return;
+      }
+      const rows = Array.isArray(result.data) ? result.data : [];
+      if (rows.length > 0) {
+          const mappedBookings: Booking[] = rows.map((b: any) => ({
             id: b.id.toString(),
             bookingNumber: b.bookingNumber || `LF-CHN-${b.id}`,
             providerId: b.technician?.id?.toString() || 'p1',
@@ -316,9 +347,65 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
             warrantyDays: b.warrantyDays || 30
           }));
           setBookings(mappedBookings);
+      }
+    })();
+
+    return () => { cancelled = true; };
+  }, [isLoggedIn, loggedInUser?.id, loggedInUser?.role]);
+
+  /**
+   * Revalidate a stored token on boot. Without this the app forgot who you were
+   * on every refresh, and a token that had since expired was treated as valid
+   * until the first API call failed.
+   */
+  useEffect(() => {
+    const token = getToken();
+    if (!token) {
+      setIsRestoringSession(false);
+      return;
+    }
+
+    let cancelled = false;
+    (async () => {
+      const result = await authApi.me();
+      if (cancelled) return;
+
+      if (result.ok && result.data) {
+        const serverRole = result.data.authorities?.[0]?.authority;
+        const userRole = toUiRole(serverRole);
+        setIsLoggedIn(true);
+        setLoggedInUser({
+          id: result.data.id,
+          name: result.data.name,
+          email: result.data.email,
+          role: userRole
+        });
+        setRole(userRole);
+      } else {
+        // 401 already cleared the token inside the API client; anything else
+        // (server down, for instance) should also not leave a half-session.
+        clearSession();
+      }
+      setIsRestoringSession(false);
+    })();
+
+    return () => { cancelled = true; };
+  }, []);
+
+  /** The API client raises this when any call comes back 401. */
+  useEffect(() => {
+    const onExpired = () => {
+      setIsLoggedIn(prev => {
+        if (prev) {
+          setLoggedInUser(null);
+          setRole('customer');
+          setPage('landing');
         }
-      })
-      .catch(err => console.warn('Could not sync with backend:', err));
+        return false;
+      });
+    };
+    window.addEventListener(AUTH_EXPIRED_EVENT, onExpired);
+    return () => window.removeEventListener(AUTH_EXPIRED_EVENT, onExpired);
   }, []);
 
   // Sync to localStorage
@@ -339,23 +426,42 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
 
   const resetFilters = () => setFilters(defaultFilters);
 
-  const login = (name: string, email: string, userRole: Role) => {
+  /**
+   * The role comes from the server's response, never from what the sign-in form
+   * was set to. Previously the client decided its own role, so picking
+   * "Provider" in the UI granted the provider portal regardless of the account.
+   */
+  const login = (auth: AuthResponse) => {
+    const userRole = toUiRole(auth.role);
+    setToken(auth.token);
     setIsLoggedIn(true);
-    setLoggedInUser({ name, email, role: userRole });
+    setLoggedInUser({
+      id: auth.id,
+      name: auth.name,
+      email: auth.email,
+      role: userRole,
+      phone: auth.phone,
+      area: auth.area
+    });
     setRole(userRole);
     if (userRole === 'admin') {
       setPage('admin-dashboard');
     }
   };
 
-  const logout = () => {
+  const clearSession = () => {
+    setToken(null);
     setIsLoggedIn(false);
     setLoggedInUser(null);
     setRole('customer');
-    setPage('landing');
     setActiveProviderProfile(null);
     setBookingProvider(null);
     setActiveBookingForChat(null);
+  };
+
+  const logout = () => {
+    clearSession();
+    setPage('landing');
   };
 
   const toggleFavorite = (providerId: string) => {
@@ -364,7 +470,17 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
     );
   };
 
-  const createBooking = (newBookingData: Omit<Booking, 'id' | 'bookingNumber' | 'createdAt' | 'status' | 'statusHistory'>): Booking => {
+  /**
+   * Creates a booking locally, then persists it to the backend.
+   *
+   * The previous version fired a bare `fetch` with no Authorization header and
+   * logged "Booking synchronized to NammaServe Java Database" from inside
+   * `.then()` regardless of the status code. Now that /api/bookings requires a
+   * token, every booking came back 401 and was silently dropped while the UI
+   * still reported success. It now goes through the authenticated client and
+   * reports honestly whether the row was written.
+   */
+  const createBooking = async (newBookingData: Omit<Booking, 'id' | 'bookingNumber' | 'createdAt' | 'status' | 'statusHistory'>): Promise<{ booking: Booking; persisted: boolean; error?: string }> => {
     const id = 'b_' + Math.random().toString(36).substring(2, 9);
     const bookingNumber = 'LF-CHN-' + Math.floor(10000 + Math.random() * 90000);
     const createdAt = new Date().toISOString();
@@ -382,43 +498,55 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
 
     setBookings(prev => [newBooking, ...prev]);
 
-    // Send to Spring Boot backend database at http://localhost:8080/api/bookings
-    try {
-      fetch('http://localhost:8080/api/bookings', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          serviceId: newBookingData.serviceId,
-          serviceName: newBookingData.serviceName,
-          servicePrice: newBookingData.servicePrice,
-          visitCharge: newBookingData.visitCharge || 199,
-          partsCharge: newBookingData.partsCharge || 0,
-          gst: newBookingData.gst || 0,
-          discount: newBookingData.discount || 0,
-          totalPrice: newBookingData.totalPrice,
-          scheduledDate: newBookingData.scheduledDate,
-          scheduledTime: newBookingData.scheduledTime,
-          serviceLocation: newBookingData.serviceLocation,
-          serviceArea: newBookingData.serviceArea || selectedArea,
-          problemDescription: newBookingData.problemDescription || '',
-          isEmergency: newBookingData.isEmergency || false,
-          notes: newBookingData.notes || '',
-          paymentMethod: newBookingData.paymentMethod || 'upi',
-          customerName: newBookingData.customerName,
-          customerPhone: newBookingData.customerPhone,
-          providerName: newBookingData.providerName,
-          providerId: newBookingData.providerId
-        })
-      })
-      .then(res => res.json())
-      .then(data => {
-        console.log('Booking synchronized to NammaServe Java Database:', data);
-      })
-      .catch(err => {
-        console.warn('Backend database sync notification:', err);
-      });
-    } catch (e) {
-      console.warn('Backend database post error:', e);
+    // The backend derives GST and the total from the line items, so they are
+    // deliberately not sent. providerId here is a front-end string id
+    // ("p_extra_2"); only a numeric id can refer to a TechnicianProfile row, so
+    // anything else falls back to matching the professional by name.
+    const numericTechnicianId = Number(newBookingData.providerId);
+    const result = await bookingApi.create({
+      ...(Number.isFinite(numericTechnicianId) && numericTechnicianId > 0
+        ? { technicianId: numericTechnicianId }
+        : {}),
+      providerName: newBookingData.providerName,
+      serviceId: newBookingData.serviceId,
+      serviceName: newBookingData.serviceName,
+      servicePrice: newBookingData.servicePrice,
+      visitCharge: newBookingData.visitCharge || 199,
+      partsCharge: newBookingData.partsCharge || 0,
+      discount: newBookingData.discount || 0,
+      scheduledDate: newBookingData.scheduledDate,
+      scheduledTime: newBookingData.scheduledTime,
+      serviceLocation: newBookingData.serviceLocation,
+      serviceArea: newBookingData.serviceArea || selectedArea,
+      problemDescription: newBookingData.problemDescription || '',
+      isEmergency: newBookingData.isEmergency || false,
+      notes: newBookingData.notes || '',
+      paymentMethod: newBookingData.paymentMethod || 'upi',
+      customerName: newBookingData.customerName,
+      customerPhone: newBookingData.customerPhone
+    });
+
+    let persisted = false;
+    let error: string | undefined;
+
+    if (result.ok && result.data) {
+      persisted = true;
+      // Adopt the server's identity and its authoritative totals, so the
+      // reference number the customer is shown is the one in the database.
+      const saved = result.data;
+      const reconciled: Booking = {
+        ...newBooking,
+        id: String(saved.id ?? newBooking.id),
+        bookingNumber: saved.bookingNumber ?? newBooking.bookingNumber,
+        status: saved.status ?? newBooking.status,
+        gst: saved.gst ?? newBooking.gst,
+        totalPrice: saved.totalPrice ?? newBooking.totalPrice
+      };
+      setBookings(prev => prev.map(b => (b.id === newBooking.id ? reconciled : b)));
+      Object.assign(newBooking, reconciled);
+    } else if (!result.ok) {
+      error = result.error;
+      console.warn('Booking was not saved to the server:', result.status, result.error);
     }
 
     // Auto-create notification
@@ -433,7 +561,7 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
     };
     setNotifications(prev => [newNotif, ...prev]);
 
-    return newBooking;
+    return { booking: newBooking, persisted, error };
   };
 
   const updateBookingStatus = (bookingId: string, newStatus: BookingStatus, note?: string) => {
@@ -673,7 +801,7 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
         role, setRole,
         page, setPage,
         language, setLanguage,
-        isLoggedIn, loggedInUser, login, logout,
+        isLoggedIn, loggedInUser, login, logout, isRestoringSession,
         filters, setFilters, resetFilters,
         providers, updateProviderVerification, removeProvider, favorites, toggleFavorite,
         activeProviderProfile, setActiveProviderProfile,

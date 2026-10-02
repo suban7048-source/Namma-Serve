@@ -2,6 +2,11 @@ package com.localfix.dto;
 
 public class CreateBookingRequest {
 
+    // NOTE: gst and totalPrice are deliberately absent. They are derived in
+    // BookingService from the line items; accepting them from the client let a
+    // crafted request set its own total.
+
+
     private Long technicianId;
     private String providerId;
     private String providerName;
@@ -12,9 +17,7 @@ public class CreateBookingRequest {
 
     private Integer visitCharge = 199;
     private Integer partsCharge = 0;
-    private Integer gst = 0;
     private Integer discount = 0;
-    private Integer totalPrice = 0;
 
     private String scheduledDate;
     private String scheduledTime;
@@ -57,14 +60,10 @@ public class CreateBookingRequest {
     public Integer getPartsCharge() { return partsCharge; }
     public void setPartsCharge(Integer partsCharge) { this.partsCharge = partsCharge; }
 
-    public Integer getGst() { return gst; }
-    public void setGst(Integer gst) { this.gst = gst; }
 
     public Integer getDiscount() { return discount; }
     public void setDiscount(Integer discount) { this.discount = discount; }
 
-    public Integer getTotalPrice() { return totalPrice; }
-    public void setTotalPrice(Integer totalPrice) { this.totalPrice = totalPrice; }
 
     public String getScheduledDate() { return scheduledDate; }
     public void setScheduledDate(String scheduledDate) { this.scheduledDate = scheduledDate; }

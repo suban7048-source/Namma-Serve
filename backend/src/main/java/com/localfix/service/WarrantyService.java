@@ -7,6 +7,7 @@ import com.localfix.exception.BadRequestException;
 import com.localfix.exception.ResourceNotFoundException;
 import com.localfix.repository.BookingRepository;
 import com.localfix.repository.WarrantyRepository;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -40,10 +41,18 @@ public class WarrantyService {
     }
 
     @Transactional
-    public Warranty claimWarranty(WarrantyClaimRequest req) {
+    public Warranty claimWarranty(WarrantyClaimRequest req, Long customerId) {
         Warranty warranty = warrantyRepository.findByBookingId(req.getBookingId())
                 .orElseThrow(() -> new ResourceNotFoundException("No active warranty found for booking: " + req.getBookingId()));
 
+        // This endpoint took no identity at all, so any caller could claim
+        // against any booking id.
+        if (warranty.getCustomer() == null || !warranty.getCustomer().getId().equals(customerId)) {
+            throw new AccessDeniedException("This warranty belongs to another customer.");
+        }
+        if ("CLAIMED".equals(warranty.getStatus())) {
+            throw new BadRequestException("A claim is already open on this warranty.");
+        }
         if (warranty.getValidUntil().isBefore(LocalDate.now())) {
             warranty.setStatus("EXPIRED");
             warrantyRepository.save(warranty);

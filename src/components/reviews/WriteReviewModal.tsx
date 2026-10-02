@@ -84,18 +84,18 @@ export const WriteReviewModal: React.FC = () => {
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-slate-900/65 backdrop-blur-sm animate-fade-in">
-      <div className="bg-white rounded-3xl max-w-lg w-full p-6 sm:p-8 shadow-elevated border border-slate-100 relative my-auto max-h-[92vh] overflow-y-auto">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-ns-navy/65 backdrop-blur-sm animate-fade-in">
+      <div className="bg-kolam-surface rounded-2xl max-w-lg w-full p-6 sm:p-8 shadow-elevated border border-kolam-sunk relative my-auto max-h-[92vh] overflow-y-auto">
         
-        <div className="flex items-center justify-between pb-4 mb-4 border-b border-slate-100">
+        <div className="flex items-center justify-between pb-4 mb-4 border-b border-kolam-sunk">
           <div>
-            <h3 className="font-extrabold text-slate-900 text-lg">Leave a Review</h3>
-            <p className="text-xs text-slate-500">For {targetProviderName} • Chennai</p>
+            <h3 className="font-display font-semibold text-ns-navy text-lg">Leave a Review</h3>
+            <p className="text-xs text-ns-text-secondary">For {targetProviderName} • Chennai</p>
           </div>
 
           <button
             onClick={handleClose}
-            className="p-2 text-slate-400 hover:text-slate-600 rounded-full hover:bg-slate-100 transition-colors"
+            className="p-2 text-ns-text-secondary hover:text-ns-text-secondary rounded-full hover:bg-kolam-sunk transition-colors"
           >
             <X className="w-5 h-5" />
           </button>
@@ -104,11 +104,11 @@ export const WriteReviewModal: React.FC = () => {
         {/* Service selector if reviewProvider has multiple services */}
         {reviewProvider && reviewProvider.offeredServices.length > 0 && (
           <div className="mb-4 space-y-1.5">
-            <label className="text-xs font-bold text-slate-700">Service availed:</label>
+            <label className="text-xs font-semibold text-ns-text">Service availed:</label>
             <select
               value={selectedServiceName}
               onChange={(e) => setSelectedServiceName(e.target.value)}
-              className="w-full bg-slate-50 border border-slate-200 rounded-xl p-2.5 text-xs font-semibold text-slate-800 focus:outline-none focus:border-brand-600"
+              className="w-full bg-kolam-wash border border-ns-border rounded-xl p-2.5 text-xs font-semibold text-ns-navy focus:outline-none focus:border-brand-600"
             >
               {reviewProvider.offeredServices.map(s => (
                 <option key={s.id} value={s.name}>{s.name} (₹{s.price})</option>
@@ -121,8 +121,8 @@ export const WriteReviewModal: React.FC = () => {
         <form onSubmit={handleSubmit} className="space-y-5">
           
           {/* Overall Rating */}
-          <div className="text-center bg-slate-50 p-4 rounded-2xl border border-slate-100 space-y-2">
-            <label className="text-xs font-bold text-slate-800 uppercase tracking-wide">Overall Rating</label>
+          <div className="text-center bg-kolam-wash p-4 rounded-2xl border border-kolam-sunk space-y-2">
+            <label className="text-xs font-semibold text-ns-navy uppercase tracking-wide">Overall Rating</label>
             <div className="flex justify-center">
               <RatingStars
                 rating={overallRating}
@@ -131,11 +131,11 @@ export const WriteReviewModal: React.FC = () => {
                 onRatingChange={(r) => setOverallRating(r)}
               />
             </div>
-            <span className="text-xs font-bold text-amber-600 block">{overallRating} of 5 Stars</span>
+            <span className="text-xs font-semibold text-kolam-marigold block">{overallRating} of 5 Stars</span>
           </div>
 
           {/* Sub Ratings */}
-          <div className="space-y-3 text-xs font-semibold text-slate-700">
+          <div className="space-y-3 text-xs font-semibold text-ns-text">
             <div className="flex items-center justify-between">
               <span>Service Quality</span>
               <RatingStars rating={qualityRating} size={18} interactive onRatingChange={(r) => setQualityRating(r)} />
@@ -152,19 +152,19 @@ export const WriteReviewModal: React.FC = () => {
 
           {/* Comment text */}
           <div className="space-y-1.5">
-            <label className="text-xs font-bold text-slate-800">Your Review</label>
+            <label className="text-xs font-semibold text-ns-navy">Your Review</label>
             <textarea
               rows={3}
               placeholder="Describe your experience with this service provider..."
               value={comment}
               onChange={(e) => setComment(e.target.value)}
-              className="w-full bg-slate-50 border border-slate-200 rounded-2xl p-3 text-xs text-slate-900 focus:outline-none focus:border-brand-500"
+              className="w-full bg-kolam-wash border border-ns-border rounded-2xl p-3 text-xs text-ns-navy focus:outline-none focus:border-brand-500"
             />
           </div>
 
           {/* Tag Selection */}
           <div className="space-y-1.5">
-            <label className="text-xs font-bold text-slate-800">Highlights</label>
+            <label className="text-xs font-semibold text-ns-navy">Highlights</label>
             <div className="flex flex-wrap gap-1.5">
               {availableTags.map((tag) => {
                 const isSelected = selectedTags.includes(tag);
@@ -176,7 +176,7 @@ export const WriteReviewModal: React.FC = () => {
                     className={`px-3 py-1 rounded-xl text-xs font-semibold border transition-all ${
                       isSelected
                         ? 'bg-brand-600 text-white border-brand-600'
-                        : 'bg-slate-50 text-slate-600 border-slate-200 hover:bg-slate-100'
+                        : 'bg-kolam-wash text-ns-text-secondary border-ns-border hover:bg-kolam-sunk'
                     }`}
                   >
                     #{tag}
@@ -190,7 +190,7 @@ export const WriteReviewModal: React.FC = () => {
           <div className="pt-3">
             <button
               type="submit"
-              className="w-full bg-brand-600 hover:bg-brand-700 text-white font-extrabold py-3.5 rounded-2xl text-xs shadow-md transition-all flex items-center justify-center gap-2"
+              className="w-full bg-brand-600 hover:bg-brand-700 text-white font-semibold py-3.5 rounded-2xl text-xs shadow-md transition-all flex items-center justify-center gap-2"
             >
               <CheckCircle2 className="w-4 h-4" /> Submit Review
             </button>

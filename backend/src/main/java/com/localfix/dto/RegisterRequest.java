@@ -2,11 +2,13 @@ package com.localfix.dto;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 
 public class RegisterRequest {
 
     @NotBlank(message = "Name is required")
+    @Size(min = 2, max = 80, message = "Name must be between 2 and 80 characters")
     private String name;
 
     @NotBlank(message = "Email is required")
@@ -14,10 +16,11 @@ public class RegisterRequest {
     private String email;
 
     @NotBlank(message = "Phone number is required")
+    @Pattern(regexp = "^[+0-9][0-9 \\-()]{7,19}$", message = "Enter a valid phone number")
     private String phone;
 
     @NotBlank(message = "Password is required")
-    @Size(min = 6, message = "Password must be at least 6 characters")
+    @Size(min = 8, max = 72, message = "Password must be at least 8 characters")
     private String password;
 
     private String role; // customer or provider / technician
@@ -25,6 +28,8 @@ public class RegisterRequest {
     private String area = "Velachery";
 
     private String category; // If technician
+
+    private String businessName; // If technician
 
     public RegisterRequest() {}
 
@@ -48,4 +53,7 @@ public class RegisterRequest {
 
     public String getCategory() { return category; }
     public void setCategory(String category) { this.category = category; }
+
+    public String getBusinessName() { return businessName; }
+    public void setBusinessName(String businessName) { this.businessName = businessName; }
 }

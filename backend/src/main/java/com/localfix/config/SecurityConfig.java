@@ -1,6 +1,7 @@
 package com.localfix.config;
 
 import com.localfix.security.JwtAuthenticationFilter;
+import com.localfix.security.RestAuthEntryPoint;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -17,6 +18,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
@@ -30,12 +32,19 @@ import java.util.List;
 public class SecurityConfig {
 
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
+    private final RestAuthEntryPoint restAuthEntryPoint;
 
     @Value("${localfix.cors.allowed-origins:http://localhost:5173,http://localhost:3000}")
     private String allowedOrigins;
 
-    public SecurityConfig(JwtAuthenticationFilter jwtAuthenticationFilter) {
+    /** The H2 console is a full SQL client. It is only ever exposed when explicitly switched on. */
+    @Value("${spring.h2.console.enabled:false}")
+    private boolean h2ConsoleEnabled;
+
+    public SecurityConfig(JwtAuthenticationFilter jwtAuthenticationFilter,
+                          RestAuthEntryPoint restAuthEntryPoint) {
         this.jwtAuthenticationFilter = jwtAuthenticationFilter;
+        this.restAuthEntryPoint = restAuthEntryPoint;
     }
 
     @Bean
@@ -53,25 +62,38 @@ public class SecurityConfig {
         http
                 .cors(Customizer.withDefaults())
                 .csrf(AbstractHttpConfigurer::disable)
-                .headers(headers -> headers.frameOptions(frame -> frame.disable())) // For H2 console
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .authorizeHttpRequests(auth -> auth
-                        // Public endpoints
-                        .requestMatchers("/api/auth/**").permitAll()
-                        .requestMatchers(HttpMethod.GET, "/api/services/**").permitAll()
-                        .requestMatchers(HttpMethod.GET, "/api/technicians/**").permitAll()
-                        .requestMatchers(HttpMethod.GET, "/api/reviews/**").permitAll()
-                        .requestMatchers("/api/bookings/**").permitAll()
-                        .requestMatchers("/api/payments/**").permitAll()
-                        .requestMatchers("/api/complaints/**").permitAll()
-                        .requestMatchers("/api/warranty/**").permitAll()
-                        .requestMatchers("/h2-console/**").permitAll()
-                        .requestMatchers("/error").permitAll()
-                        // Admin-specific endpoints
-                        .requestMatchers("/api/admin/**").hasRole("ADMIN")
-                        // All other APIs require authentication
-                        .anyRequest().authenticated()
-                );
+                .exceptionHandling(ex -> ex
+                        .authenticationEntryPoint(restAuthEntryPoint)
+                        .accessDeniedHandler(restAuthEntryPoint))
+                .authorizeHttpRequests(auth -> {
+                    // --- Public: getting an identity, and browsing the catalogue ---
+                    auth.requestMatchers("/api/auth/login", "/api/auth/register").permitAll();
+                    auth.requestMatchers(HttpMethod.GET, "/api/services/**").permitAll();
+                    auth.requestMatchers(HttpMethod.GET, "/api/technicians/**").permitAll();
+                    auth.requestMatchers(HttpMethod.GET, "/api/reviews/**").permitAll();
+                    auth.requestMatchers("/error").permitAll();
+                    auth.requestMatchers(HttpMethod.OPTIONS, "/**").permitAll();
+
+                    if (h2ConsoleEnabled) {
+                        auth.requestMatchers(AntPathRequestMatcher.antMatcher("/h2-console/**")).permitAll();
+                    }
+
+                    // --- Admin console ---
+                    auth.requestMatchers("/api/admin/**").hasRole("ADMIN");
+
+                    // --- Everything else, including bookings, payments, complaints,
+                    //     warranty claims and /api/auth/me, needs a valid token.
+                    //     These were previously permitAll, which let an anonymous
+                    //     caller create bookings, mark jobs complete and settle
+                    //     invoices on other people's accounts.
+                    auth.anyRequest().authenticated();
+                });
+
+        if (h2ConsoleEnabled) {
+            // Frame options are only relaxed for the console, not for the whole app.
+            http.headers(headers -> headers.frameOptions(frame -> frame.sameOrigin()));
+        }
 
         http.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
 
@@ -81,7 +103,10 @@ public class SecurityConfig {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        List<String> origins = Arrays.asList(allowedOrigins.split(","));
+        List<String> origins = Arrays.stream(allowedOrigins.split(","))
+                .map(String::trim)
+                .filter(o -> !o.isEmpty())
+                .toList();
         configuration.setAllowedOrigins(origins);
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"));
         configuration.setAllowedHeaders(Arrays.asList("Authorization", "Content-Type", "X-Requested-With", "Accept"));

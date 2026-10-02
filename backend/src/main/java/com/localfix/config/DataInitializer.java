@@ -49,6 +49,9 @@ public class DataInitializer implements CommandLineRunner {
     public void run(String... args) throws Exception {
         if (userRepository.count() > 0) return;
 
+        // NOTE: every seeded email must be lower-case — AuthService normalises
+        // addresses before lookup, so a mixed-case seed would be unreachable.
+
         // 1. Seed Users
         User admin = new User("LocalFix Admin", "admin@localfix.in", "+91 94440 00000",
                 passwordEncoder.encode("admin123"), Role.ROLE_ADMIN, "T. Nagar");

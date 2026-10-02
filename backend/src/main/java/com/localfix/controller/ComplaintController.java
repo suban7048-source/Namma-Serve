@@ -7,6 +7,7 @@ import com.localfix.security.UserPrincipal;
 import com.localfix.service.ComplaintService;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
@@ -37,12 +38,16 @@ public class ComplaintController {
         return ResponseEntity.ok(ApiResponse.success(complaintService.getCustomerComplaints(userPrincipal.getId())));
     }
 
+    /** Moderation queue — admin only. This previously returned every customer
+     *  complaint in the system to any caller. */
     @GetMapping
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<ApiResponse<List<Complaint>>> getAllComplaints() {
         return ResponseEntity.ok(ApiResponse.success(complaintService.getAllComplaints()));
     }
 
     @PatchMapping("/{id}/status")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<ApiResponse<Complaint>> updateStatus(
             @PathVariable Long id,
             @RequestBody Map<String, String> body) {

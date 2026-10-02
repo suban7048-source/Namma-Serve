@@ -35,22 +35,22 @@ export const InvoiceModal: React.FC = () => {
   };
 
   return (
-    <div className="fixed inset-0 z-[200] flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-sm animate-fade-in">
-      <div className="bg-white rounded-3xl shadow-elevated w-full max-w-xl max-h-[90vh] overflow-y-auto">
+    <div className="fixed inset-0 z-[200] flex items-center justify-center p-4 bg-ns-navy/60 backdrop-blur-sm animate-fade-in">
+      <div className="bg-kolam-surface rounded-2xl shadow-elevated w-full max-w-xl max-h-[90vh] overflow-y-auto">
 
         {/* Modal Header */}
-        <div className="flex items-center justify-between p-6 border-b border-slate-100">
+        <div className="flex items-center justify-between p-6 border-b border-kolam-sunk">
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 rounded-2xl bg-brand-50 border border-brand-100 flex items-center justify-center">
               <FileText className="w-5 h-5 text-brand-600" />
             </div>
             <div>
-              <h2 className="text-lg font-extrabold text-slate-900">Digital Invoice</h2>
-              <p className="text-xs text-slate-400 font-mono">#{booking.bookingNumber}</p>
+              <h2 className="font-display text-lg font-semibold text-ns-navy">Digital Invoice</h2>
+              <p className="text-xs text-ns-text-secondary font-mono">#{booking.bookingNumber}</p>
             </div>
           </div>
-          <button onClick={() => setBooking(null)} className="p-2 rounded-full hover:bg-slate-100 transition-colors">
-            <X className="w-5 h-5 text-slate-400" />
+          <button onClick={() => setBooking(null)} className="p-2 rounded-full hover:bg-kolam-sunk transition-colors">
+            <X className="w-5 h-5 text-ns-text-secondary" />
           </button>
         </div>
 
@@ -62,90 +62,90 @@ export const InvoiceModal: React.FC = () => {
             <div>
               <div className="flex items-center gap-2">
                 <Building2 className="w-5 h-5 text-brand-600" />
-                <span className="text-xl font-extrabold text-slate-900">NammaServe</span>
+                <span className="text-xl font-semibold text-ns-navy">NammaServe</span>
               </div>
-              <p className="text-xs text-slate-500 mt-0.5">Trusted Local Services, Right at Your Doorstep.</p>
-              <p className="text-[10px] text-slate-400">Chennai, Tamil Nadu, India | support@nammaserve.in</p>
+              <p className="text-xs text-ns-text-secondary mt-0.5">Trusted Local Services, Right at Your Doorstep.</p>
+              <p className="text-[10px] text-ns-text-secondary">Chennai, Tamil Nadu, India | support@nammaserve.in</p>
             </div>
             <div className="text-right">
-              <p className="text-xs font-bold text-slate-900">Invoice Date</p>
-              <p className="text-xs text-slate-500">{invoiceDate}</p>
-              <div className="mt-2 px-3 py-1 bg-emerald-50 text-emerald-700 border border-emerald-200 rounded-full text-[10px] font-extrabold uppercase">
+              <p className="text-xs font-semibold text-ns-navy">Invoice Date</p>
+              <p className="text-xs text-ns-text-secondary">{invoiceDate}</p>
+              <div className="mt-2 px-3 py-1 bg-kolam-teal-soft text-kolam-teal border border-kolam-teal-line rounded-full text-[10px] font-semibold uppercase">
                 {booking.paymentStatus === 'SUCCESS' ? '✓ PAID' : 'PENDING'}
               </div>
             </div>
           </div>
 
-          <hr className="border-slate-100" />
+          <hr className="border-kolam-sunk" />
 
           {/* Parties */}
           <div className="grid grid-cols-2 gap-4 text-xs">
             <div className="space-y-1">
-              <p className="font-bold text-slate-500 uppercase tracking-wide text-[10px]">Bill To</p>
-              <p className="font-extrabold text-slate-900">{booking.customerName}</p>
-              <p className="text-slate-500">{booking.customerPhone}</p>
-              <p className="text-slate-500 leading-relaxed">{booking.serviceLocation}</p>
+              <p className="font-semibold text-ns-text-secondary uppercase tracking-wide text-[10px]">Bill To</p>
+              <p className="font-semibold text-ns-navy">{booking.customerName}</p>
+              <p className="text-ns-text-secondary">{booking.customerPhone}</p>
+              <p className="text-ns-text-secondary leading-relaxed">{booking.serviceLocation}</p>
             </div>
             <div className="space-y-1">
-              <p className="font-bold text-slate-500 uppercase tracking-wide text-[10px]">Service By</p>
-              <p className="font-extrabold text-slate-900">{booking.providerName}</p>
-              <p className="text-slate-500">{booking.providerPhone}</p>
-              <div className="flex items-center gap-1 text-emerald-600 font-semibold">
+              <p className="font-semibold text-ns-text-secondary uppercase tracking-wide text-[10px]">Service By</p>
+              <p className="font-semibold text-ns-navy">{booking.providerName}</p>
+              <p className="text-ns-text-secondary">{booking.providerPhone}</p>
+              <div className="flex items-center gap-1 text-kolam-teal font-semibold">
                 <ShieldCheck className="w-3 h-3" />
                 <span>NammaServe Verified</span>
               </div>
             </div>
           </div>
 
-          <hr className="border-slate-100" />
+          <hr className="border-kolam-sunk" />
 
           {/* Service Details */}
           <div className="space-y-2">
-            <p className="text-[10px] font-bold text-slate-500 uppercase tracking-wide">Service Details</p>
-            <div className="bg-slate-50 border border-slate-200/80 rounded-2xl overflow-hidden">
+            <p className="text-[10px] font-semibold text-ns-text-secondary uppercase tracking-wide">Service Details</p>
+            <div className="bg-kolam-wash border border-ns-border/80 rounded-2xl overflow-hidden">
               <div className="p-4 space-y-2">
                 <div className="flex items-center justify-between text-sm">
-                  <span className="font-semibold text-slate-800">{booking.serviceName}</span>
-                  <span className="font-extrabold text-slate-900">₹{booking.servicePrice}</span>
+                  <span className="font-semibold text-ns-navy">{booking.serviceName}</span>
+                  <span className="font-semibold text-ns-navy">₹{booking.servicePrice}</span>
                 </div>
-                <p className="text-[10px] text-slate-400">
+                <p className="text-[10px] text-ns-text-secondary">
                   Scheduled: {booking.scheduledDate} at {booking.scheduledTime} •
                   Category: {booking.providerCategory}
                 </p>
               </div>
 
               {/* Price Rows */}
-              <div className="border-t border-slate-200/80 px-4 py-3 space-y-2 text-xs">
-                <div className="flex justify-between text-slate-600">
+              <div className="border-t border-ns-border/80 px-4 py-3 space-y-2 text-xs">
+                <div className="flex justify-between text-ns-text-secondary">
                   <span>Service Charge</span>
                   <span>₹{booking.servicePrice}</span>
                 </div>
                 {booking.visitCharge > 0 && (
-                  <div className="flex justify-between text-slate-600">
+                  <div className="flex justify-between text-ns-text-secondary">
                     <span>Visit / Inspection Charge</span>
                     <span>₹{booking.visitCharge}</span>
                   </div>
                 )}
                 {booking.partsCharge > 0 && (
-                  <div className="flex justify-between text-slate-600">
+                  <div className="flex justify-between text-ns-text-secondary">
                     <span>Spare Parts</span>
                     <span>₹{booking.partsCharge}</span>
                   </div>
                 )}
                 {discount > 0 && (
-                  <div className="flex justify-between text-emerald-700 font-semibold">
+                  <div className="flex justify-between text-kolam-teal font-semibold">
                     <span>Discount</span>
                     <span>−₹{discount}</span>
                   </div>
                 )}
-                <div className="flex justify-between text-slate-600">
+                <div className="flex justify-between text-ns-text-secondary">
                   <span>GST ({gstRate}%)</span>
                   <span>₹{gstAmount}</span>
                 </div>
 
-                <hr className="border-slate-200" />
+                <hr className="border-ns-border" />
 
-                <div className="flex justify-between text-base font-extrabold text-slate-900">
+                <div className="flex justify-between text-base font-semibold text-ns-navy">
                   <span>Total Amount</span>
                   <span>₹{total}</span>
                 </div>
@@ -155,34 +155,34 @@ export const InvoiceModal: React.FC = () => {
 
           {/* Payment & Warranty */}
           <div className="grid grid-cols-2 gap-3 text-xs">
-            <div className="bg-slate-50 rounded-xl p-3 border border-slate-200/80 space-y-1">
-              <p className="text-[10px] font-bold text-slate-400 uppercase">Payment Method</p>
-              <p className="font-bold text-slate-900 capitalize">{booking.paymentMethod || 'Pending'}</p>
-              <p className={`font-semibold ${booking.paymentStatus === 'SUCCESS' ? 'text-emerald-600' : 'text-amber-600'}`}>
+            <div className="bg-kolam-wash rounded-xl p-3 border border-ns-border/80 space-y-1">
+              <p className="text-[10px] font-semibold text-ns-text-secondary uppercase">Payment Method</p>
+              <p className="font-semibold text-ns-navy capitalize">{booking.paymentMethod || 'Pending'}</p>
+              <p className={`font-semibold ${booking.paymentStatus === 'SUCCESS' ? 'text-kolam-teal' : 'text-kolam-marigold'}`}>
                 {booking.paymentStatus || 'PENDING'}
               </p>
             </div>
-            <div className="bg-slate-50 rounded-xl p-3 border border-slate-200/80 space-y-1">
-              <p className="text-[10px] font-bold text-slate-400 uppercase">Service Warranty</p>
+            <div className="bg-kolam-wash rounded-xl p-3 border border-ns-border/80 space-y-1">
+              <p className="text-[10px] font-semibold text-ns-text-secondary uppercase">Service Warranty</p>
               {booking.warrantyDays && booking.warrantyDays > 0 ? (
                 <>
-                  <div className="flex items-center gap-1 text-emerald-600">
+                  <div className="flex items-center gap-1 text-kolam-teal">
                     <CheckCircle2 className="w-3.5 h-3.5" />
-                    <span className="font-bold">{booking.warrantyDays} Days Warranty</span>
+                    <span className="font-semibold">{booking.warrantyDays} Days Warranty</span>
                   </div>
                   {booking.warrantyExpiresAt && (
-                    <p className="text-[10px] text-slate-400">Expires: {new Date(booking.warrantyExpiresAt).toLocaleDateString('en-IN')}</p>
+                    <p className="text-[10px] text-ns-text-secondary">Expires: {new Date(booking.warrantyExpiresAt).toLocaleDateString('en-IN')}</p>
                   )}
                 </>
               ) : (
-                <p className="text-slate-500">No warranty on this service</p>
+                <p className="text-ns-text-secondary">No warranty on this service</p>
               )}
             </div>
           </div>
 
           {/* Footer */}
           <div className="bg-brand-50 border border-brand-100 rounded-2xl p-4 text-xs text-brand-700 text-center">
-            <p className="font-bold">Thank you for choosing NammaServe!</p>
+            <p className="font-semibold">Thank you for choosing NammaServe!</p>
             <p className="text-brand-600/70 mt-1">For support, contact us at support@nammaserve.in or call 044-NAMMASERVE</p>
           </div>
 
@@ -192,13 +192,13 @@ export const InvoiceModal: React.FC = () => {
         <div className="px-6 pb-6 flex items-center gap-3">
           <button
             onClick={() => setBooking(null)}
-            className="flex-1 py-3 border border-slate-200 rounded-2xl font-bold text-sm text-slate-700 hover:bg-slate-50 transition-colors"
+            className="flex-1 py-3 border border-ns-border rounded-2xl font-semibold text-sm text-ns-text hover:bg-kolam-wash transition-colors"
           >
             Close
           </button>
           <button
             onClick={handlePrint}
-            className="flex-1 py-3 bg-brand-600 hover:bg-brand-700 text-white rounded-2xl font-bold text-sm transition-colors flex items-center justify-center gap-2"
+            className="flex-1 py-3 bg-brand-600 hover:bg-brand-700 text-white rounded-2xl font-semibold text-sm transition-colors flex items-center justify-center gap-2"
           >
             <Download className="w-4 h-4" />
             Download PDF

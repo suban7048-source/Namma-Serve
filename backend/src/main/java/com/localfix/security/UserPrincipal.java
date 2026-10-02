@@ -1,5 +1,6 @@
 package com.localfix.security;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.localfix.entity.User;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -42,7 +43,12 @@ public class UserPrincipal implements UserDetails {
     @Override
     public String getUsername() { return email; }
 
+    /**
+     * {@code /api/auth/me} serialises this object straight to the client, so the
+     * hash must never be part of its JSON representation.
+     */
     @Override
+    @JsonIgnore
     public String getPassword() { return password; }
 
     @Override

@@ -2,6 +2,9 @@ package com.localfix.security;
 
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
+import jakarta.annotation.PostConstruct;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
@@ -13,11 +16,31 @@ import java.util.Date;
 @Component
 public class JwtTokenProvider {
 
+    private static final Logger log = LoggerFactory.getLogger(JwtTokenProvider.class);
+    private static final String DEV_KEY_MARKER = "dev-only-insecure-key";
+
     @Value("${localfix.jwt.secret}")
     private String jwtSecret;
 
     @Value("${localfix.jwt.expiration-ms}")
     private long jwtExpirationMs;
+
+    /**
+     * HS256 needs at least 256 bits of key material. Failing here at boot is far
+     * better than failing per-request later, and the warning makes it obvious
+     * when a deployment is still running on the checked-in development key.
+     */
+    @PostConstruct
+    void validateSecret() {
+        if (jwtSecret == null || jwtSecret.getBytes(StandardCharsets.UTF_8).length < 32) {
+            throw new IllegalStateException(
+                    "localfix.jwt.secret must be at least 32 characters. Set LOCALFIX_JWT_SECRET.");
+        }
+        if (jwtSecret.contains(DEV_KEY_MARKER)) {
+            log.warn("Running with the development JWT signing key. "
+                    + "Set LOCALFIX_JWT_SECRET before deploying.");
+        }
+    }
 
     private SecretKey getSigningKey() {
         byte[] keyBytes = jwtSecret.getBytes(StandardCharsets.UTF_8);
@@ -25,7 +48,10 @@ public class JwtTokenProvider {
     }
 
     public String generateToken(Authentication authentication) {
-        UserPrincipal userPrincipal = (UserPrincipal) authentication.getPrincipal();
+        return generateToken((UserPrincipal) authentication.getPrincipal());
+    }
+
+    public String generateToken(UserPrincipal userPrincipal) {
         Date now = new Date();
         Date expiryDate = new Date(now.getTime() + jwtExpirationMs);
 
@@ -33,6 +59,8 @@ public class JwtTokenProvider {
                 .subject(Long.toString(userPrincipal.getId()))
                 .claim("email", userPrincipal.getEmail())
                 .claim("name", userPrincipal.getName())
+                .claim("role", userPrincipal.getAuthorities().stream()
+                        .findFirst().map(a -> a.getAuthority()).orElse("ROLE_CUSTOMER"))
                 .issuedAt(now)
                 .expiration(expiryDate)
                 .signWith(getSigningKey(), Jwts.SIG.HS256)
