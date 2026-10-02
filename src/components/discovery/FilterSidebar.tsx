@@ -48,12 +48,21 @@ export const FilterSidebar: React.FC = () => {
             className="w-full bg-slate-50 border border-slate-200 rounded-xl py-2.5 pl-9 pr-3 text-xs font-semibold text-slate-800 focus:outline-none focus:border-brand-500 cursor-pointer"
           >
             <option value="All Locations">All Locations</option>
-            <option value="Anna Nagar">Anna Nagar, Chennai</option>
-            <option value="T. Nagar">T. Nagar, Chennai</option>
-            <option value="Adyar">Adyar, Chennai</option>
-            <option value="Velachery">Velachery, Chennai</option>
-            <option value="Ambattur">Ambattur, Chennai</option>
-            <option value="OMR">OMR / Sholinganallur, Chennai</option>
+            <option value="Anna Nagar">Anna Nagar</option>
+            <option value="T. Nagar">T. Nagar</option>
+            <option value="Adyar">Adyar</option>
+            <option value="Velachery">Velachery</option>
+            <option value="Tambaram">Tambaram</option>
+            <option value="OMR">OMR</option>
+            <option value="Sholinganallur">Sholinganallur</option>
+            <option value="Perungudi">Perungudi</option>
+            <option value="Guindy">Guindy</option>
+            <option value="Porur">Porur</option>
+            <option value="Ambattur">Ambattur</option>
+            <option value="Thoraipakkam">Thoraipakkam</option>
+            <option value="Medavakkam">Medavakkam</option>
+            <option value="Pallavaram">Pallavaram</option>
+            <option value="Chromepet">Chromepet</option>
           </select>
         </div>
       </div>
@@ -91,16 +100,16 @@ export const FilterSidebar: React.FC = () => {
         </div>
         <input
           type="range"
-          min="50"
-          max="500"
-          step="25"
+          min="99"
+          max="5000"
+          step="100"
           value={filters.maxPrice}
           onChange={(e) => setFilters(prev => ({ ...prev, maxPrice: Number(e.target.value) }))}
           className="w-full accent-brand-600 cursor-pointer"
         />
         <div className="flex justify-between text-[10px] text-slate-400 font-semibold">
-          <span>₹50</span>
-          <span>₹500+</span>
+          <span>₹99</span>
+          <span>₹5000+</span>
         </div>
       </div>
 
@@ -129,7 +138,7 @@ export const FilterSidebar: React.FC = () => {
       <div className="space-y-2">
         <div className="flex items-center justify-between">
           <label className="text-xs font-bold text-slate-800 uppercase tracking-wide">Max Distance</label>
-          <span className="text-xs font-bold text-slate-700">{filters.maxDistance} miles</span>
+          <span className="text-xs font-bold text-slate-700">{filters.maxDistance} km</span>
         </div>
         <input
           type="range"
@@ -155,6 +164,23 @@ export const FilterSidebar: React.FC = () => {
             className="sr-only peer"
           />
           <div className="w-9 h-5 bg-slate-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-emerald-500" />
+        </label>
+      </div>
+
+      {/* Emergency Only Toggle */}
+      <div className="flex items-center justify-between">
+        <div className="flex items-center gap-2">
+          <span className="text-base">🚨</span>
+          <span className="text-xs font-bold text-slate-800">Emergency Only (24/7)</span>
+        </div>
+        <label className="relative inline-flex items-center cursor-pointer">
+          <input
+            type="checkbox"
+            checked={filters.emergencyOnly}
+            onChange={(e) => setFilters(prev => ({ ...prev, emergencyOnly: e.target.checked }))}
+            className="sr-only peer"
+          />
+          <div className="w-9 h-5 bg-slate-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-red-500" />
         </label>
       </div>
 

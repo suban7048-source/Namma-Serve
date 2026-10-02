@@ -134,7 +134,7 @@ export const ProviderProfileModal: React.FC<ProviderProfileModalProps> = ({ prov
             <MapPin className="w-4 h-4 text-brand-600 shrink-0" />
             <div>
               <p className="text-[10px] text-slate-400 uppercase">Service Area</p>
-              <p className="text-slate-800">{p.location} ({p.serviceRadiusMiles} mi radius)</p>
+              <p className="text-slate-800">{p.location} ({p.serviceRadiusKm} km radius)</p>
             </div>
           </div>
           

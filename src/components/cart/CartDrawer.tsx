@@ -29,11 +29,12 @@ export const CartDrawer: React.FC = () => {
   const grandTotal = Math.max(0, cartTotal + platformFee - promoDiscount);
 
   const handleApplyPromo = () => {
-    if (promoCode.trim().toUpperCase() === 'CHENNAI100' || promoCode.trim().toUpperCase() === 'LOCALFIX15') {
+    const code = promoCode.trim().toUpperCase();
+    if (code === 'CHENNAI100' || code === 'NAMMASERVE15' || code === 'LOCALFIX15') {
       setPromoDiscount(100);
       showToast('Promo Code Applied!', '₹100 instant discount deducted from total', 'success');
     } else {
-      showToast('Invalid Code', 'Try promo code CHENNAI100', 'warning');
+      showToast('Invalid Code', 'Try promo code CHENNAI100 or NAMMASERVE15', 'warning');
     }
   };
 
@@ -61,8 +62,13 @@ export const CartDrawer: React.FC = () => {
           serviceId: item.serviceId,
           serviceName: item.serviceName,
           servicePrice: item.price * item.quantity,
+          visitCharge: 0,
+          partsCharge: 0,
+          gst: Math.round((item.price * item.quantity) * 0.18),
+          discount: promoDiscount > 0 ? Math.round(promoDiscount / cart.length) : 0,
+          serviceArea: 'Chennai',
           serviceFee: Math.round(platformFee / cart.length),
-          totalPrice: item.price * item.quantity + Math.round(platformFee / cart.length),
+          totalPrice: (item.price * item.quantity) + Math.round(platformFee / cart.length) + Math.round((item.price * item.quantity) * 0.18) - (promoDiscount > 0 ? Math.round(promoDiscount / cart.length) : 0),
           scheduledDate: date,
           scheduledTime: slot,
           serviceLocation: address,
@@ -305,7 +311,7 @@ export const CartDrawer: React.FC = () => {
               <div className="p-3 bg-emerald-50 rounded-xl border border-emerald-100 flex items-center gap-2.5 text-xs text-emerald-800">
                 <ShieldCheck className="w-5 h-5 text-emerald-600 shrink-0" />
                 <span className="font-semibold text-[11px] leading-tight">
-                  LocalFix Guarantee: Verified Chennai technicians & free 30-day service revisit warranty.
+                  NammaServe Guarantee: Verified Chennai technicians & free 30-day service revisit warranty.
                 </span>
               </div>
             </>

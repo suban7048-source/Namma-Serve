@@ -1,26 +1,28 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { useApp } from '../../context/AppContext';
 import { NotificationCenter } from '../common/NotificationCenter';
-import { 
-  Wrench, Search, User, ShieldCheck, 
-  LayoutDashboard, UserCheck, Menu, X, ArrowRight, LogOut, ChevronDown,
-  MapPin, ShoppingBag
+import {
+  Search, User, Menu, X, ArrowRight, LogOut, ChevronDown,
+  MapPin, ShoppingBag, LayoutDashboard, ShieldCheck, UserCheck
 } from 'lucide-react';
 
 export const Navbar: React.FC = () => {
-  const { 
-    role, setRole, 
-    page, setPage, 
-    setIsAuthModalOpen, 
+  const {
+    role, setRole,
+    page, setPage,
+    setIsAuthModalOpen,
     setAuthMode,
+    openAuthModal,
     isLoggedIn, loggedInUser, logout,
     filters, setFilters, openDiscoveryWithCategory,
-    cartCount, setIsCartOpen, selectedArea, setIsLocationModalOpen
+    cartCount, setIsCartOpen, selectedArea, setIsLocationModalOpen,
+    language, setLanguage
   } = useApp();
   const [userMenuOpen, setUserMenuOpen] = useState(false);
   const userMenuRef = useRef<HTMLDivElement>(null);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [navSearch, setNavSearch] = useState('');
 
-  // Close user menu on outside click
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
       if (userMenuRef.current && !userMenuRef.current.contains(e.target as Node)) {
@@ -30,9 +32,6 @@ export const Navbar: React.FC = () => {
     document.addEventListener('mousedown', handleClickOutside);
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
-
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [navSearch, setNavSearch] = useState('');
 
   const handleNavSearchSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -44,347 +43,300 @@ export const Navbar: React.FC = () => {
   };
 
   return (
-    <header className="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-slate-200 shadow-2xs transition-all">
+    <header className="sticky top-0 z-40 bg-white border-b border-ns-border/60">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-20 gap-4">
-          
-          {/* Logo & Desktop Nav */}
-          <div className="flex items-center gap-6 xl:gap-8 shrink-0">
-            <button 
-              onClick={() => setPage('landing')} 
-              className="flex items-center gap-2.5 group text-left focus:outline-none shrink-0"
-            >
-              <div className="w-10 h-10 rounded-2xl bg-gradient-to-tr from-brand-600 to-brand-500 flex items-center justify-center text-white shadow-md shadow-brand-500/20 group-hover:scale-105 transition-transform">
-                <Wrench className="w-5 h-5 stroke-[2.5]" />
-              </div>
-              <div className="hidden min-[380px]:block">
-                <span className="font-extrabold text-xl text-slate-900 tracking-tight flex items-center gap-1 leading-none">
-                  Local<span className="text-brand-600">Fix</span>
-                  <ShieldCheck className="w-4 h-4 text-emerald-500 fill-emerald-100" />
-                </span>
-                <span className="text-[10px] text-slate-600 font-extrabold tracking-wider block mt-0.5 uppercase">
-                  Service Platform
-                </span>
-              </div>
-            </button>
+        <div className="flex items-center justify-between h-16 gap-4">
 
-            {/* Urban Company Style Chennai Location Selector */}
+          {/* Left: Logo + Nav */}
+          <div className="flex items-center gap-8 shrink-0">
+            {/* Logo */}
             <button
-              onClick={() => setIsLocationModalOpen(true)}
-              className="flex items-center gap-2 px-3 py-2 rounded-2xl bg-slate-100/90 hover:bg-slate-200/90 border border-slate-200 text-xs font-bold text-slate-800 transition-all cursor-pointer group shadow-2xs"
-              title="Change your Chennai locality"
+              onClick={() => setPage('landing')}
+              className="flex items-center gap-2 group text-left focus:outline-none shrink-0"
+              id="nav-logo"
             >
-              <div className="w-6 h-6 rounded-lg bg-brand-100 text-brand-700 flex items-center justify-center shrink-0">
-                <MapPin className="w-3.5 h-3.5 group-hover:scale-110 transition-transform" />
+              <div className="w-8 h-8 rounded-lg bg-ns-navy flex items-center justify-center text-white">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/>
+                </svg>
               </div>
-              <div className="text-left leading-none hidden sm:block">
-                <span className="block text-[9px] uppercase tracking-wider text-slate-500 font-extrabold">Chennai</span>
-                <span className="max-w-[110px] md:max-w-[140px] truncate block text-slate-900 font-black mt-0.5">
-                  {selectedArea.split(',')[0]}
-                </span>
-              </div>
-              <ChevronDown className="w-3.5 h-3.5 text-slate-400 group-hover:text-slate-600 transition-colors" />
+              <span className="font-extrabold text-lg text-ns-navy tracking-tight hidden min-[380px]:block">
+                Namma<span className="text-ns-primary">Serve</span>
+              </span>
             </button>
 
-            {/* Desktop Navigation Links - Dark High Contrast Text */}
-            <nav className="hidden lg:flex items-center gap-1 text-sm font-extrabold text-slate-900">
-              <button 
+            {/* Desktop Navigation */}
+            <nav className="hidden lg:flex items-center gap-1 text-[14px] font-semibold text-ns-navy">
+              <button
                 onClick={() => setPage('discovery')}
-                className={`px-3.5 py-2 rounded-xl transition-all whitespace-nowrap ${
-                  page === 'discovery' 
-                    ? 'text-brand-600 bg-brand-50 font-black' 
-                    : 'hover:text-brand-600 hover:bg-slate-100'
+                className={`px-3 py-1.5 rounded-lg transition-colors ${
+                  page === 'discovery'
+                    ? 'text-ns-primary bg-brand-50'
+                    : 'hover:text-ns-primary hover:bg-slate-50'
                 }`}
+                id="nav-services"
               >
                 Services
               </button>
-              <button 
+              <button
                 onClick={() => setPage('discovery')}
-                className="px-3.5 py-2 rounded-xl text-slate-900 hover:text-brand-600 hover:bg-slate-100 transition-all whitespace-nowrap"
+                className="px-3 py-1.5 rounded-lg text-ns-navy hover:text-ns-primary hover:bg-slate-50 transition-colors"
+                id="nav-find-professionals"
               >
-                Find Providers
+                Find Professionals
               </button>
-              <button 
+              <button
                 onClick={() => {
                   setPage('landing');
                   setTimeout(() => {
                     document.getElementById('how-it-works')?.scrollIntoView({ behavior: 'smooth' });
                   }, 100);
                 }}
-                className="px-3.5 py-2 rounded-xl text-slate-900 hover:text-brand-600 hover:bg-slate-100 transition-all whitespace-nowrap"
+                className="px-3 py-1.5 rounded-lg text-ns-navy hover:text-ns-primary hover:bg-slate-50 transition-colors"
+                id="nav-how-it-works"
               >
                 How It Works
-              </button>
-              <button 
-                onClick={() => {
-                  setAuthMode('signup');
-                  setIsAuthModalOpen(true);
-                }}
-                className="px-3.5 py-2 rounded-xl text-brand-700 bg-brand-50 border border-brand-200/80 hover:bg-brand-100 transition-all whitespace-nowrap font-extrabold"
-              >
-                Become a Provider
               </button>
             </nav>
           </div>
 
-          {/* Center Search Bar (Desktop XL) */}
-          <form onSubmit={handleNavSearchSubmit} className="hidden xl:flex items-center relative max-w-xs w-full">
-            <Search className="w-4 h-4 text-slate-600 absolute left-3.5 pointer-events-none" />
-            <input
-              type="text"
-              placeholder="Search plumbing, cleaning..."
-              value={navSearch}
-              onChange={(e) => setNavSearch(e.target.value)}
-              className="w-full bg-slate-100 border border-slate-300 focus:border-brand-600 focus:bg-white text-xs font-bold rounded-full py-2.5 pl-9 pr-4 text-slate-900 placeholder-slate-500 focus:outline-none transition-all shadow-2xs"
-            />
-          </form>
-
-          {/* Right Actions & Controls */}
+          {/* Right: Location + Auth + Cart */}
           <div className="flex items-center gap-2 sm:gap-3 shrink-0">
-            
-            {/* Urban Company Style Cart Button */}
+
+            {/* Chennai Location Selector */}
+            <button
+              onClick={() => setIsLocationModalOpen(true)}
+              className="hidden sm:flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-ns-border hover:border-ns-primary/30 hover:bg-slate-50 text-xs font-semibold text-ns-text-secondary transition-colors"
+              id="nav-location"
+            >
+              <MapPin className="w-3.5 h-3.5 text-ns-primary shrink-0" />
+              <span className="text-ns-navy font-bold max-w-[100px] truncate">{selectedArea.split(',')[0]}</span>
+              <ChevronDown className="w-3 h-3 text-slate-400" />
+            </button>
+
+            {/* Language Selector */}
+            <button
+              onClick={() => setLanguage(language === 'en' ? 'ta' : 'en')}
+              className="hidden sm:flex items-center justify-center w-9 h-8 rounded-lg border border-ns-border hover:border-ns-primary/30 hover:bg-slate-50 text-xs font-extrabold text-ns-navy transition-colors shrink-0"
+              title={language === 'en' ? "Switch to Tamil" : "Switch to English"}
+            >
+              {language === 'en' ? 'TA' : 'EN'}
+            </button>
+
+            {/* Cart */}
             <button
               onClick={() => setIsCartOpen(true)}
-              className="relative p-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 border border-slate-200 text-slate-800 transition-colors flex items-center justify-center group"
-              title="View Cart & Bookings"
+              className="relative p-2 rounded-lg hover:bg-slate-50 border border-transparent hover:border-ns-border text-ns-text-secondary transition-colors"
+              title="View Cart"
+              id="nav-cart"
             >
-              <ShoppingBag className="w-5 h-5 text-slate-700 group-hover:text-brand-600 transition-colors" />
+              <ShoppingBag className="w-[18px] h-[18px]" />
               {cartCount > 0 && (
-                <span className="absolute -top-1.5 -right-1.5 bg-brand-600 text-white text-[10px] font-black w-5 h-5 rounded-full flex items-center justify-center border-2 border-white shadow-xs">
+                <span className="absolute -top-1 -right-1 bg-ns-primary text-white text-[10px] font-bold w-4.5 h-4.5 rounded-full flex items-center justify-center border-2 border-white">
                   {cartCount}
                 </span>
               )}
             </button>
-            
-            {/* Role Switcher Pill — only visible when logged in */}
+
+            {/* Dashboard link when logged in */}
             {isLoggedIn && (
-              <div className="hidden sm:flex items-center bg-slate-200/70 p-1 rounded-xl border border-slate-300 text-xs font-bold">
-                <button
-                  onClick={() => {
-                    setRole('customer');
-                    setPage('customer-dashboard');
-                  }}
-                  className={`px-3 py-1.5 rounded-lg transition-all flex items-center gap-1.5 whitespace-nowrap ${
-                    role === 'customer' 
-                      ? 'bg-white text-brand-700 shadow-xs font-black' 
-                      : 'text-slate-800 hover:text-black'
-                  }`}
-                >
-                  <User className="w-3.5 h-3.5 text-brand-600" /> Customer
-                </button>
-                <button
-                  onClick={() => {
-                    setRole('provider');
-                    setPage('provider-dashboard');
-                  }}
-                  className={`px-3 py-1.5 rounded-lg transition-all flex items-center gap-1.5 whitespace-nowrap ${
-                    role === 'provider' 
-                      ? 'bg-slate-900 text-white shadow-xs font-black' 
-                      : 'text-slate-800 hover:text-black'
-                  }`}
-                >
-                  <UserCheck className="w-3.5 h-3.5" /> Provider View
-                </button>
+              <div className="hidden md:flex items-center">
+                {loggedInUser?.role === 'customer' && (
+                  <button
+                    onClick={() => { setRole('customer'); setPage('customer-dashboard'); }}
+                    className={`px-3 py-1.5 rounded-lg transition-colors flex items-center gap-1.5 text-xs font-semibold border ${
+                      page === 'customer-dashboard'
+                        ? 'bg-brand-50 text-ns-primary border-brand-200'
+                        : 'bg-white hover:bg-slate-50 text-ns-text-secondary border-ns-border'
+                    }`}
+                  >
+                    <LayoutDashboard className="w-3.5 h-3.5" /> Dashboard
+                  </button>
+                )}
+                {loggedInUser?.role === 'provider' && (
+                  <button
+                    onClick={() => { setRole('provider'); setPage('provider-dashboard'); }}
+                    className={`px-3 py-1.5 rounded-lg transition-colors flex items-center gap-1.5 text-xs font-semibold border ${
+                      page === 'provider-dashboard'
+                        ? 'bg-ns-navy text-white border-ns-navy'
+                        : 'bg-white hover:bg-slate-50 text-ns-text-secondary border-ns-border'
+                    }`}
+                  >
+                    <UserCheck className="w-3.5 h-3.5" /> Provider Portal
+                  </button>
+                )}
+                {loggedInUser?.role === 'admin' && (
+                  <button
+                    onClick={() => { setRole('admin'); setPage('admin-dashboard'); }}
+                    className={`px-3 py-1.5 rounded-lg transition-colors flex items-center gap-1.5 text-xs font-semibold border ${
+                      page === 'admin-dashboard'
+                        ? 'bg-indigo-600 text-white border-indigo-600'
+                        : 'bg-white hover:bg-slate-50 text-ns-text-secondary border-ns-border'
+                    }`}
+                  >
+                    <ShieldCheck className="w-3.5 h-3.5" /> Admin
+                  </button>
+                )}
               </div>
             )}
 
-            {/* Notification Bell */}
+            {/* Notifications */}
             <NotificationCenter />
 
-            {/* Auth Section — conditional on login state */}
+            {/* Auth Section */}
             {isLoggedIn ? (
-              /* Logged-in user menu */
               <div className="relative" ref={userMenuRef}>
                 <button
                   onClick={() => setUserMenuOpen(!userMenuOpen)}
-                  className="flex items-center gap-2 px-3 py-2 rounded-xl border border-slate-200 bg-white hover:bg-slate-50 transition-all shadow-2xs text-xs font-bold text-slate-900"
+                  className="flex items-center gap-2 px-2.5 py-1.5 rounded-lg border border-ns-border hover:bg-slate-50 transition-colors text-sm font-semibold text-ns-navy"
+                  id="nav-user-menu"
                 >
-                  {/* User avatar initials */}
-                  <div className="w-7 h-7 rounded-lg bg-brand-600 text-white flex items-center justify-center font-black text-[11px] shrink-0">
+                  <div className="w-7 h-7 rounded-full bg-ns-navy text-white flex items-center justify-center font-bold text-xs shrink-0">
                     {(loggedInUser?.name ?? 'U').charAt(0).toUpperCase()}
                   </div>
-                  <span className="hidden md:block max-w-[100px] truncate">{loggedInUser?.name}</span>
-                  <ChevronDown className={`w-3.5 h-3.5 text-slate-400 transition-transform ${userMenuOpen ? 'rotate-180' : ''}`} />
+                  <span className="hidden md:block max-w-[100px] truncate text-xs">{loggedInUser?.name}</span>
+                  <ChevronDown className={`w-3 h-3 text-slate-400 transition-transform ${userMenuOpen ? 'rotate-180' : ''}`} />
                 </button>
 
                 {userMenuOpen && (
-                  <div className="absolute right-0 top-full mt-2 w-52 bg-white rounded-2xl border border-slate-200 shadow-elevated z-50 overflow-hidden animate-fade-in">
-                    <div className="px-4 py-3 border-b border-slate-100">
-                      <p className="text-xs font-extrabold text-slate-900 truncate">{loggedInUser?.name}</p>
-                      <p className="text-[10px] text-slate-400 truncate mt-0.5">{loggedInUser?.email}</p>
+                  <div className="absolute right-0 top-full mt-2 w-52 bg-white rounded-xl border border-ns-border shadow-elevated z-50 overflow-hidden animate-fade-in">
+                    <div className="px-4 py-3 border-b border-ns-border/60">
+                      <p className="text-sm font-bold text-ns-navy truncate">{loggedInUser?.name}</p>
+                      <p className="text-xs text-ns-text-secondary truncate mt-0.5">{loggedInUser?.email}</p>
                     </div>
                     <div className="p-1.5 space-y-0.5">
                       <button
-                        onClick={() => { setPage(role === 'customer' ? 'customer-dashboard' : 'provider-dashboard'); setUserMenuOpen(false); }}
-                        className="w-full flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs font-semibold text-slate-700 hover:bg-slate-50 transition-colors text-left"
+                        onClick={() => {
+                          if (loggedInUser?.role === 'provider') { setRole('provider'); setPage('provider-dashboard'); }
+                          else if (loggedInUser?.role === 'admin') { setRole('admin'); setPage('admin-dashboard'); }
+                          else { setRole('customer'); setPage('customer-dashboard'); }
+                          setUserMenuOpen(false);
+                        }}
+                        className="w-full flex items-center gap-2.5 px-3 py-2 rounded-lg text-sm text-ns-navy hover:bg-slate-50 transition-colors text-left"
                       >
-                        <LayoutDashboard className="w-3.5 h-3.5 text-brand-600" /> My Dashboard
+                        <LayoutDashboard className="w-4 h-4 text-ns-primary" /> My Dashboard
                       </button>
+                      {loggedInUser?.role === 'admin' && (
+                        <button
+                          onClick={() => { setRole('admin'); setPage('admin-dashboard'); setUserMenuOpen(false); }}
+                          className="w-full flex items-center gap-2.5 px-3 py-2 rounded-lg text-sm text-indigo-700 hover:bg-indigo-50 transition-colors text-left"
+                        >
+                          <ShieldCheck className="w-4 h-4 text-indigo-600" /> Admin Console
+                        </button>
+                      )}
                       <button
                         onClick={() => { logout(); setUserMenuOpen(false); }}
-                        className="w-full flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs font-semibold text-rose-600 hover:bg-rose-50 transition-colors text-left"
+                        className="w-full flex items-center gap-2.5 px-3 py-2 rounded-lg text-sm text-rose-600 hover:bg-rose-50 transition-colors text-left"
                       >
-                        <LogOut className="w-3.5 h-3.5" /> Sign Out
+                        <LogOut className="w-4 h-4" /> Sign Out
                       </button>
                     </div>
                   </div>
                 )}
               </div>
             ) : (
-              /* Logged-out auth buttons */
               <div className="flex items-center gap-2">
                 <button
-                  onClick={() => {
-                    setAuthMode('login');
-                    setIsAuthModalOpen(true);
-                  }}
-                  className="bg-slate-900 hover:bg-slate-800 text-white px-4 py-2 rounded-xl text-xs font-black transition-all shadow-sm hover:shadow flex items-center gap-1.5 whitespace-nowrap"
+                  onClick={() => { setAuthMode('login'); setIsAuthModalOpen(true); }}
+                  className="text-sm font-semibold text-ns-navy hover:text-ns-primary transition-colors px-3 py-1.5 hidden sm:block"
+                  id="nav-login"
                 >
-                  <User className="w-3.5 h-3.5 text-white" />
-                  Log In
+                  Log in
                 </button>
-
                 <button
-                  onClick={() => {
-                    setAuthMode('signup');
-                    setIsAuthModalOpen(true);
-                  }}
-                  className="bg-brand-600 hover:bg-brand-700 text-white px-4 py-2 rounded-xl text-xs font-black transition-all shadow-sm hover:shadow flex items-center gap-1.5 whitespace-nowrap"
+                  onClick={() => openAuthModal('signup', 'customer')}
+                  className="bg-ns-primary hover:bg-ns-primary-bright text-white px-4 py-2 rounded-lg text-sm font-bold transition-colors flex items-center gap-1.5"
+                  id="nav-get-started"
                 >
-                  Get Started <ArrowRight className="w-3.5 h-3.5 text-white" />
+                  Get Started <ArrowRight className="w-3.5 h-3.5" />
                 </button>
               </div>
             )}
 
-            {/* Mobile Menu Button */}
+            {/* Mobile Menu Toggle */}
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="lg:hidden p-2 text-slate-700 hover:text-slate-900 rounded-xl focus:outline-none hover:bg-slate-100"
+              className="lg:hidden p-2 text-ns-navy hover:bg-slate-50 rounded-lg"
+              id="nav-mobile-toggle"
             >
-              {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+              {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
             </button>
           </div>
         </div>
       </div>
 
-
-      {/* Mobile Drawer Menu */}
+      {/* Mobile Menu */}
       {mobileMenuOpen && (
-        <div className="md:hidden border-t border-slate-200 bg-white px-4 pt-3 pb-6 space-y-4 animate-fade-in shadow-lg">
+        <div className="lg:hidden border-t border-ns-border bg-white px-4 pt-3 pb-5 space-y-3 animate-fade-in">
           <form onSubmit={handleNavSearchSubmit} className="relative">
-            <Search className="w-4 h-4 text-slate-400 absolute left-3 top-3" />
+            <Search className="w-4 h-4 text-ns-text-secondary absolute left-3 top-2.5" />
             <input
               type="text"
-              placeholder="Search services or providers..."
+              placeholder="Search services..."
               value={navSearch}
               onChange={(e) => setNavSearch(e.target.value)}
-              className="w-full bg-slate-100 border border-slate-200 rounded-xl text-sm py-2.5 pl-9 pr-4 text-slate-800 focus:outline-none"
+              className="w-full bg-ns-bg border border-ns-border rounded-lg text-sm py-2 pl-9 pr-4 text-ns-navy focus:outline-none focus:border-ns-primary transition-colors"
             />
           </form>
 
-          {/* Mobile Location Selector Button */}
           <button
             onClick={() => { setIsLocationModalOpen(true); setMobileMenuOpen(false); }}
-            className="w-full flex items-center justify-between p-3 rounded-xl bg-slate-50 hover:bg-slate-100 border border-slate-200 text-xs font-bold text-slate-800 transition-colors"
+            className="w-full flex items-center justify-between p-3 rounded-lg bg-ns-bg border border-ns-border text-sm text-ns-navy transition-colors"
           >
             <div className="flex items-center gap-2">
-              <MapPin className="w-4 h-4 text-brand-600" />
-              <span>Location: <strong className="text-slate-900">{selectedArea}</strong></span>
+              <MapPin className="w-4 h-4 text-ns-primary" />
+              <span className="font-semibold">{selectedArea}</span>
             </div>
-            <span className="text-[11px] text-brand-600 font-extrabold">Change</span>
+            <span className="text-xs text-ns-primary font-bold">Change</span>
           </button>
 
-          {/* Role selector in mobile drawer — only when logged in */}
           {isLoggedIn && (
-            <div className="bg-slate-100 p-1.5 rounded-xl flex items-center justify-between text-xs font-bold">
-              <button
-                onClick={() => {
-                  setRole('customer');
-                  setPage('customer-dashboard');
-                  setMobileMenuOpen(false);
-                }}
-                className={`flex-1 py-2 rounded-lg text-center ${role === 'customer' ? 'bg-white text-brand-700 shadow-sm' : 'text-slate-500'}`}
-              >
-                Customer Mode
-              </button>
-              <button
-                onClick={() => {
-                  setRole('provider');
-                  setPage('provider-dashboard');
-                  setMobileMenuOpen(false);
-                }}
-                className={`flex-1 py-2 rounded-lg text-center ${role === 'provider' ? 'bg-slate-900 text-white shadow-sm' : 'text-slate-500'}`}
-              >
-                Provider Mode
-              </button>
-            </div>
-          )}
-
-          {isLoggedIn && (
-            <div className="flex items-center gap-3 bg-slate-50 rounded-xl p-3 border border-slate-200">
-              <div className="w-9 h-9 rounded-xl bg-brand-600 text-white flex items-center justify-center font-black text-sm shrink-0">
+            <div className="flex items-center gap-3 bg-ns-bg rounded-lg p-3 border border-ns-border">
+              <div className="w-8 h-8 rounded-full bg-ns-navy text-white flex items-center justify-center font-bold text-sm shrink-0">
                 {(loggedInUser?.name ?? 'U').charAt(0).toUpperCase()}
               </div>
               <div className="flex-1 min-w-0">
-                <p className="text-xs font-bold text-slate-900 truncate">{loggedInUser?.name}</p>
-                <p className="text-[10px] text-slate-400 truncate">{loggedInUser?.email}</p>
+                <p className="text-sm font-bold text-ns-navy truncate">{loggedInUser?.name}</p>
+                <p className="text-xs text-ns-text-secondary truncate">{loggedInUser?.email}</p>
               </div>
             </div>
           )}
 
-          <nav className="flex flex-col space-y-2 font-medium text-sm text-slate-700">
+          <nav className="flex flex-col space-y-1 text-sm font-medium text-ns-navy">
+            <button onClick={() => { setPage('discovery'); setMobileMenuOpen(false); }} className="text-left px-3 py-2.5 rounded-lg hover:bg-slate-50">
+              Services
+            </button>
+            <button onClick={() => { setPage('discovery'); setMobileMenuOpen(false); }} className="text-left px-3 py-2.5 rounded-lg hover:bg-slate-50">
+              Find Professionals
+            </button>
             <button
-              onClick={() => { setPage('discovery'); setMobileMenuOpen(false); }}
-              className="text-left px-3 py-2 rounded-lg hover:bg-slate-50"
+              onClick={() => { setPage('landing'); setMobileMenuOpen(false); setTimeout(() => { document.getElementById('how-it-works')?.scrollIntoView({ behavior: 'smooth' }); }, 100); }}
+              className="text-left px-3 py-2.5 rounded-lg hover:bg-slate-50"
             >
-              Find Services & Professionals
+              How It Works
             </button>
             {isLoggedIn && (
               <button
                 onClick={() => { setPage(role === 'customer' ? 'customer-dashboard' : 'provider-dashboard'); setMobileMenuOpen(false); }}
-                className="text-left px-3 py-2 rounded-lg hover:bg-slate-50 font-bold text-brand-600"
+                className="text-left px-3 py-2.5 rounded-lg hover:bg-slate-50 font-bold text-ns-primary"
               >
-                Go to Dashboard
-              </button>
-            )}
-            <button
-              onClick={() => {
-                setPage('landing');
-                setMobileMenuOpen(false);
-                setTimeout(() => {
-                  document.getElementById('how-it-works')?.scrollIntoView({ behavior: 'smooth' });
-                }, 100);
-              }}
-              className="text-left px-3 py-2 rounded-lg hover:bg-slate-50"
-            >
-              How It Works
-            </button>
-            {!isLoggedIn && (
-              <button
-                onClick={() => {
-                  setAuthMode('signup');
-                  setIsAuthModalOpen(true);
-                  setMobileMenuOpen(false);
-                }}
-                className="text-left px-3 py-2 rounded-lg hover:bg-slate-50 text-slate-500"
-              >
-                Become a Service Provider
+                My Dashboard
               </button>
             )}
           </nav>
 
-          <div className="pt-2 border-t border-slate-100">
+          <div className="pt-2 border-t border-ns-border/60">
             {isLoggedIn ? (
               <button
                 onClick={() => { logout(); setMobileMenuOpen(false); }}
-                className="w-full py-3 bg-rose-50 border border-rose-200 hover:bg-rose-100 text-rose-700 rounded-xl font-extrabold text-sm text-center flex items-center justify-center gap-2 transition-colors"
+                className="w-full py-2.5 bg-rose-50 border border-rose-200 text-rose-700 rounded-lg font-bold text-sm text-center flex items-center justify-center gap-2"
               >
                 <LogOut className="w-4 h-4" /> Sign Out
               </button>
             ) : (
               <button
                 onClick={() => { setAuthMode('login'); setIsAuthModalOpen(true); setMobileMenuOpen(false); }}
-                className="w-full py-3 bg-brand-600 hover:bg-brand-700 text-white rounded-xl font-extrabold text-sm text-center shadow-sm flex items-center justify-center gap-2"
+                className="w-full py-2.5 bg-ns-primary text-white rounded-lg font-bold text-sm text-center flex items-center justify-center gap-2"
               >
                 <User className="w-4 h-4" /> Log In / Sign Up
               </button>

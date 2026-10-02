@@ -42,10 +42,12 @@ export const DiscoveryPage: React.FC = () => {
         return false;
       }
 
-      // Location
+      // Location — match against location and serviceAreas
       if (filters.location !== 'All Locations') {
         const locKeyword = filters.location.split(/[\/,]/)[0].trim().toLowerCase();
-        if (!p.location.toLowerCase().includes(locKeyword)) {
+        const inLocation = p.location.toLowerCase().includes(locKeyword);
+        const inServiceArea = p.serviceAreas.some(a => a.toLowerCase().includes(locKeyword));
+        if (!inLocation && !inServiceArea) {
           return false;
         }
       }
@@ -60,9 +62,17 @@ export const DiscoveryPage: React.FC = () => {
         return false;
       }
 
-      // Max distance
-      if (p.distanceMiles > filters.maxDistance) {
+      // Max distance (km)
+      if (p.distanceKm > filters.maxDistance) {
         return false;
+      }
+
+      // Emergency only
+      if (filters.emergencyOnly) {
+        const emergencyCategories = ['AC Repair & Service', 'Electrical', 'Plumbing', 'Appliance Repair'];
+        if (!emergencyCategories.includes(p.category)) {
+          return false;
+        }
       }
 
       // Verified only
@@ -82,7 +92,8 @@ export const DiscoveryPage: React.FC = () => {
     }).sort((a, b) => {
       if (filters.sortBy === 'rating') return b.rating - a.rating;
       if (filters.sortBy === 'price') return a.startingPrice - b.startingPrice;
-      if (filters.sortBy === 'distance') return a.distanceMiles - b.distanceMiles;
+      if (filters.sortBy === 'distance') return a.distanceKm - b.distanceKm;
+      if (filters.sortBy === 'eta') return a.etaMinutes - b.etaMinutes;
       return b.reviewCount - a.reviewCount; // relevance
     });
   }, [providers, filters]);
@@ -183,6 +194,7 @@ export const DiscoveryPage: React.FC = () => {
                     <option value="rating">Highest Rated</option>
                     <option value="price">Lowest Price</option>
                     <option value="distance">Closest Distance</option>
+                    <option value="eta">Fastest ETA</option>
                   </select>
                 </div>
 
@@ -243,7 +255,7 @@ export const DiscoveryPage: React.FC = () => {
                 }
               >
                 {filteredProviders.map((provider) => (
-                  <ProviderCard key={provider.id} provider={provider} viewMode={viewMode} />
+                  <ProviderCard key={provider.id} provider={provider} />
                 ))}
               </div>
             )}

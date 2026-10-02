@@ -7,30 +7,42 @@ export default {
   theme: {
     extend: {
       colors: {
+        'ns-navy': '#102A43',
+        'ns-primary': '#059669',
+        'ns-primary-bright': '#10B981',
+        'ns-bg': '#F8FAFC',
+        'ns-text': '#102A43',
+        'ns-text-secondary': '#52667A',
+        'ns-border': '#DCE4EC',
+        'ns-success': '#16A34A',
         brand: {
-          50: '#f0f7ff',
-          100: '#e0effe',
-          200: '#bae0fd',
-          300: '#7cc8fc',
-          400: '#36a9f7',
-          500: '#0c8ce9',
-          600: '#026fc7',
-          700: '#0358a1',
-          800: '#074b84',
-          900: '#0c3f6e',
-          950: '#082849',
+          50: '#ecfdf5',
+          100: '#d1fae5',
+          200: '#a7f3d0',
+          300: '#6ee7b7',
+          400: '#34d399',
+          500: '#10b981',
+          600: '#059669',
+          700: '#047857',
+          800: '#065f46',
+          900: '#064e3b',
+          950: '#022c22',
         },
         slate: {
           850: '#141e33',
         }
       },
       fontFamily: {
-        sans: ['Plus Jakarta Sans', 'Inter', 'sans-serif'],
+        sans: ['Inter', 'Manrope', 'system-ui', 'sans-serif'],
+        display: ['Manrope', 'Inter', 'system-ui', 'sans-serif'],
       },
       boxShadow: {
-        'soft': '0 4px 20px -2px rgba(0, 0, 0, 0.05), 0 2px 6px -1px rgba(0, 0, 0, 0.03)',
-        'card': '0 10px 30px -4px rgba(0, 0, 0, 0.06), 0 4px 8px -2px rgba(0, 0, 0, 0.04)',
-        'elevated': '0 20px 40px -6px rgba(0, 0, 0, 0.1), 0 8px 16px -4px rgba(0, 0, 0, 0.06)',
+        'soft': '0 1px 3px 0 rgba(16, 42, 67, 0.04), 0 1px 2px -1px rgba(16, 42, 67, 0.03)',
+        'card': '0 4px 16px -2px rgba(16, 42, 67, 0.06), 0 2px 4px -2px rgba(16, 42, 67, 0.04)',
+        'elevated': '0 12px 32px -4px rgba(16, 42, 67, 0.1), 0 4px 8px -2px rgba(16, 42, 67, 0.04)',
+      },
+      borderRadius: {
+        'card': '12px',
       }
     },
   },

@@ -4,7 +4,7 @@ interface InitialsAvatarProps {
   name: string;
   size?: 'sm' | 'md' | 'lg' | 'xl';
   className?: string;
-  rounded?: 'full' | '2xl' | '3xl';
+  rounded?: 'full' | 'xl' | '2xl' | '3xl';
 }
 
 const PALETTE = [
@@ -27,6 +27,7 @@ const sizeMap = {
 
 const roundedMap = {
   full: 'rounded-full',
+  xl: 'rounded-xl',
   '2xl': 'rounded-2xl',
   '3xl': 'rounded-3xl',
 };

@@ -3,245 +3,172 @@ import { Provider } from '../../types';
 import { useApp } from '../../context/AppContext';
 import { RatingStars } from '../common/RatingStars';
 import { InitialsAvatar } from '../common/InitialsAvatar';
-import { ShieldCheck, MapPin, Clock, Heart, ArrowRight, Briefcase } from 'lucide-react';
+import {
+  ShieldCheck, MapPin, Clock, CheckCircle2, Heart,
+  Star, Zap, ChevronRight, AlertTriangle, BadgeCheck
+} from 'lucide-react';
 
 interface ProviderCardProps {
   provider: Provider;
-  viewMode?: 'grid' | 'list';
 }
 
-export const ProviderCard: React.FC<ProviderCardProps> = ({ provider: p, viewMode = 'grid' }) => {
-  const { 
-    setActiveProviderProfile, setBookingProvider, favorites, toggleFavorite, 
-    isLoggedIn, setIsAuthModalOpen, setAuthMode,
-    cart, addToCart, updateCartQuantity 
-  } = useApp();
+export const ProviderCard: React.FC<ProviderCardProps> = ({ provider: p }) => {
+  const { setActiveProviderProfile, setBookingProvider, favorites, toggleFavorite, addToCart } = useApp();
   const isFav = favorites.includes(p.id);
 
-  const handleBookNow = () => {
-    if (!isLoggedIn) {
-      setAuthMode('signup');
-      setIsAuthModalOpen(true);
-    } else {
-      setBookingProvider(p);
-    }
+  const getCategoryColor = (cat: string) => {
+    const map: Record<string, string> = {
+      'AC Repair & Service': 'bg-sky-50 text-sky-700 border-sky-200',
+      'Electrical': 'bg-amber-50 text-amber-700 border-amber-200',
+      'Plumbing': 'bg-blue-50 text-blue-700 border-blue-200',
+      'Cleaning': 'bg-teal-50 text-teal-700 border-teal-200',
+      'Appliance Repair': 'bg-purple-50 text-purple-700 border-purple-200',
+      'Carpenter': 'bg-orange-50 text-orange-700 border-orange-200',
+      'Painting': 'bg-pink-50 text-pink-700 border-pink-200',
+      'Pest Control': 'bg-lime-50 text-lime-700 border-lime-200',
+      'Home Maintenance': 'bg-slate-100 text-slate-700 border-slate-200',
+      'Washing Machine Repair': 'bg-cyan-50 text-cyan-700 border-cyan-200',
+      'Refrigerator Repair': 'bg-indigo-50 text-indigo-700 border-indigo-200',
+      'RO/Water Purifier': 'bg-emerald-50 text-emerald-700 border-emerald-200',
+      'TV Repair': 'bg-violet-50 text-violet-700 border-violet-200',
+    };
+    return map[cat] || 'bg-brand-50 text-brand-700 border-brand-200';
   };
 
-  if (viewMode === 'list') {
-    return (
-      <div className="bg-white rounded-2xl border border-slate-200/80 p-5 shadow-soft hover:shadow-card transition-all duration-300 flex flex-col md:flex-row items-start md:items-center justify-between gap-5 group">
-        <div className="flex items-start gap-4 flex-1">
-          {/* List avatar — initials only */}
+  return (
+    <div className="bg-white rounded-3xl border border-slate-200/80 shadow-soft hover:shadow-card transition-all duration-300 overflow-hidden flex flex-col group">
+
+      {/* Card Top — Badges row */}
+      <div className="flex items-center justify-between p-4 pb-0">
+        <div className="flex items-center gap-2 flex-wrap">
+          <span className={`text-[10px] px-2.5 py-1 rounded-full border font-bold ${getCategoryColor(p.category)}`}>
+            {p.category}
+          </span>
+          {p.isVerified && (
+            <span className="flex items-center gap-1 text-[10px] font-bold text-emerald-700 bg-emerald-50 border border-emerald-200 px-2 py-0.5 rounded-full">
+              <CheckCircle2 className="w-3 h-3" /> Verified
+            </span>
+          )}
+          {!p.isAvailable && (
+            <span className="text-[10px] font-bold text-slate-500 bg-slate-100 border border-slate-200 px-2 py-0.5 rounded-full">
+              Unavailable
+            </span>
+          )}
+        </div>
+        <button
+          onClick={() => toggleFavorite(p.id)}
+          className="p-1.5 rounded-full hover:bg-slate-100 transition-colors"
+        >
+          <Heart className={`w-4 h-4 ${isFav ? 'fill-rose-500 text-rose-500' : 'text-slate-400'}`} />
+        </button>
+      </div>
+
+      {/* Main Content */}
+      <div className="p-4 flex-1 flex flex-col gap-3">
+
+        {/* Provider Header */}
+        <div className="flex items-start gap-3">
           <div className="relative shrink-0">
-            <InitialsAvatar name={p.name} size="md" rounded="2xl" />
+            <InitialsAvatar name={p.name} size="md" rounded="xl" />
             {p.isVerified && (
-              <div className="absolute -bottom-1 -right-1 bg-emerald-500 text-white p-1 rounded-full border-2 border-white" title="Verified Professional">
-                <ShieldCheck className="w-3.5 h-3.5" />
+              <div className="absolute -bottom-1 -right-1 bg-emerald-500 text-white p-0.5 rounded-full border-2 border-white">
+                <ShieldCheck className="w-2.5 h-2.5" />
               </div>
             )}
           </div>
 
-          <div className="space-y-1 flex-1">
-            <div className="flex items-center gap-2 flex-wrap">
-              <h3 className="font-extrabold text-slate-900 text-base sm:text-lg group-hover:text-brand-600 transition-colors">
-                {p.name}
-              </h3>
-              <span className="bg-slate-100 text-slate-700 text-[11px] font-semibold px-2.5 py-0.5 rounded-full">
-                {p.category}
-              </span>
-            </div>
-            
-            <p className="text-xs text-slate-500 font-medium">{p.businessName || `${p.name} Services`}</p>
-
-            <div className="flex items-center gap-3 text-xs flex-wrap pt-1">
+          <div className="flex-1 min-w-0">
+            <h3 className="font-extrabold text-slate-900 text-base group-hover:text-brand-700 transition-colors truncate">
+              {p.name}
+            </h3>
+            {p.businessName && (
+              <p className="text-xs text-slate-500 font-medium truncate">{p.businessName}</p>
+            )}
+            <div className="flex items-center gap-2 mt-1">
               <RatingStars rating={p.rating} reviewCount={p.reviewCount} showNumeric />
               <span className="text-slate-300">•</span>
-              <span className="text-slate-600 font-medium flex items-center gap-1">
-                <Briefcase className="w-3.5 h-3.5 text-slate-400" /> {p.completedJobs} jobs done
-              </span>
-              <span className="text-slate-300">•</span>
-              <span className="text-slate-600 font-medium flex items-center gap-1">
-                <MapPin className="w-3.5 h-3.5 text-slate-400" /> {p.distanceMiles} miles away
-              </span>
+              <span className="text-[11px] text-slate-500 font-medium">{p.completedJobs} jobs</span>
             </div>
-
-            <p className="text-xs text-slate-600 line-clamp-2 mt-2 leading-relaxed">
-              {p.bio}
-            </p>
           </div>
         </div>
 
-        {/* Right Info & Actions */}
-        <div className="w-full md:w-48 flex flex-row md:flex-col items-center md:items-end justify-between border-t md:border-t-0 pt-3 md:pt-0 border-slate-100 gap-3 shrink-0">
-          <div className="text-left md:text-right">
-            <span className="text-[10px] text-slate-400 uppercase font-semibold">Starting price</span>
-            <p className="text-xl font-black text-slate-900">
-              ₹{p.startingPrice} <span className="text-xs font-normal text-slate-500">/{p.priceUnit}</span>
-            </p>
-            <span className="inline-flex items-center gap-1 text-[11px] text-emerald-600 font-semibold mt-0.5">
-              <Clock className="w-3 h-3" /> {p.nextAvailable}
+        {/* Bio */}
+        <p className="text-xs text-slate-600 line-clamp-2 leading-relaxed">{p.bio}</p>
+
+        {/* Skills */}
+        <div className="flex flex-wrap gap-1.5">
+          {p.skills.slice(0, 3).map(skill => (
+            <span key={skill} className="text-[10px] bg-slate-100 text-slate-600 px-2 py-0.5 rounded-full font-semibold">
+              {skill}
             </span>
-          </div>
-
-          <div className="flex items-center gap-2 w-full sm:w-auto">
-            <button
-              onClick={() => toggleFavorite(p.id)}
-              className="p-2.5 rounded-xl border border-slate-200 text-slate-400 hover:text-rose-500 transition-colors"
-            >
-              <Heart className={`w-4 h-4 ${isFav ? 'fill-rose-500 text-rose-500' : ''}`} />
-            </button>
-            <button
-              onClick={() => setActiveProviderProfile(p)}
-              className="px-3 py-2 rounded-xl border border-slate-200 hover:bg-slate-50 text-slate-800 text-xs font-bold transition-colors whitespace-nowrap"
-            >
-              Profile
-            </button>
-            <button
-              onClick={handleBookNow}
-              className="px-4 py-2 rounded-xl bg-brand-600 hover:bg-brand-700 text-white text-xs font-bold transition-colors shadow-sm whitespace-nowrap"
-            >
-              Book Now
-            </button>
-          </div>
+          ))}
         </div>
-      </div>
-    );
-  }
 
-  const getCategoryGradient = (cat: string) => {
-    switch (cat) {
-      case 'Plumbing': return 'linear-gradient(135deg, #0284c7 0%, #0369a1 100%)';
-      case 'Electrical': return 'linear-gradient(135deg, #d97706 0%, #b45309 100%)';
-      case 'Cleaning': return 'linear-gradient(135deg, #0d9488 0%, #0f766e 100%)';
-      case 'Appliance Repair': return 'linear-gradient(135deg, #4f46e5 0%, #4338ca 100%)';
-      case 'Painting': return 'linear-gradient(135deg, #e11d48 0%, #be123c 100%)';
-      case 'AC & HVAC': return 'linear-gradient(135deg, #0284c7 0%, #06b6d4 100%)';
-      default: return 'linear-gradient(135deg, #2563eb 0%, #4f46e5 100%)';
-    }
-  };
-
-  return (
-    <div className="bg-white rounded-3xl border border-slate-200/80 shadow-soft hover:shadow-card transition-all duration-300 overflow-hidden flex flex-col justify-between group">
-      <div>
-        {/* Category-colored banner header with vibrant colors */}
-        <div className="relative h-24 overflow-hidden" style={{ background: getCategoryGradient(p.category) }}>
-          <div className="absolute inset-0 opacity-15" style={{ backgroundImage: 'radial-gradient(circle at 20% 50%, #ffffff 0%, transparent 60%), radial-gradient(circle at 80% 50%, #ffffff 0%, transparent 60%)' }} />
-          <button
-            onClick={() => toggleFavorite(p.id)}
-            className="absolute top-3 right-3 p-2 rounded-full bg-white/90 backdrop-blur-md text-slate-600 hover:text-rose-500 transition-colors shadow-sm cursor-pointer"
-          >
-            <Heart className={`w-4 h-4 ${isFav ? 'fill-rose-500 text-rose-500' : ''}`} />
-          </button>
-          <span className="absolute bottom-3 left-3 bg-white/95 backdrop-blur-md px-3 py-1 rounded-full text-xs font-bold text-slate-900 shadow-xs">
-            {p.category}
+        {/* Location & ETA row */}
+        <div className="flex items-center gap-3 text-xs text-slate-500 bg-slate-50 rounded-xl p-2.5 border border-slate-100">
+          <span className="flex items-center gap-1">
+            <MapPin className="w-3.5 h-3.5 text-brand-500" />
+            <span className="font-semibold text-slate-700">{p.distanceKm} km</span>
+          </span>
+          <span className="text-slate-300">•</span>
+          <span className="flex items-center gap-1">
+            <Clock className="w-3.5 h-3.5 text-emerald-500" />
+            <span>ETA <span className="font-semibold text-slate-700">{p.etaMinutes} min</span></span>
+          </span>
+          <span className="text-slate-300">•</span>
+          <span className="flex items-center gap-1">
+            <Zap className="w-3.5 h-3.5 text-amber-500" />
+            <span>{p.yearsExperience} yrs</span>
           </span>
         </div>
 
-        <div className="p-5 pt-0 relative">
-          {/* Avatar — initials only */}
-          <div className="relative -mt-8 mb-3 flex items-end justify-between">
-            <div className="relative">
-              <InitialsAvatar name={p.name} size="lg" rounded="2xl" className="border-4 border-white" />
-              {p.isVerified && (
-                <div className="absolute -bottom-1 -right-1 bg-emerald-500 text-white p-1 rounded-full border-2 border-white" title="Verified Professional">
-                  <ShieldCheck className="w-3 h-3" />
+        {/* Services / pricing */}
+        <div className="space-y-2">
+          {p.offeredServices.slice(0, 2).map(service => (
+            <div
+              key={service.id}
+              className="flex items-center justify-between gap-2 text-xs py-2 px-3 rounded-xl bg-slate-50 border border-slate-100 hover:border-brand-200 hover:bg-brand-50/30 transition-all"
+            >
+              <div className="flex-1 min-w-0">
+                <p className="font-semibold text-slate-800 truncate">{service.name}</p>
+                <p className="text-slate-400 text-[10px]">{service.durationMinutes} min
+                  {service.warrantyDays && service.warrantyDays > 0 ? ` • ${service.warrantyDays}d warranty` : ''}
+                </p>
+              </div>
+              <div className="flex items-center gap-2 shrink-0">
+                <div className="text-right">
+                  <p className="font-extrabold text-slate-900">₹{service.price}</p>
+                  {service.visitCharge > 0 && (
+                    <p className="text-[9px] text-slate-400">+₹{service.visitCharge} visit</p>
+                  )}
                 </div>
-              )}
+                <button
+                  onClick={() => addToCart(p, service)}
+                  className="px-2 py-1 bg-brand-600 hover:bg-brand-700 text-white rounded-lg text-[10px] font-black transition-colors shadow-sm"
+                >
+                  +
+                </button>
+              </div>
             </div>
-
-            <div className="text-right">
-              <span className="text-[10px] text-slate-400 uppercase font-semibold">Starting price</span>
-              <p className="text-lg font-black text-slate-900">
-                ₹{p.startingPrice} <span className="text-xs font-normal text-slate-500">/{p.priceUnit}</span>
-              </p>
-            </div>
-          </div>
-
-          <h3 className="font-extrabold text-slate-900 text-base group-hover:text-brand-600 transition-colors">
-            {p.name}
-          </h3>
-          <p className="text-xs text-slate-500 font-medium mb-2">{p.businessName || `${p.name} Services`}</p>
-
-          <div className="flex items-center gap-2 text-xs mb-3">
-            <RatingStars rating={p.rating} reviewCount={p.reviewCount} showNumeric />
-            <span className="text-slate-300">•</span>
-            <span className="text-slate-500 font-medium">{p.completedJobs} jobs</span>
-          </div>
-
-          <p className="text-xs text-slate-600 line-clamp-2 leading-relaxed mb-3">
-            {p.bio}
-          </p>
-
-          {/* Quick Urban Company Services Add-to-cart Preview */}
-          {p.offeredServices && p.offeredServices.length > 0 && (
-            <div className="space-y-1.5 mb-3 bg-slate-50/80 p-2.5 rounded-2xl border border-slate-100">
-              <span className="text-[10px] font-extrabold uppercase tracking-wider text-slate-400 block">
-                Popular Services
-              </span>
-              {p.offeredServices.slice(0, 2).map((service) => {
-                const cartItem = cart.find(c => c.serviceId === service.id);
-                return (
-                  <div key={service.id} className="flex items-center justify-between gap-2 text-xs">
-                    <div className="min-w-0 pr-1">
-                      <p className="font-bold text-slate-900 truncate text-[11px]">{service.name}</p>
-                      <span className="text-[10px] text-brand-700 font-black">₹{service.price}</span>
-                    </div>
-
-                    {cartItem ? (
-                      <div className="flex items-center gap-1 bg-white border border-brand-200 rounded-lg px-1.5 py-0.5 shadow-2xs shrink-0">
-                        <button
-                          onClick={() => updateCartQuantity(service.id, -1)}
-                          className="text-brand-600 hover:text-brand-800 font-black px-1"
-                          title="Decrease"
-                        >
-                          -
-                        </button>
-                        <span className="text-xs font-black text-brand-700 px-1">{cartItem.quantity}</span>
-                        <button
-                          onClick={() => updateCartQuantity(service.id, 1)}
-                          className="text-brand-600 hover:text-brand-800 font-black px-1"
-                          title="Increase"
-                        >
-                          +
-                        </button>
-                      </div>
-                    ) : (
-                      <button
-                        onClick={() => addToCart(p, service)}
-                        className="px-2.5 py-1 rounded-lg bg-white hover:bg-brand-50 border border-slate-200 hover:border-brand-300 text-brand-600 font-extrabold text-[11px] shadow-2xs transition-all shrink-0"
-                      >
-                        + Add
-                      </button>
-                    )}
-                  </div>
-                );
-              })}
-            </div>
-          )}
-
-          <div className="flex items-center justify-between text-[11px] text-slate-500 pt-3 border-t border-slate-100">
-            <span className="flex items-center gap-1">
-              <MapPin className="w-3.5 h-3.5 text-slate-400" /> {p.distanceMiles} miles away
-            </span>
-            <span className="flex items-center gap-1 text-emerald-600 font-medium">
-              <Clock className="w-3.5 h-3.5" /> {p.nextAvailable}
-            </span>
-          </div>
+          ))}
         </div>
+
       </div>
 
-      <div className="p-5 pt-0 grid grid-cols-2 gap-2 mt-2">
+      {/* Actions Footer */}
+      <div className="p-4 pt-0 grid grid-cols-2 gap-2 border-t border-slate-100">
         <button
           onClick={() => setActiveProviderProfile(p)}
-          className="w-full py-2.5 px-3 rounded-xl border border-slate-200 hover:bg-slate-50 text-slate-800 font-bold text-xs transition-colors text-center"
+          className="py-2.5 rounded-xl border border-slate-200 hover:bg-slate-50 text-slate-800 font-bold text-xs transition-colors flex items-center justify-center gap-1"
         >
-          View Profile
+          View Profile <ChevronRight className="w-3.5 h-3.5" />
         </button>
         <button
-          onClick={handleBookNow}
-          className="w-full py-2.5 px-3 rounded-xl bg-brand-600 hover:bg-brand-700 text-white font-bold text-xs transition-colors text-center shadow-sm"
+          onClick={() => setBookingProvider(p)}
+          disabled={!p.isAvailable}
+          className="py-2.5 rounded-xl bg-brand-600 hover:bg-brand-700 disabled:bg-slate-300 disabled:cursor-not-allowed text-white font-bold text-xs transition-colors shadow-sm"
         >
-          Book Now
+          {p.isAvailable ? 'Book Now' : 'Unavailable'}
         </button>
       </div>
     </div>

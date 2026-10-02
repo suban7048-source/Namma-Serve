@@ -53,10 +53,14 @@ export const BookingModal: React.FC<BookingModalProps> = ({ provider, onClose })
 
   if (!provider) return null;
 
-  const serviceFee = 10;
-  const rawPrice = selectedService ? selectedService.price : provider.startingPrice;
-  const discount = promoApplied ? 15 : 0;
-  const totalPrice = Math.max(0, rawPrice + serviceFee - discount);
+  const visitCharge = selectedService?.visitCharge ?? provider.visitCharge;
+  const rawServicePrice = selectedService ? selectedService.price : provider.startingPrice;
+  const partsCharge = 0; // No parts initially — technician can request later
+  const subtotal = rawServicePrice + visitCharge + partsCharge;
+  const promoDiscount = promoApplied ? 100 : 0;
+  const gst = Math.round((subtotal - promoDiscount) * 0.18);
+  const totalPrice = Math.max(0, subtotal - promoDiscount + gst);
+  const warrantyDays = selectedService?.warrantyDays ?? 0;
 
   const availableTimes = ['9:00 AM', '11:30 AM', '2:30 PM', '4:30 PM', '6:00 PM'];
 
@@ -68,12 +72,22 @@ export const BookingModal: React.FC<BookingModalProps> = ({ provider, onClose })
     return true;
   };
 
+  const PROMO_CODES: Record<string, { discount: number; label: string }> = {
+    'FIRST100': { discount: 100, label: '₹100 first booking discount' },
+    'FESTIVE15': { discount: Math.round(subtotal * 0.15), label: '15% festival discount' },
+    'REFER200': { discount: 200, label: '₹200 referral discount' },
+    'WEEKEND50': { discount: 50, label: '₹50 weekend deal' },
+    'NAMMASERVE15': { discount: 15, label: '₹15 NammaServe welcome discount' },
+    'LOCALFIX15': { discount: 15, label: '₹15 welcome discount' },
+  };
+
   const handleApplyPromo = () => {
-    if (promoCode.trim().toUpperCase() === 'LOCALFIX15') {
+    const code = promoCode.trim().toUpperCase();
+    if (PROMO_CODES[code]) {
       setPromoApplied(true);
-      showToast('Promo code applied!', '₹15 discount applied to total', 'success');
+      showToast('Promo code applied!', PROMO_CODES[code].label, 'success');
     } else {
-      showToast('Invalid promo code', 'Try using code LOCALFIX15', 'warning');
+      showToast('Invalid promo code', 'Try FIRST100, FESTIVE15, or WEEKEND50', 'warning');
     }
   };
 
@@ -97,15 +111,23 @@ export const BookingModal: React.FC<BookingModalProps> = ({ provider, onClose })
         customerPhone: '+91 99999 11122',
         serviceId: selectedService.id,
         serviceName: selectedService.name,
-        servicePrice: rawPrice,
-        serviceFee,
+        servicePrice: rawServicePrice,
+        visitCharge,
+        serviceFee: 0,
+        partsCharge,
+        gst,
+        discount: promoDiscount,
         totalPrice,
         scheduledDate,
         scheduledTime,
         serviceLocation,
+        serviceArea: serviceLocation.split(',')[1]?.trim() || provider.location.split(',')[0],
         problemDescription: problemDescription || 'No specific description provided.',
         isEmergency,
-        notes: accessNotes
+        notes: accessNotes,
+        paymentMethod: paymentMethod as any,
+        paymentStatus: 'PENDING',
+        warrantyDays,
       });
 
       setIsSubmitting(false);
@@ -380,7 +402,7 @@ export const BookingModal: React.FC<BookingModalProps> = ({ provider, onClose })
                   <div className="pt-2 flex gap-2">
                     <input
                       type="text"
-                      placeholder="Promo Code (LOCALFIX15)"
+                      placeholder="Promo Code (e.g. FIRST100)"
                       value={promoCode}
                       onChange={(e) => setPromoCode(e.target.value)}
                       className="bg-white border border-slate-200 rounded-xl px-3 py-1.5 text-xs flex-1 uppercase"
@@ -396,50 +418,61 @@ export const BookingModal: React.FC<BookingModalProps> = ({ provider, onClose })
                   {/* Price breakdown */}
                   <div className="pt-3 border-t border-slate-200 space-y-1.5">
                     <div className="flex justify-between text-slate-600">
-                      <span>Service Price:</span>
-                      <span>₹{rawPrice}</span>
+                      <span>Service Charge:</span>
+                      <span>₹{rawServicePrice}</span>
                     </div>
-                    <div className="flex justify-between text-slate-600">
-                      <span>Platform Service Fee:</span>
-                      <span>₹{serviceFee}</span>
-                    </div>
+                    {visitCharge > 0 && (
+                      <div className="flex justify-between text-slate-600">
+                        <span>Visit / Inspection Charge:</span>
+                        <span>₹{visitCharge}</span>
+                      </div>
+                    )}
                     {promoApplied && (
                       <div className="flex justify-between text-emerald-600 font-bold">
                         <span>Promo Discount:</span>
-                        <span>-₹{discount}</span>
+                        <span>−₹{promoDiscount}</span>
                       </div>
                     )}
+                    <div className="flex justify-between text-slate-600">
+                      <span>GST (18%):</span>
+                      <span>₹{gst}</span>
+                    </div>
                     <div className="flex justify-between text-sm font-extrabold text-slate-900 pt-2 border-t border-slate-200">
                       <span>Estimated Total:</span>
                       <span className="text-brand-600 text-base">₹{totalPrice}</span>
                     </div>
+                    {warrantyDays > 0 && (
+                      <div className="flex items-center gap-1.5 text-emerald-600 text-[10px] font-bold pt-1 border-t border-slate-100">
+                        <ShieldCheck className="w-3 h-3" />
+                        <span>{warrantyDays}-day service warranty included</span>
+                      </div>
+                    )}
                   </div>
                 </div>
 
                 {/* Payment Option */}
                 <div className="space-y-2">
-                  <label className="text-xs font-bold text-slate-700">Payment Option</label>
+                  <label className="text-xs font-bold text-slate-700">Payment Method</label>
                   <div className="grid grid-cols-2 gap-3">
-                    <button
-                      onClick={() => setPaymentMethod('card')}
-                      className={`p-3 rounded-2xl border text-xs font-bold flex items-center justify-center gap-2 transition-all ${
-                        paymentMethod === 'card'
-                          ? 'border-brand-500 bg-brand-50 text-brand-700'
-                          : 'border-slate-200 text-slate-700'
-                      }`}
-                    >
-                      <CreditCard className="w-4 h-4" /> Credit/Debit Card
-                    </button>
-                    <button
-                      onClick={() => setPaymentMethod('pay_later')}
-                      className={`p-3 rounded-2xl border text-xs font-bold flex items-center justify-center gap-2 transition-all ${
-                        paymentMethod === 'pay_later'
-                          ? 'border-brand-500 bg-brand-50 text-brand-700'
-                          : 'border-slate-200 text-slate-700'
-                      }`}
-                    >
-                      <ShieldCheck className="w-4 h-4 text-emerald-600" /> Pay After Service
-                    </button>
+                    {[
+                      { id: 'upi', label: 'UPI / QR Code', icon: '📱' },
+                      { id: 'card', label: 'Credit/Debit Card', icon: '💳' },
+                      { id: 'cash', label: 'Cash on Service', icon: '💵' },
+                      { id: 'pay_later', label: 'Pay After Service', icon: '✅' },
+                    ].map(opt => (
+                      <button
+                        key={opt.id}
+                        onClick={() => setPaymentMethod(opt.id as any)}
+                        className={`p-3 rounded-2xl border text-xs font-bold flex items-center gap-2 transition-all ${
+                          paymentMethod === opt.id
+                            ? 'border-brand-500 bg-brand-50 text-brand-700'
+                            : 'border-slate-200 text-slate-700 hover:border-slate-300'
+                        }`}
+                      >
+                        <span>{opt.icon}</span>
+                        {opt.label}
+                      </button>
+                    ))}
                   </div>
                 </div>
               </div>

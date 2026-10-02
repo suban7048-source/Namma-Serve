@@ -6,7 +6,6 @@ export const MobileBottomNav: React.FC = () => {
   const { page, setPage, role, setIsAuthModalOpen, setAuthMode, isLoggedIn, loggedInUser, bookings, setActiveBookingForChat } = useApp();
 
   const handleMessagesTab = () => {
-    // Open chat for the most recent booking, or navigate to dashboard
     if (!isLoggedIn) {
       setAuthMode('login');
       setIsAuthModalOpen(true);
@@ -16,7 +15,7 @@ export const MobileBottomNav: React.FC = () => {
     if (latestBooking) {
       setActiveBookingForChat(latestBooking);
     } else {
-      setPage(role === 'customer' ? 'customer-dashboard' : 'provider-dashboard');
+      setPage(loggedInUser?.role === 'provider' ? 'provider-dashboard' : loggedInUser?.role === 'admin' ? 'admin-dashboard' : 'customer-dashboard');
     }
   };
 
@@ -25,16 +24,16 @@ export const MobileBottomNav: React.FC = () => {
       setAuthMode('login');
       setIsAuthModalOpen(true);
     } else {
-      setPage(role === 'customer' ? 'customer-dashboard' : 'provider-dashboard');
+      setPage(loggedInUser?.role === 'provider' ? 'provider-dashboard' : loggedInUser?.role === 'admin' ? 'admin-dashboard' : 'customer-dashboard');
     }
   };
 
   return (
-    <div className="md:hidden fixed bottom-0 left-0 right-0 z-40 bg-white/95 backdrop-blur-md border-t border-slate-200 px-3 py-2 flex items-center justify-around shadow-lg">
+    <div className="md:hidden fixed bottom-0 left-0 right-0 z-40 bg-white border-t border-ns-border px-3 py-2 flex items-center justify-around">
       <button
         onClick={() => setPage('landing')}
-        className={`flex flex-col items-center gap-1 p-1.5 rounded-xl transition-colors ${
-          page === 'landing' ? 'text-brand-600 font-bold' : 'text-slate-500 hover:text-slate-800'
+        className={`flex flex-col items-center gap-1 p-1.5 rounded-lg transition-colors ${
+          page === 'landing' ? 'text-ns-primary font-bold' : 'text-ns-text-secondary hover:text-ns-navy'
         }`}
       >
         <Home className="w-5 h-5" />
@@ -43,8 +42,8 @@ export const MobileBottomNav: React.FC = () => {
 
       <button
         onClick={() => setPage('discovery')}
-        className={`flex flex-col items-center gap-1 p-1.5 rounded-xl transition-colors ${
-          page === 'discovery' ? 'text-brand-600 font-bold' : 'text-slate-500 hover:text-slate-800'
+        className={`flex flex-col items-center gap-1 p-1.5 rounded-lg transition-colors ${
+          page === 'discovery' ? 'text-ns-primary font-bold' : 'text-ns-text-secondary hover:text-ns-navy'
         }`}
       >
         <Search className="w-5 h-5" />
@@ -54,10 +53,10 @@ export const MobileBottomNav: React.FC = () => {
       <button
         onClick={() => {
           if (!isLoggedIn) { setAuthMode('login'); setIsAuthModalOpen(true); return; }
-          setPage(role === 'customer' ? 'customer-dashboard' : 'provider-dashboard');
+          setPage(loggedInUser?.role === 'provider' ? 'provider-dashboard' : loggedInUser?.role === 'admin' ? 'admin-dashboard' : 'customer-dashboard');
         }}
-        className={`flex flex-col items-center gap-1 p-1.5 rounded-xl transition-colors relative ${
-          page === 'customer-dashboard' || page === 'provider-dashboard' ? 'text-brand-600 font-bold' : 'text-slate-500 hover:text-slate-800'
+        className={`flex flex-col items-center gap-1 p-1.5 rounded-lg transition-colors relative ${
+          page === 'customer-dashboard' || page === 'provider-dashboard' ? 'text-ns-primary font-bold' : 'text-ns-text-secondary hover:text-ns-navy'
         }`}
       >
         <Calendar className="w-5 h-5" />
@@ -66,7 +65,7 @@ export const MobileBottomNav: React.FC = () => {
 
       <button
         onClick={handleMessagesTab}
-        className="flex flex-col items-center gap-1 p-1.5 rounded-xl text-slate-500 hover:text-slate-800 transition-colors relative"
+        className="flex flex-col items-center gap-1 p-1.5 rounded-lg text-ns-text-secondary hover:text-ns-navy transition-colors relative"
       >
         <MessageSquare className="w-5 h-5" />
         <span className="text-[10px]">Messages</span>
@@ -74,12 +73,12 @@ export const MobileBottomNav: React.FC = () => {
 
       <button
         onClick={handleProfileTab}
-        className={`flex flex-col items-center gap-1 p-1.5 rounded-xl transition-colors ${
-          isLoggedIn ? 'text-brand-600' : 'text-slate-500 hover:text-slate-800'
+        className={`flex flex-col items-center gap-1 p-1.5 rounded-lg transition-colors ${
+          isLoggedIn ? 'text-ns-primary' : 'text-ns-text-secondary hover:text-ns-navy'
         }`}
       >
         {isLoggedIn ? (
-          <div className="w-5 h-5 rounded-full bg-brand-600 text-white flex items-center justify-center text-[9px] font-black">
+          <div className="w-5 h-5 rounded-full bg-ns-navy text-white flex items-center justify-center text-[9px] font-bold">
             {(loggedInUser?.name ?? 'U').charAt(0).toUpperCase()}
           </div>
         ) : (
