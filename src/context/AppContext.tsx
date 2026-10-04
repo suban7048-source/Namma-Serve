@@ -155,7 +155,7 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
   const [language, setLanguage] = useState<Language>('en');
   const [filters, setFilters] = useState<FilterState>(defaultFilters);
   const [providers, setProviders] = useState<Provider[]>(mockProviders);
-  const [favorites, setFavorites] = useState<string[]>(['p1', 'p2']);
+  const [favorites, setFavorites] = useState<string[]>([]);
   const [adminTab, setAdminTab] = useState<string>('overview');
 
   // Auth state
@@ -442,6 +442,14 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
       area: auth.area
     });
     setRole(userRole);
+
+    // Clear local data to ensure a fresh session without mock data
+    setWarranties([]);
+    setComplaints([]);
+    setNotifications([]);
+    setMessages([]);
+    setFavorites([]);
+
     if (userRole === 'admin') {
       setPage('admin-dashboard');
     }
@@ -455,6 +463,13 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
     setActiveProviderProfile(null);
     setBookingProvider(null);
     setActiveBookingForChat(null);
+    
+    setBookings([]);
+    setWarranties([]);
+    setComplaints([]);
+    setNotifications([]);
+    setMessages([]);
+    setFavorites([]);
   };
 
   const logout = () => {
