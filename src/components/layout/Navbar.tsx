@@ -213,7 +213,7 @@ export const Navbar: React.FC = () => {
             )}
 
             {/* Notifications */}
-            <NotificationCenter />
+            {isLoggedIn && <NotificationCenter />}
 
             {/* Auth Section */}
             {isLoggedIn ? (

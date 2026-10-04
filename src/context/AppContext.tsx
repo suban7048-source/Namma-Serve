@@ -268,24 +268,24 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
 
   const [messages, setMessages] = useState<Message[]>(() => {
     const saved = localStorage.getItem('localfix_messages');
-    return saved ? JSON.parse(saved) : initialMessages;
+    return saved ? JSON.parse(saved) : [];
   });
 
   const [notifications, setNotifications] = useState<AppNotification[]>(() => {
     const saved = localStorage.getItem('localfix_notifications');
-    return saved ? JSON.parse(saved) : initialNotifications;
+    return saved ? JSON.parse(saved) : [];
   });
 
   // Warranties
   const [warranties, setWarranties] = useState<Warranty[]>(() => {
     const saved = localStorage.getItem('localfix_warranties');
-    return saved ? JSON.parse(saved) : initialWarranties;
+    return saved ? JSON.parse(saved) : [];
   });
 
   // Complaints
   const [complaints, setComplaints] = useState<Complaint[]>(() => {
     const saved = localStorage.getItem('localfix_complaints');
-    return saved ? JSON.parse(saved) : initialComplaints;
+    return saved ? JSON.parse(saved) : [];
   });
 
   /**
@@ -789,7 +789,11 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
     }));
   };
 
-  const unreadNotificationCount = notifications.filter(n => !n.isRead).length;
+  const visibleNotifications = notifications.filter(n =>
+    loggedInUser?.role === 'admin' || !n.userId || n.userId === loggedInUser?.id?.toString()
+  );
+
+  const unreadNotificationCount = visibleNotifications.filter(n => !n.isRead).length;
 
   const markNotificationRead = (id: string) => {
     setNotifications(prev => prev.map(n => n.id === id ? { ...n, isRead: true } : n));
@@ -831,7 +835,7 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
         bookings, createBooking, updateBookingStatus,
         messages, sendMessage,
         addReview,
-        notifications, unreadNotificationCount, markNotificationRead, markAllNotificationsRead,
+        notifications: visibleNotifications, unreadNotificationCount, markNotificationRead, markAllNotificationsRead,
         warranties, addWarranty, claimWarranty,
         complaints, addComplaint, updateComplaintStatus,
         approveAdditionalCharge, rejectAdditionalCharge, addAdditionalCharge,

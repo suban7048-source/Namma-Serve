@@ -260,6 +260,8 @@ export interface AppNotification {
   isRead: boolean;
   type: 'booking' | 'message' | 'system' | 'review' | 'warranty' | 'complaint' | 'payment';
   linkBookingId?: string;
+  userId?: string;
+  targetRole?: Role;
 }
 
 export interface FilterState {
