@@ -312,42 +312,40 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
         return;
       }
       const rows = Array.isArray(result.data) ? result.data : [];
-      if (rows.length > 0) {
-          const mappedBookings: Booking[] = rows.map((b: any) => ({
-            id: b.id.toString(),
-            bookingNumber: b.bookingNumber || `LF-CHN-${b.id}`,
-            providerId: b.technician?.id?.toString() || 'p1',
-            providerName: b.technician?.user?.name || b.technician?.businessName || 'Ravi Kumar',
-            providerAvatar: b.technician?.user?.avatar || '',
-            providerCategory: b.technician?.category || 'General Maintenance',
-            providerPhone: b.technician?.user?.phone || '+91 98765 00000',
-            customerId: b.customer?.id?.toString() || 'c1',
-            customerName: b.customer?.name || 'Customer',
-            customerPhone: b.customer?.phone || '',
-            serviceId: b.serviceId || 's1',
-            serviceName: b.serviceName || 'Home Service',
-            servicePrice: b.servicePrice || 499,
-            visitCharge: b.visitCharge || 199,
-            serviceFee: b.servicePrice || 499,
-            partsCharge: b.partsCharge || 0,
-            gst: b.gst || 0,
-            discount: b.discount || 0,
-            totalPrice: b.totalPrice || 698,
-            status: b.status || 'PENDING',
-            scheduledDate: b.scheduledDate || 'Today',
-            scheduledTime: b.scheduledTime || '10:00 AM',
-            serviceLocation: b.serviceLocation || 'Chennai',
-            serviceArea: b.serviceArea || 'Chennai',
-            problemDescription: b.problemDescription || '',
-            isEmergency: b.isEmergency || false,
-            notes: b.notes || '',
-            createdAt: b.createdAt || new Date().toISOString(),
-            paymentMethod: b.paymentMethod || 'upi',
-            paymentStatus: b.paymentStatus || 'PENDING',
-            warrantyDays: b.warrantyDays || 30
-          }));
-          setBookings(mappedBookings);
-      }
+      const mappedBookings: Booking[] = rows.map((b: any) => ({
+        id: b.id.toString(),
+        bookingNumber: b.bookingNumber || `LF-CHN-${b.id}`,
+        providerId: b.technician?.id?.toString() || 'p1',
+        providerName: b.technician?.user?.name || b.technician?.businessName || 'Ravi Kumar',
+        providerAvatar: b.technician?.user?.avatar || '',
+        providerCategory: b.technician?.category || 'General Maintenance',
+        providerPhone: b.technician?.user?.phone || '+91 98765 00000',
+        customerId: b.customer?.id?.toString() || 'c1',
+        customerName: b.customer?.name || 'Customer',
+        customerPhone: b.customer?.phone || '',
+        serviceId: b.serviceId || 's1',
+        serviceName: b.serviceName || 'Home Service',
+        servicePrice: b.servicePrice || 499,
+        visitCharge: b.visitCharge || 199,
+        serviceFee: b.servicePrice || 499,
+        partsCharge: b.partsCharge || 0,
+        gst: b.gst || 0,
+        discount: b.discount || 0,
+        totalPrice: b.totalPrice || 698,
+        status: b.status || 'PENDING',
+        scheduledDate: b.scheduledDate || 'Today',
+        scheduledTime: b.scheduledTime || '10:00 AM',
+        serviceLocation: b.serviceLocation || 'Chennai',
+        serviceArea: b.serviceArea || 'Chennai',
+        problemDescription: b.problemDescription || '',
+        isEmergency: b.isEmergency || false,
+        notes: b.notes || '',
+        createdAt: b.createdAt || new Date().toISOString(),
+        paymentMethod: b.paymentMethod || 'upi',
+        paymentStatus: b.paymentStatus || 'PENDING',
+        warrantyDays: b.warrantyDays || 30
+      }));
+      setBookings(mappedBookings);
     })();
 
     return () => { cancelled = true; };
