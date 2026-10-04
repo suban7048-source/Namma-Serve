@@ -54,7 +54,7 @@ public class DataInitializer implements CommandLineRunner {
 
         // 1. Seed Users
         User admin = new User("LocalFix Admin", "admin@localfix.in", "+91 94440 00000",
-                passwordEncoder.encode("admin123"), Role.ROLE_ADMIN, "T. Nagar");
+                passwordEncoder.encode("admin2208"), Role.ROLE_ADMIN, "T. Nagar");
         userRepository.save(admin);
 
         User customer = new User("Aakash Malhotra", "aakash@gmail.com", "+91 99999 11122",
