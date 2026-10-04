@@ -15,7 +15,7 @@ interface BookingModalProps {
 }
 
 export const BookingModal: React.FC<BookingModalProps> = ({ provider, onClose }) => {
-  const { createBooking, setPage, setActiveBookingForChat, setActiveProviderProfile, loggedInUser } = useApp();
+  const { createBooking, setPage, setActiveBookingForChat, setActiveProviderProfile, loggedInUser, selectedArea } = useApp();
   const { showToast } = useToast();
 
   const [step, setStep] = useState<number>(1);
@@ -28,7 +28,7 @@ export const BookingModal: React.FC<BookingModalProps> = ({ provider, onClose })
   );
   const [problemDescription, setProblemDescription] = useState<string>('');
   const [isEmergency, setIsEmergency] = useState<boolean>(false);
-  const [serviceLocation, setServiceLocation] = useState<string>('12, 4th Cross Street, Anna Nagar, Chennai - 600040');
+  const [serviceLocation, setServiceLocation] = useState<string>(loggedInUser?.area || selectedArea || '');
   const [accessNotes, setAccessNotes] = useState<string>('Gate code #4492. Ring bell on Arrival.');
   const [scheduledDate, setScheduledDate] = useState<string>(new Date().toISOString().split('T')[0]);
   const [scheduledTime, setScheduledTime] = useState<string>('');

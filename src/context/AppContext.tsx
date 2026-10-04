@@ -376,9 +376,13 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
           id: result.data.id,
           name: result.data.name,
           email: result.data.email,
-          role: userRole
+          role: userRole,
+          area: result.data.area
         });
         setRole(userRole);
+        if (result.data.area) {
+          setSelectedArea(result.data.area);
+        }
       } else {
         // 401 already cleared the token inside the API client; anything else
         // (server down, for instance) should also not leave a half-session.
@@ -442,6 +446,9 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
       area: auth.area
     });
     setRole(userRole);
+    if (auth.area) {
+      setSelectedArea(auth.area);
+    }
 
     // Clear local data to ensure a fresh session without mock data
     setWarranties([]);
