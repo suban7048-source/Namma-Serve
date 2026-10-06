@@ -42,7 +42,7 @@ export const HeroSection: React.FC = () => {
 
           <div className="text-center lg:text-left">
             <p className="font-tamil text-kolam-marigold text-base sm:text-lg tracking-wide">
-              {t('home.heroPreTitle')}
+              நம்ம ஊர், நம்ம ஆட்கள்
             </p>
 
             <h1 className="mt-3 font-display text-[2.6rem] sm:text-5xl lg:text-[3.6rem] font-semibold text-white leading-[1.06] max-w-[16ch] mx-auto lg:mx-0" dangerouslySetInnerHTML={{ __html: t('home.heroTitle') }} />
