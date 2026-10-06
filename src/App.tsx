@@ -20,6 +20,7 @@ import { CartDrawer } from './components/cart/CartDrawer';
 import { LocationModal } from './components/layout/LocationModal';
 import { ComplaintModal } from './components/common/ComplaintModal';
 import { InvoiceModal } from './components/common/InvoiceModal';
+import { AIChatbot } from './components/chat/AIChatbot';
 
 const MainLayout: React.FC = () => {
   const {
@@ -98,6 +99,7 @@ const MainLayout: React.FC = () => {
       <AuthModal />
       <ComplaintModal />
       <InvoiceModal />
+      {isLoggedIn && <AIChatbot />}
       <ToastContainer />
     </div>
   );

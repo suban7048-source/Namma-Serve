@@ -4,6 +4,7 @@ import { BookingStatus, Booking } from '../../types';
 import { useToast } from '../../context/ToastContext';
 import { ConfirmModal } from '../common/ConfirmModal';
 import { RatingStars } from '../common/RatingStars';
+import { useTranslation } from '../../i18n';
 import { Avatar } from '../common/Avatar';
 import { 
   Wrench, CheckCircle2, XCircle, Clock, Calendar, 
@@ -23,6 +24,7 @@ export const ProviderDashboard: React.FC = () => {
     addAdditionalCharge 
   } = useApp();
   const { showToast } = useToast();
+  const { t } = useTranslation();
 
   const [activeTab, setActiveTab] = useState<ProviderTab>('active');
   const [isOnline, setIsOnline] = useState<boolean>(true);
@@ -201,7 +203,7 @@ export const ProviderDashboard: React.FC = () => {
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
           <div className="bg-kolam-surface rounded-2xl p-5 border border-ns-border/80 shadow-soft space-y-1">
             <div className="flex items-center justify-between text-ns-text-secondary">
-              <p className="text-xs font-semibold uppercase tracking-wider">Total Earnings</p>
+              <p className="text-xs font-semibold uppercase tracking-wider">{t('dashboard.earnings')}</p>
               <Wallet className="w-4 h-4 text-kolam-teal" />
             </div>
             <p className="text-2xl font-semibold text-kolam-teal">₹{totalEarnings.toLocaleString('en-IN')}</p>
@@ -209,11 +211,11 @@ export const ProviderDashboard: React.FC = () => {
           </div>
           <div className="bg-kolam-surface rounded-2xl p-5 border border-ns-border/80 shadow-soft space-y-1">
             <div className="flex items-center justify-between text-ns-text-secondary">
-              <p className="text-xs font-semibold uppercase tracking-wider">New Requests</p>
+              <p className="text-xs font-semibold uppercase tracking-wider">{t('dashboard.newRequests')}</p>
               <AlertCircle className="w-4 h-4 text-kolam-marigold" />
             </div>
             <p className="text-2xl font-semibold text-kolam-marigold">{pendingRequests.length}</p>
-            <p className="text-[10px] text-ns-text-secondary font-medium">Pending acceptance</p>
+            <p className="text-[10px] text-ns-text-secondary font-medium">{t('dashboard.pendingAcceptance')}</p>
           </div>
           <div className="bg-kolam-surface rounded-2xl p-5 border border-ns-border/80 shadow-soft space-y-1">
             <div className="flex items-center justify-between text-ns-text-secondary">

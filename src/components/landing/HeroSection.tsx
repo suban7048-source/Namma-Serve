@@ -1,15 +1,17 @@
 import React, { useState } from 'react';
 import { useApp } from '../../context/AppContext';
 import { Search, MapPin, ArrowRight, ShieldCheck, IndianRupee, Clock } from 'lucide-react';
-import { CHENNAI_LOCALITIES } from '../../data/chennaiLocations';
 import { KolamMark } from '../common/Kolam';
+import { useTranslation } from '../../i18n';
+import { CHENNAI_LOCALITIES } from '../../data/chennaiLocations';
 
 const CHENNAI_AREAS = CHENNAI_LOCALITIES.map(l => l.name);
 
 export const HeroSection: React.FC = () => {
-  const { setFilters, setPage, language } = useApp();
+  const { setFilters, setPage } = useApp();
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedLocation, setSelectedLocation] = useState('Anna Nagar');
+  const { t } = useTranslation();
 
   const handleHeroSearch = (e: React.FormEvent) => {
     e.preventDefault();
@@ -40,21 +42,13 @@ export const HeroSection: React.FC = () => {
 
           <div className="text-center lg:text-left">
             <p className="font-tamil text-kolam-marigold text-base sm:text-lg tracking-wide">
-              நம்ம ஊர், நம்ம ஆட்கள்
+              {t('home.heroPreTitle')}
             </p>
 
-            <h1 className="mt-3 font-display text-[2.6rem] sm:text-5xl lg:text-[3.6rem] font-semibold text-white leading-[1.06] max-w-[16ch] mx-auto lg:mx-0">
-              {language === 'ta' ? (
-                <>உங்கள் தெருவில் <span className="text-kolam-marigold">யாரை அழைப்பது</span> என்று தெரியும்</>
-              ) : (
-                <>Your street already knows <span className="text-kolam-marigold">who to call</span></>
-              )}
-            </h1>
+            <h1 className="mt-3 font-display text-[2.6rem] sm:text-5xl lg:text-[3.6rem] font-semibold text-white leading-[1.06] max-w-[16ch] mx-auto lg:mx-0" dangerouslySetInnerHTML={{ __html: t('home.heroTitle') }} />
 
             <p className="mt-5 text-white/70 text-base sm:text-[17px] leading-relaxed max-w-xl mx-auto lg:mx-0">
-              {language === 'ta'
-                ? 'சென்னையில் உங்கள் பகுதியில் பணியாற்றும் சரிபார்க்கப்பட்ட பிளம்பர்கள், எலக்ட்ரீஷியன்கள் மற்றும் AC தொழில்நுட்ப வல்லுநர்கள் — இரண்டு நிமிடங்களில் முன்பதிவு.'
-                : 'Verified plumbers, electricians and AC technicians working in your part of Chennai — booked in under two minutes.'}
+              {t('home.heroSubtitle')}
             </p>
 
             {/* Search */}
@@ -66,7 +60,7 @@ export const HeroSection: React.FC = () => {
                 <Search className="w-[18px] h-[18px] text-ns-text-secondary shrink-0" />
                 <input
                   type="text"
-                  placeholder={language === 'ta' ? 'என்ன சரிசெய்ய வேண்டும்?' : 'What needs fixing?'}
+                  placeholder={t('home.searchPlaceholder')}
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                   className="bg-transparent text-[15px] w-full placeholder-ns-text-secondary/70 focus:outline-none text-ns-navy"
@@ -86,7 +80,7 @@ export const HeroSection: React.FC = () => {
                   {CHENNAI_AREAS.map(area => (
                     <option key={area} value={area}>{area}</option>
                   ))}
-                  <option value="All Locations">{language === 'ta' ? 'சென்னை முழுவதும்' : 'All Chennai'}</option>
+                  <option value="All Locations">{t('home.allChennai')}</option>
                 </select>
               </div>
 
@@ -95,13 +89,13 @@ export const HeroSection: React.FC = () => {
                 className="bg-kolam-kumkum hover:bg-[#9A2824] text-white font-semibold text-sm px-7 py-3 rounded-xl sm:rounded-full transition-colors flex items-center justify-center gap-2 shrink-0"
                 id="hero-search-btn"
               >
-                {language === 'ta' ? 'தேடு' : 'Search'}
+                {t('home.search')}
                 <ArrowRight className="w-4 h-4" />
               </button>
             </form>
 
             <div className="mt-4 flex items-center gap-2 text-sm flex-wrap justify-center lg:justify-start">
-              <span className="text-white/45 text-xs">{language === 'ta' ? 'பிரபலம்:' : 'Popular:'}</span>
+              <span className="text-white/45 text-xs">{t('home.popular')}</span>
               {popularTags.map((tag) => (
                 <button
                   key={tag}
@@ -121,12 +115,9 @@ export const HeroSection: React.FC = () => {
             {/* Three promises, not a wall of invented statistics. */}
             <div className="mt-10 pt-6 border-t border-white/10 grid grid-cols-1 sm:grid-cols-3 gap-5 max-w-2xl mx-auto lg:mx-0">
               {[
-                { icon: ShieldCheck, label: language === 'ta' ? 'ஐடி சரிபார்க்கப்பட்டது' : 'ID-verified pros',
-                  sub: language === 'ta' ? 'ஒவ்வொருவரும் சரிபார்க்கப்பட்டவர்' : 'Every professional checked' },
-                { icon: IndianRupee, label: language === 'ta' ? 'நிலையான விலை' : 'Fixed prices',
-                  sub: language === 'ta' ? 'முன்பதிவுக்கு முன் தெரியும்' : 'Known before you book' },
-                { icon: Clock, label: language === 'ta' ? '30 நாள் உத்தரவாதம்' : '30-day warranty',
-                  sub: language === 'ta' ? 'ஒவ்வொரு வேலைக்கும்' : 'On every completed job' }
+                { icon: ShieldCheck, label: t('home.promise1Title'), sub: t('home.promise1Sub') },
+                { icon: IndianRupee, label: t('home.promise2Title'), sub: t('home.promise2Sub') },
+                { icon: Clock, label: t('home.promise3Title'), sub: t('home.promise3Sub') }
               ].map(({ icon: Icon, label, sub }) => (
                 <div key={label} className="flex items-start gap-3 text-left">
                   <Icon className="w-[18px] h-[18px] text-kolam-marigold shrink-0 mt-0.5" />

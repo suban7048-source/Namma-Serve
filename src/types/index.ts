@@ -1,6 +1,6 @@
 export type Role = 'customer' | 'provider' | 'admin';
 
-export type Language = 'en' | 'ta';
+export type Language = 'en' | 'ta' | 'hi' | 'ml';
 
 export type PageRoute =
   | 'landing'

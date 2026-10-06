@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useApp } from '../../context/AppContext';
 import { BookingStatus, Booking } from '../../types';
 import { RatingStars } from '../common/RatingStars';
+import { useTranslation } from '../../i18n';
 import { Avatar } from '../common/Avatar';
 import { ConfirmModal } from '../common/ConfirmModal';
 import { openComplaintModal } from '../common/ComplaintModal';
@@ -24,6 +25,7 @@ export const CustomerDashboard: React.FC = () => {
     claimWarranty
   } = useApp();
   const { showToast } = useToast();
+  const { t } = useTranslation();
 
   const [activeTab, setActiveTab] = useState<DashboardTab>('bookings');
   const [statusFilter, setStatusFilter] = useState<string>('all');
@@ -113,7 +115,7 @@ export const CustomerDashboard: React.FC = () => {
               </span>
             </div>
             <h1 className="font-display text-2xl sm:text-3xl font-semibold text-ns-navy tracking-tight">
-              Welcome back, {userName.split(' ')[0]}! 👋
+              {t('dashboard.welcome')}, {userName.split(' ')[0]}! 👋
             </h1>
             <p className="text-xs sm:text-sm text-ns-text-secondary">
               Track your bookings, warranties, and home service history all in one place.
@@ -129,15 +131,15 @@ export const CustomerDashboard: React.FC = () => {
             className="flex items-center gap-2 bg-brand-600 hover:bg-brand-700 text-white text-sm font-semibold px-5 py-3 rounded-2xl transition-colors shadow-sm"
           >
             <Zap className="w-4 h-4" />
-            Book a Service
+            {t('dashboard.bookNow')}
           </button>
         </div>
 
         {/* Stats Row */}
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
           {[
-            { label: 'Active Bookings', value: activeBookings.length, color: 'text-brand-600', bg: 'bg-brand-50 border-brand-100' },
-            { label: 'Completed', value: completedBookings.length, color: 'text-kolam-teal', bg: 'bg-kolam-teal-soft border-kolam-teal-soft' },
+            { label: t('dashboard.activeBookings'), value: activeBookings.length, color: 'text-brand-600', bg: 'bg-brand-50 border-brand-100' },
+            { label: t('dashboard.status.completed'), value: completedBookings.length, color: 'text-kolam-teal', bg: 'bg-kolam-teal-soft border-kolam-teal-soft' },
             { label: 'Active Warranties', value: warranties.filter(w => w.status === 'ACTIVE').length, color: 'text-brand-600', bg: 'bg-brand-50 border-brand-100' },
             { label: 'Saved Pros', value: savedProvidersList.length, color: 'text-kolam-kumkum', bg: 'bg-kolam-kumkum-soft border-kolam-kumkum-soft' },
           ].map(stat => (

@@ -152,7 +152,22 @@ const AppContext = createContext<AppContextType | undefined>(undefined);
 export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const [role, setRole] = useState<Role>('customer');
   const [page, setPage] = useState<PageRoute>('landing');
-  const [language, setLanguage] = useState<Language>('en');
+  
+  const [language, setLanguageState] = useState<Language>(() => {
+    const saved = localStorage.getItem('localfix_language');
+    if (saved === 'en' || saved === 'ta' || saved === 'hi' || saved === 'ml') return saved;
+    const browserLang = navigator.language.toLowerCase();
+    if (browserLang.startsWith('ta')) return 'ta';
+    if (browserLang.startsWith('hi')) return 'hi';
+    if (browserLang.startsWith('ml')) return 'ml';
+    return 'en';
+  });
+
+  const setLanguage = (lang: Language) => {
+    setLanguageState(lang);
+    localStorage.setItem('localfix_language', lang);
+  };
+
   const [filters, setFilters] = useState<FilterState>(defaultFilters);
   const [providers, setProviders] = useState<Provider[]>(mockProviders);
   const [favorites, setFavorites] = useState<string[]>([]);

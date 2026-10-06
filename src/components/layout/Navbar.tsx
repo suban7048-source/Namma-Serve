@@ -2,6 +2,8 @@ import React, { useState, useRef, useEffect } from 'react';
 import { useApp } from '../../context/AppContext';
 import { NotificationCenter } from '../common/NotificationCenter';
 import { Avatar } from '../common/Avatar';
+import { LanguageSelector } from '../common/LanguageSelector';
+import { useTranslation } from '../../i18n';
 import {
   Search, User, Menu, X, ArrowRight, LogOut, ChevronDown,
   MapPin, ShoppingBag, LayoutDashboard, ShieldCheck, UserCheck
@@ -23,6 +25,7 @@ export const Navbar: React.FC = () => {
   const userMenuRef = useRef<HTMLDivElement>(null);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [navSearch, setNavSearch] = useState('');
+  const { t } = useTranslation();
 
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
@@ -109,7 +112,7 @@ export const Navbar: React.FC = () => {
                 }`}
                 id="nav-services"
               >
-                Services
+                {t('nav.services')}
               </button>
               <button
                 onClick={() => setPage('discovery')}
@@ -127,7 +130,7 @@ export const Navbar: React.FC = () => {
                 className="px-3 py-1.5 rounded-lg text-ns-navy hover:text-ns-primary hover:bg-kolam-wash transition-colors"
                 id="nav-how-it-works"
               >
-                How It Works
+                {t('nav.becomeProvider')}
               </button>
             </nav>
           </div>
@@ -147,13 +150,7 @@ export const Navbar: React.FC = () => {
             </button>
 
             {/* Language Selector */}
-            <button
-              onClick={() => setLanguage(language === 'en' ? 'ta' : 'en')}
-              className="hidden sm:flex items-center justify-center w-9 h-8 rounded-lg border border-ns-border hover:border-ns-primary/30 hover:bg-kolam-wash text-xs font-semibold text-ns-navy transition-colors shrink-0"
-              title={language === 'en' ? "Switch to Tamil" : "Switch to English"}
-            >
-              {language === 'en' ? 'TA' : 'EN'}
-            </button>
+            <LanguageSelector className="hidden sm:flex" />
 
             {/* Cart */}
             <button
@@ -182,7 +179,7 @@ export const Navbar: React.FC = () => {
                         : 'bg-white hover:bg-kolam-wash text-ns-text-secondary border-ns-border'
                     }`}
                   >
-                    <LayoutDashboard className="w-3.5 h-3.5" /> Dashboard
+                    <LayoutDashboard className="w-3.5 h-3.5" /> {t('nav.dashboard')}
                   </button>
                 )}
                 {loggedInUser?.role === 'provider' && (
@@ -258,7 +255,7 @@ export const Navbar: React.FC = () => {
                         onClick={() => { logout(); setUserMenuOpen(false); }}
                         className="w-full flex items-center gap-2.5 px-3 py-2 rounded-lg text-sm text-kolam-kumkum hover:bg-kolam-kumkum-soft transition-colors text-left"
                       >
-                        <LogOut className="w-4 h-4" /> Sign Out
+                        <LogOut className="w-4 h-4" /> {t('nav.logout')}
                       </button>
                     </div>
                   </div>
@@ -271,7 +268,7 @@ export const Navbar: React.FC = () => {
                   className="text-sm font-semibold text-ns-navy hover:text-ns-primary transition-colors px-3 py-1.5 hidden sm:block"
                   id="nav-login"
                 >
-                  Log in
+                  {t('nav.login')}
                 </button>
                 <button
                   onClick={() => openAuthModal('signup', 'customer')}
@@ -369,7 +366,7 @@ export const Navbar: React.FC = () => {
                 onClick={() => { setAuthMode('login'); setIsAuthModalOpen(true); setMobileMenuOpen(false); }}
                 className="w-full py-2.5 bg-ns-primary text-white rounded-lg font-semibold text-sm text-center flex items-center justify-center gap-2"
               >
-                <User className="w-4 h-4" /> Log In / Sign Up
+                <User className="w-4 h-4" /> {t('nav.login')}
               </button>
             )}
           </div>

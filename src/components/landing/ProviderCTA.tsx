@@ -12,13 +12,11 @@ export const ProviderCTA: React.FC = () => {
   const { openAuthModal, isLoggedIn, setRole, setPage, role, language } = useApp();
 
   const handleBecomeProvider = () => {
-    if (!isLoggedIn) {
-      openAuthModal('signup', 'provider');
-    } else if (role === 'provider') {
+    if (isLoggedIn && role === 'provider') {
       setPage('provider-dashboard');
     } else {
-      setRole('provider');
-      setPage('provider-dashboard');
+      // If logged out OR logged in as customer, open the "Register your business" modal
+      openAuthModal('signup', 'provider');
     }
   };
 
