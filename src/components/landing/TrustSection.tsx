@@ -61,7 +61,7 @@ export const TrustSection: React.FC = () => {
           {/* Fills the sixth cell so the grid closes cleanly at three columns. */}
           <div className="bg-ns-navy kolam-field p-6 lg:p-7 flex items-end">
             <p className="font-display text-white text-lg font-medium leading-snug">
-              {ta
+              {language === 'ta'
                 ? 'சென்னைக்காக, சென்னையில் உருவாக்கப்பட்டது.'
                 : 'Built in Chennai, for Chennai.'}
             </p>
