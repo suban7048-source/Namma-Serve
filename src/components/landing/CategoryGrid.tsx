@@ -2,6 +2,7 @@ import React from 'react';
 import { useApp } from '../../context/AppContext';
 import { mockCategories } from '../../data/mockData';
 import { CategoryIcon, IconMore } from '../common/Kolam';
+import { useTranslation } from '../../i18n';
 
 /**
  * Thirteen categories, one visual language.
@@ -13,6 +14,7 @@ import { CategoryIcon, IconMore } from '../common/Kolam';
  */
 export const CategoryGrid: React.FC = () => {
   const { openDiscoveryWithCategory, language } = useApp();
+  const { t } = useTranslation();
 
   const descriptions: Record<string, string> = {
     'ac-repair': 'Servicing, gas refill, installation',
@@ -36,12 +38,10 @@ export const CategoryGrid: React.FC = () => {
 
         <header className="max-w-2xl mb-12">
           <h2 className="font-display text-3xl sm:text-4xl font-semibold text-ns-navy">
-            {language === 'ta' ? 'இன்று உங்களுக்கு என்ன தேவை?' : 'What do you need today?'}
+            {t('landing.categoryTitle')}
           </h2>
           <p className="mt-3 text-[17px] text-ns-text-secondary leading-relaxed">
-            {language === 'ta'
-              ? 'பதிமூன்று தொழில்கள், அம்பத்தூர் முதல் சோழிங்கநல்லூர் வரை ஒவ்வொரு பின்கோடிலும்.'
-              : 'Thirteen trades, every pincode from Ambattur to Sholinganallur.'}
+            {t('landing.categorySub')}
           </p>
         </header>
 
@@ -58,13 +58,13 @@ export const CategoryGrid: React.FC = () => {
                 className="w-9 h-9 text-ns-primary transition-transform duration-200 group-hover:-translate-y-0.5"
               />
               <h3 className="mt-4 font-display font-semibold text-ns-navy text-[15px] leading-tight">
-                {language === 'en' ? cat.name : cat.nameTa}
+                {language === 'ta' ? cat.nameTa : language === 'hi' ? cat.nameHi : language === 'ml' ? cat.nameMl : cat.name}
               </h3>
               <p className="mt-1 text-xs text-ns-text-secondary leading-relaxed">
-                {descriptions[cat.id] ?? `${cat.count} professionals`}
+                {descriptions[cat.id] ?? `${cat.count} ${t('landing.professionals')}`}
               </p>
               <p className="mt-3 text-[11px] text-ns-text-secondary/70 tnum">
-                {cat.count} {language === 'ta' ? 'நிபுணர்கள்' : 'professionals'}
+                {cat.count} {t('landing.professionals')}
               </p>
             </button>
           ))}
@@ -76,10 +76,10 @@ export const CategoryGrid: React.FC = () => {
           >
             <IconMore className="w-9 h-9 text-kolam-marigold transition-transform duration-200 group-hover:translate-x-0.5" />
             <h3 className="mt-4 font-display font-semibold text-white text-[15px] leading-tight">
-              {language === 'ta' ? 'அனைத்து சேவைகளும்' : 'Browse everything'}
+              {t('landing.browseAll')}
             </h3>
             <p className="mt-1 text-xs text-white/55 leading-relaxed">
-              {language === 'ta' ? 'அனைத்து வகைகளையும் காண்க' : 'All categories and professionals'}
+              {t('landing.browseAllSub')}
             </p>
           </button>
         </div>

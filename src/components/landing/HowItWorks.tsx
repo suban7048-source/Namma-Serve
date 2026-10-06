@@ -1,6 +1,7 @@
 import React from 'react';
 import { useApp } from '../../context/AppContext';
 import { Search, Users, CalendarCheck, KeyRound } from 'lucide-react';
+import { useTranslation } from '../../i18n';
 
 /**
  * Numbered because this genuinely is a sequence — a booking moves through these
@@ -8,36 +9,28 @@ import { Search, Users, CalendarCheck, KeyRound } from 'lucide-react';
  * customers have not met before, so it earns its place here.
  */
 export const HowItWorks: React.FC = () => {
-  const { language } = useApp();
+  const { t } = useTranslation();
 
   const steps = [
     {
       icon: Search,
-      title: language === 'ta' ? 'சேவையைத் தேடுங்கள்' : 'Tell us what broke',
-      desc: language === 'ta'
-        ? 'உங்கள் பகுதியைத் தேர்ந்தெடுத்து தேவையான சேவையைத் தேடுங்கள்.'
-        : 'Search the trade you need and pick your part of Chennai.'
+      title: t('landing.step1Title'),
+      desc: t('landing.step1Sub')
     },
     {
       icon: Users,
-      title: language === 'ta' ? 'நிபுணரைத் தேர்ந்தெடுங்கள்' : 'Choose your professional',
-      desc: language === 'ta'
-        ? 'மதிப்பீடுகள், விலை மற்றும் அனுபவத்தை ஒப்பிடுங்கள்.'
-        : 'Compare ratings, fixed prices and years on the job.'
+      title: t('landing.step2Title'),
+      desc: t('landing.step2Sub')
     },
     {
       icon: CalendarCheck,
-      title: language === 'ta' ? 'நேரத்தை உறுதிப்படுத்துங்கள்' : 'Confirm a time',
-      desc: language === 'ta'
-        ? 'வசதியான நேரத்தைத் தேர்ந்தெடுத்து முன்பதிவு செய்யுங்கள்.'
-        : 'Pick a slot. The price you see is the price you pay.'
+      title: t('landing.step3Title'),
+      desc: t('landing.step3Sub')
     },
     {
       icon: KeyRound,
-      title: language === 'ta' ? 'குறியீட்டால் முடிக்கவும்' : 'Close with your code',
-      desc: language === 'ta'
-        ? 'வேலை முடிந்ததும் உங்கள் 4-இலக்க குறியீட்டைச் சொல்லுங்கள்.'
-        : 'Read out your 4-digit code only once the work is done.'
+      title: t('landing.step4Title'),
+      desc: t('landing.step4Sub')
     }
   ];
 
@@ -47,12 +40,10 @@ export const HowItWorks: React.FC = () => {
 
         <header className="max-w-2xl mb-14">
           <h2 className="font-display text-3xl sm:text-4xl font-semibold text-ns-navy">
-            {language === 'ta' ? 'இது எப்படி வேலை செய்கிறது' : 'How a booking works'}
+            {t('landing.howTitle')}
           </h2>
           <p className="mt-3 text-[17px] text-ns-text-secondary leading-relaxed">
-            {language === 'ta'
-              ? 'முன்பதிவு முதல் முடிவு வரை நான்கு படிகள்.'
-              : 'Four steps from "the AC died" to a job signed off.'}
+            {t('landing.howSub')}
           </p>
         </header>
 

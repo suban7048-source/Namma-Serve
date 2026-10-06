@@ -88,6 +88,8 @@ export interface ServiceCategory {
   id: string;
   name: string;
   nameTa: string;
+  nameHi: string;
+  nameMl: string;
   iconName: string;
   count: number;
   description: string;
