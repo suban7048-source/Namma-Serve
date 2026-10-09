@@ -179,6 +179,7 @@ export const bookingApi = {
   getMyBookings: () => api.get<any[]>('/bookings/my-bookings'),
   /** Jobs assigned to the signed-in professional. */
   getMyJobs: () => api.get<any[]>('/bookings/my-jobs'),
+  getAll: () => api.get<any[]>('/bookings'),
   /** Completion code — only the booking's customer can read this. */
   getCompletionOtp: (id: number | string) => api.get<{ otp: string }>(`/bookings/${id}/otp`),
   updateStatus: (id: number | string, status: string, note?: string) =>
@@ -207,6 +208,7 @@ export const reviewApi = {
 export const complaintApi = {
   submit: (complaint: any) => api.post<any>('/complaints', complaint),
   getMyComplaints: () => api.get<any[]>('/complaints/my-complaints'),
+  getAll: () => api.get<any[]>('/complaints'),
   updateStatus: (id: number | string, status: string, adminNotes?: string) =>
     api.patch<any>(`/complaints/${id}/status`, { status, adminNotes })
 };

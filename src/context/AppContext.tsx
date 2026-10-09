@@ -9,7 +9,7 @@ import {
   initialWarranties, initialComplaints
 } from '../data/mockData';
 import {
-  authApi, bookingApi, setToken, getToken, toUiRole, AUTH_EXPIRED_EVENT, AuthResponse
+  authApi, bookingApi, complaintApi, technicianApi, setToken, getToken, toUiRole, AUTH_EXPIRED_EVENT, AuthResponse
 } from '../services/api';
 
 interface LoggedInUser {
@@ -316,9 +316,66 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
 
     let cancelled = false;
     (async () => {
-      const result = loggedInUser.role === 'provider'
-        ? await bookingApi.getMyJobs()
-        : await bookingApi.getMyBookings();
+      let result;
+      if (loggedInUser.role === 'admin') {
+        result = await bookingApi.getAll();
+        
+        // Fetch complaints and technicians for admin
+        const [complaintsRes, techRes] = await Promise.all([
+          complaintApi.getAll(),
+          technicianApi.getAll()
+        ]);
+        
+        if (complaintsRes.ok && Array.isArray(complaintsRes.data)) {
+          const mappedComplaints: Complaint[] = complaintsRes.data.map((c: any) => ({
+            id: c.id.toString(),
+            bookingId: c.booking?.id?.toString() || '',
+            bookingNumber: c.booking?.bookingNumber || '',
+            customerId: c.customer?.id?.toString() || '',
+            customerName: c.customer?.name || '',
+            technicianId: c.technician?.id?.toString() || '',
+            technicianName: c.technician?.user?.name || c.technician?.businessName || '',
+            category: c.category || 'Service Quality',
+            description: c.description || '',
+            status: c.status || 'OPEN',
+            adminNote: c.adminNote,
+            createdAt: c.createdAt || new Date().toISOString(),
+            resolvedAt: c.resolvedAt
+          }));
+          setComplaints(mappedComplaints);
+        }
+        
+        if (techRes.ok && Array.isArray(techRes.data)) {
+          const mappedProviders: Provider[] = techRes.data.map((t: any) => ({
+            id: t.id.toString(),
+            name: t.user?.name || t.businessName || 'Provider',
+            category: t.category || 'General',
+            subCategories: t.subCategories ? t.subCategories.split(',') : [],
+            rating: t.rating || 4.0,
+            reviewCount: t.reviewCount || 0,
+            completedJobs: t.completedJobs || 0,
+            startingPrice: t.startingPrice || 199,
+            location: t.location || 'Chennai',
+            distanceKm: t.distanceKm || 5,
+            isVerified: t.isVerified || false,
+            verificationStatus: t.verificationStatus || 'PENDING',
+            yearsExperience: t.yearsExperience || 1,
+            responseTime: t.responseTime || '1 hr',
+            bio: t.bio || '',
+            about: t.about || '',
+            services: [],
+            reviews: [],
+            isAvailable: t.isAvailable ?? true,
+            avatar: t.user?.avatar || '',
+            phone: t.user?.phone || ''
+          }));
+          setProviders(mappedProviders);
+        }
+      } else if (loggedInUser.role === 'provider') {
+        result = await bookingApi.getMyJobs();
+      } else {
+        result = await bookingApi.getMyBookings();
+      }
 
       if (cancelled) return;
       if (!result.ok) {
